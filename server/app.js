@@ -1,0 +1,26 @@
+import { configDotenv } from "dotenv"
+configDotenv({
+    path: "./.env",
+    quiet: true
+})
+
+import express from "express"
+import connectDB from "./src/db/db.connect.js"
+import chalk from "chalk"
+import { errorHandler } from "./src/utils/errorHandler.js"
+import userRoutes from "./src/routes/user.routes.js"
+import cookieParser from "cookie-parser"
+const app = express()
+const PORT = process.env.PORT || 3000
+
+app.use(express.urlencoded({ extended: true }))
+app.use(express.json())
+app.use(cookieParser())
+
+app.use("/api/users", userRoutes)
+
+app.use(errorHandler)
+app.listen(PORT, () => {
+    connectDB()
+    console.log(chalk.yellowBright(`Server running at http://localhost:${PORT}`))
+})
