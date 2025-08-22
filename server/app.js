@@ -7,9 +7,14 @@ configDotenv({
 import express from "express"
 import connectDB from "./src/db/db.connect.js"
 import chalk from "chalk"
+import cookieParser from "cookie-parser"
+
+
 import { errorHandler } from "./src/utils/errorHandler.js"
 import userRoutes from "./src/routes/user.routes.js"
-import cookieParser from "cookie-parser"
+import productRoutes from "./src/routes/products.routes.js"
+
+
 const app = express()
 const PORT = process.env.PORT || 3000
 
@@ -18,6 +23,7 @@ app.use(express.json())
 app.use(cookieParser())
 
 app.use("/api/users", userRoutes)
+app.use("/api/products",productRoutes)
 
 app.use(errorHandler)
 app.listen(PORT, () => {

@@ -19,7 +19,6 @@ export const registerUserController = async (req, res, next) => {
         next(error)
 
     }
-
 }
 
 export const loginUserController = async (req, res, next) => {

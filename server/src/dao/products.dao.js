@@ -1,0 +1,24 @@
+import productModel from "../models/product.model.js"
+export const createProducts = async (name, description, price, discount, images) => {
+
+    const product = await productModel.create({
+        name,
+        description,
+        price,
+        discount,
+        images
+    })
+
+    return product
+
+}
+
+
+/*
+   fetching products with pagination 
+ */
+export const getAllProducts = async (page = 1, limit = 10) => {
+  const skip = (page - 1) * limit
+  const products = await productModel.find().skip(skip).limit(limit)
+  return products
+}

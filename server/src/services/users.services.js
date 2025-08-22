@@ -1,5 +1,4 @@
 import { createUser, findUserByEmail, updateRefreshToken } from "../dao/users.dao.js"
-import userModel from "../models/users.models.js"
 import { AppError, BadRequestError, ConflictError } from "../utils/errorHandler.js"
 import { signRefreshToken, signToken } from "../utils/signToken.js"
 
