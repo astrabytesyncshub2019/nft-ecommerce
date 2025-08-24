@@ -47,6 +47,12 @@ export class ServerError extends AppError {
     }
 }
 
+export class ForbiddenError extends AppError {
+    constructor(message = "Forbidden - Admins only") {
+        super(message, 403)
+    }
+}
+
 export const errorHandler = (err, req, res, next) => {
     if (err instanceof AppError) {
         return res.status(err.statusCode).json({

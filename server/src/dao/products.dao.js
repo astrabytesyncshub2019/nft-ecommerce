@@ -1,15 +1,17 @@
 import productModel from "../models/product.model.js"
-export const createProducts = async (name, description, price, discount, images) => {
+export const createProducts = async (name, description, price, discount, category, image, createdBy) => {
 
-    const product = await productModel.create({
-        name,
-        description,
-        price,
-        discount,
-        images
-    })
+  const product = await productModel.create({
+    name,
+    description,
+    price,
+    discount,
+    category,
+    image,
+    createdBy
+  })
 
-    return product
+  return product
 
 }
 

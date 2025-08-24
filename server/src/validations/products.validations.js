@@ -17,10 +17,7 @@ export const validateProducts = [
         .isInt({ min: 0, max: 100 }).withMessage("Discount must be between 0 and 100"),
     body("category")
         .notEmpty().withMessage("Category is required")
-        .isIn(["backpacks", "luggage", "duffles"]).withMessage("Invalid category"),
-    body("images")
-        .isArray({ min: 1 }).withMessage("At least one image is required"),
-    body("images.*.url")
-        .notEmpty().withMessage("Image URL is required"),
+        .isIn(["backpacks", "luggage", "duffles"]).withMessage("Invalid category")
+
 
 ]

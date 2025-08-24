@@ -17,9 +17,11 @@ const productSchema = new mongoose.Schema(
         category: {
             type: String, required: true, enum: ["backpacks", "luggage", "duffles"]
         },
-        images: [
-            { url: { type: String, required: true }, alt: String }
-        ],
+        image: {
+            url: { type: String, required: true },
+            alt: { type: String }
+        },
+
         createdBy: { type: mongoose.Schema.Types.ObjectId, ref: "user", required: true }
     },
     { timestamps: true }

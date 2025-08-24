@@ -8,6 +8,8 @@ import express from "express"
 import connectDB from "./src/db/db.connect.js"
 import chalk from "chalk"
 import cookieParser from "cookie-parser"
+import path from "path"
+import { fileURLToPath } from "url"
 
 
 import { errorHandler } from "./src/utils/errorHandler.js"
@@ -17,13 +19,16 @@ import productRoutes from "./src/routes/products.routes.js"
 
 const app = express()
 const PORT = process.env.PORT || 3000
+const __filename = fileURLToPath(import.meta.url)
+const __dirname = path.dirname(__filename)
 
 app.use(express.urlencoded({ extended: true }))
 app.use(express.json())
 app.use(cookieParser())
+// app.use("/uploads", express.static(path.join(__dirname, "src/uploads")))
 
 app.use("/api/users", userRoutes)
-app.use("/api/products",productRoutes)
+app.use("/api/products", productRoutes)
 
 app.use(errorHandler)
 app.listen(PORT, () => {

@@ -44,3 +44,6 @@ dump/
 
 # Misc
 *.log
+
+#ignore uploads folder
+uplaods/

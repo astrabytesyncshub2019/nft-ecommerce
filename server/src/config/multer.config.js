@@ -1,11 +1,24 @@
 import multer from "multer"
-import fs from "fs"
 import path from "path"
+import fs from "fs"
+import { fileURLToPath } from "url"
 import { AppError } from "../utils/errorHandler.js"
+
+
+
+const __filename = fileURLToPath(import.meta.url)
+const __dirname = path.dirname(__filename)
+
+const uploadPath = path.join(__dirname, "../uploads")
+// console.log(__dirname)
+// Ensure the folder exists
+if (!fs.existsSync(uploadPath)) {
+    fs.mkdirSync(uploadPath, { recursive: true })
+}
 
 const storage = multer.diskStorage({
     destination: function (req, file, cb) {
-        cb(null, "uploads/")
+        cb(null, uploadPath)
 
     },
     filename: function (req, file, cb) {
@@ -16,7 +29,7 @@ const storage = multer.diskStorage({
 })
 
 
-// used file to store only image type files
+
 const fileFilter = (req, file, cb) => {
     const allowedFiles = /jpeg|jpg|png|webp/
     const extname = allowedFiles.test(path.extname(file.originalname).toLowerCase())
@@ -26,14 +39,14 @@ const fileFilter = (req, file, cb) => {
         cb(null, true)
     } else {
         // cb(throw new AppError("Only images (jpeg, jpg, png, webp) are allowed"))
-        cb(new Error("Only images (jpeg, jpg, png, webp) are allowed"))
+        cb(new AppError("Only images (jpeg, jpg, png, webp) are allowed", 400))
     }
 
 }
 
 const upload = multer({
     storage,
-    limits: { fileSize: 5 * 1024 * 1024 },
+    limits: { fileSize: 12 * 1024 * 1024 },
     fileFilter
 })
 
