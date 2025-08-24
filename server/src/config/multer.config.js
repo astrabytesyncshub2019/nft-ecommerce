@@ -3,32 +3,35 @@ import path from "path"
 import fs from "fs"
 import { fileURLToPath } from "url"
 import { AppError } from "../utils/errorHandler.js"
-
-
+import crypto from "crypto"
 
 const __filename = fileURLToPath(import.meta.url)
+// console.log(__filename)
 const __dirname = path.dirname(__filename)
+// console.log(__dirname)
 
 const uploadPath = path.join(__dirname, "../uploads")
-// console.log(__dirname)
-// Ensure the folder exists
+// console.log(uploadPath)
+
 if (!fs.existsSync(uploadPath)) {
     fs.mkdirSync(uploadPath, { recursive: true })
 }
 
+const generateRandomString = (length = 4) => {
+    return crypto.randomBytes(length).toString("hex")
+}
+
+
 const storage = multer.diskStorage({
     destination: function (req, file, cb) {
         cb(null, uploadPath)
-
     },
     filename: function (req, file, cb) {
-        const uniqueSuffix = Date.now() + "-" + Math.round(Math.random() * 1E9)
-        cb(null, uniqueSuffix + path.extname(file.originalname))
-
+        const randomPrefix = generateRandomString(4)
+        const safeName = file.originalname.replace(/\s+/g, "_")
+        cb(null, `${randomPrefix}-${safeName}`)
     }
 })
-
-
 
 const fileFilter = (req, file, cb) => {
     const allowedFiles = /jpeg|jpg|png|webp/
@@ -38,10 +41,8 @@ const fileFilter = (req, file, cb) => {
     if (extname && mimeType) {
         cb(null, true)
     } else {
-        // cb(throw new AppError("Only images (jpeg, jpg, png, webp) are allowed"))
         cb(new AppError("Only images (jpeg, jpg, png, webp) are allowed", 400))
     }
-
 }
 
 const upload = multer({
@@ -50,4 +51,4 @@ const upload = multer({
     fileFilter
 })
 
-export default upload
+export default upload;  

@@ -9,8 +9,12 @@ export const productsController = async (req, res, next) => {
         // console.log(createdBy)
         if (!req.file) return errorResponse(res, "At least one file is required", 400)
 
-        const image = { url: `/uploads/${req.file.filename}` }
-        // console.log(image)
+        // const image = { url: `/uploads/${req.file.filename}` }
+        const image = {
+            url: `/uploads/${req.file.filename}`,
+            hash: req.file.hash
+        }
+        console.log(image)
 
         const createdProduct = await createProductsServices(name, description, price, discount, category, image, createdBy)
 
