@@ -14,7 +14,7 @@ export const productsController = async (req, res, next) => {
             url: `/uploads/${req.file.filename}`,
             hash: req.file.hash
         }
-        console.log(image)
+        // console.log(image)
 
         const createdProduct = await createProductsServices(name, description, price, discount, category, image, createdBy)
 

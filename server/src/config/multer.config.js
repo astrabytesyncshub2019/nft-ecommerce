@@ -6,25 +6,20 @@ import { AppError } from "../utils/errorHandler.js"
 import crypto from "crypto"
 
 const __filename = fileURLToPath(import.meta.url)
-// console.log(__filename)
 const __dirname = path.dirname(__filename)
-// console.log(__dirname)
 
 const uploadPath = path.join(__dirname, "../uploads")
-// console.log(uploadPath)
-
-if (!fs.existsSync(uploadPath)) {
-    fs.mkdirSync(uploadPath, { recursive: true })
-}
 
 const generateRandomString = (length = 4) => {
     return crypto.randomBytes(length).toString("hex")
 }
 
-
 const storage = multer.diskStorage({
     destination: function (req, file, cb) {
-        cb(null, uploadPath)
+        fs.mkdir(uploadPath, { recursive: true }, (err) => {
+            if (err) return cb(err, uploadPath)
+            cb(null, uploadPath)
+        })
     },
     filename: function (req, file, cb) {
         const randomPrefix = generateRandomString(4)
@@ -51,4 +46,4 @@ const upload = multer({
     fileFilter
 })
 
-export default upload;  
+export default upload
