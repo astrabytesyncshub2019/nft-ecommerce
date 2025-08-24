@@ -19,13 +19,26 @@ const productSchema = new mongoose.Schema(
         },
         image: {
             url: { type: String, required: true },
-            hash: { type: String, required: true}
+            hash: { type: String, required: true }
         },
 
         createdBy: { type: mongoose.Schema.Types.ObjectId, ref: "user", required: true }
     },
     { timestamps: true }
 )
+
+
+productSchema.set("toJSON", {
+    transform: (doc, ret) => {
+        delete ret.__v          
+        delete ret.image.hash   
+        delete ret.createdBy   
+        delete ret.createdAt    
+        delete ret.updatedAt    
+        return ret
+    }
+})
+
 
 const productModel = mongoose.model("product", productSchema)
 export default productModel
