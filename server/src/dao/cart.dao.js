@@ -17,19 +17,26 @@ export const addProductToCart = async (userId, productId) => {
         return cart;
     }
 
-    // Check if product already exists in cart
     const itemIndex = cart.items.findIndex(
         item => item.product.toString() === productId.toString()
     );
 
     if (itemIndex > -1) {
-        // Increment quantity
+
         cart.items[itemIndex].quantity += 1;
     } else {
-        // Add new product
         cart.items.push({ product: productId, quantity: 1 });
     }
 
     await cart.save();
     return cart;
-};
+}
+
+export const getAllCartProducts = async (userId) => {
+    return await Cart.findOne({ user: userId })
+        .populate({
+            path: "items.product",
+            select: "name description price image category discount"
+        })
+
+}
