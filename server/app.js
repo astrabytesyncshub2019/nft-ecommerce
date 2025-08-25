@@ -15,6 +15,7 @@ import { fileURLToPath } from "url"
 import { errorHandler } from "./src/utils/errorHandler.js"
 import userRoutes from "./src/routes/user.routes.js"
 import productRoutes from "./src/routes/products.routes.js"
+import cartRoutes from "./src/routes/cart.routes.js"
 
 
 const app = express()
@@ -29,6 +30,7 @@ app.use(cookieParser())
 
 app.use("/api/users", userRoutes)
 app.use("/api/products", productRoutes)
+app.use("/api/cart",cartRoutes)
 
 app.use(errorHandler)
 app.listen(PORT, () => {

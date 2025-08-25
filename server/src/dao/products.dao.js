@@ -30,3 +30,8 @@ export const getAllProducts = async (page = 1, limit = 10) => {
 export const findProductByImageHash = async (hash) => {
   return await productModel.findOne({ "image.hash": hash })
 }
+
+export const findProductById = async (productId) => {
+  return await productModel.findById(productId)
+
+}

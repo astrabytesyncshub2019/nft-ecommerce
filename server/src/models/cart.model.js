@@ -25,5 +25,13 @@ const cartSchema = new mongoose.Schema(
   { timestamps: true }
 )
 
+cartSchema.set("toJSON", {
+  transform: (doc, ret) => {
+    delete ret.__v,
+    ret.items.forEach(item => delete item._id);
+    return ret;
+
+  }
+})
 const Cart = mongoose.model("Cart", cartSchema)
 export default Cart
