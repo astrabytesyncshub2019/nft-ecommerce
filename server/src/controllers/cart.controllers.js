@@ -1,6 +1,6 @@
 import { findProductById } from "../dao/products.dao.js";
 import { errorResponse, successResponse } from "../utils/response.js";
-import { cartServices, removeCartProductServices } from "../services/cart.services.js";
+import { cartServices, removeCartProductServices ,incrementCartProductServices} from "../services/cart.services.js";
 import { getAllCartProducts } from "../dao/cart.dao.js"
 
 export const cartController = async (req, res, next) => {
@@ -46,6 +46,24 @@ export const removeCartProductController = async (req, res, next) => {
         const cart = await removeCartProductServices(currentUserId, productId)
         if (cart) return successResponse(res, "Product from cart", cart, 200)
         return errorResponse(res, "Remove product from cart is failed")
+
+
+    } catch (error) {
+        next(error)
+
+    }
+
+}
+
+export const incrementCartProductController = async (req, res, next) => {
+    try {
+        const currentUser = req.user?.id
+        const produtId = req.params?.productId
+
+        if (!produtId) return errorResponse(res, "Product Id is required", 400)
+
+        const cart = await incrementCartProductServices(currentUser, produtId)
+        return successResponse(res, "Product quantity increased", cart, 200)
 
 
     } catch (error) {

@@ -1,5 +1,5 @@
 import Cart from "../models/cart.model.js";
-import mongoose from "mongoose";
+import { AppError, NotFoundError } from "../utils/errorHandler.js"
 
 export const findCartByUser = async (userId) => {
     return await Cart.findOne({ user: userId });
@@ -47,4 +47,21 @@ export const removeProductFromCart = async (currentUSerId, productId) => {
         { $pull: { items: { product: productId } } },
         { new: true }
     ).populate("items.product")
+}
+
+export const incrementProductOfCart = async (currentUserId, productId) => {
+    const cart = await Cart.findOne({ user: currentUserId, "items.product": productId })
+
+    if (!cart) throw new NotFoundError("Product not found in cart", 404)
+
+    cart.items.map(item => {
+        if (item.product.toString() === productId) {
+            item.quantity += 1
+        }
+        return item;
+    });
+
+    await cart.save()
+    return cart
+
 }
