@@ -40,3 +40,11 @@ export const getAllCartProducts = async (userId) => {
         })
 
 }
+
+export const removeProductFromCart = async (currentUSerId, productId) => {
+    return await Cart.findOneAndUpdate(
+        { user: currentUSerId },
+        { $pull: { items: { product: productId } } },
+        { new: true }
+    ).populate("items.product")
+}
