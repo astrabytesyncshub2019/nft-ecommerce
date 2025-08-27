@@ -65,3 +65,18 @@ export const incrementProductOfCart = async (currentUserId, productId) => {
     return cart
 
 }
+
+export const decrementProductOfCart = async (currentUserId, productId) => {
+    const cart = await Cart.findOne({ user: currentUserId, "items.product": productId })
+    if (!cart) throw new NotFoundError("Product not found in cart", 404)
+
+    cart.items.map(item => {
+        if (item.product.toString() === productId) {
+            item.quantity -= 1
+        }
+        return item
+    })
+    await cart.save()
+    return cart
+
+}
