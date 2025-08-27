@@ -1,4 +1,4 @@
-import { addProductToCart, removeProductFromCart, incrementProductOfCart, decrementProductOfCart } from "../dao/cart.dao.js";
+import { addProductToCart, removeProductFromCart, incrementProductOfCart, decrementProductOfCart, deleteCart } from "../dao/cart.dao.js";
 
 export const cartServices = async (currentUser, productId) => {
     return await addProductToCart(currentUser._id, productId);
@@ -13,7 +13,12 @@ export const incrementCartProductServices = async (currentUserId, productId) => 
 
 }
 
-export const decrementCartProductServices = async (currentUserId,productId) => {
+export const decrementCartProductServices = async (currentUserId, productId) => {
     return await decrementProductOfCart(currentUserId, productId)
+
+}
+
+export const deleteCartServices = async (currentUserId) => {
+    return await deleteCart(currentUserId)
 
 }

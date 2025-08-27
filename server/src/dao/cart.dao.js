@@ -80,3 +80,9 @@ export const decrementProductOfCart = async (currentUserId, productId) => {
     return cart
 
 }
+
+export const deleteCart = async (currentUserId) => {
+
+    return Cart.findOneAndDelete({ user: currentUserId })
+
+}
