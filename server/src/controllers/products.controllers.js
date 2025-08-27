@@ -1,4 +1,4 @@
-import { createProductsServices, getAllProductsService, updateProductServices } from "../services/products.services.js"
+import { createProductsServices, deleteProductServices, getAllProductsService, updateProductServices } from "../services/products.services.js"
 import { errorResponse, successResponse } from "../utils/response.js"
 
 export const productsController = async (req, res, next) => {
@@ -53,15 +53,29 @@ export const updateProductController = async (req, res, next) => {
         }
 
         const updatedProduct = await updateProductServices(productId, updateFields)
+        // console.log(updatedProduct)
 
-        if (!updatedProduct) {
-            return errorResponse(res, updatedProduct.message, 400)
-        }
+        if (!updatedProduct) return errorResponse(res, "Product not founded", 404)
+        
 
         return successResponse(res, "Product updated successfully", updatedProduct, 200)
     } catch (error) {
         next(error)
     }
+}
+
+export const deleteProductController = async (req, res, next) => {
+    try {
+        const productId = req.params.productId
+        const deletedProduct = await deleteProductServices(productId)
+        if (!deletedProduct) return errorResponse(res, "Deletion of product failed", 400)
+        return successResponse(res, "Product deleted successfully", deletedProduct, 200)
+
+    } catch (error) {
+        next(error)
+
+    }
+
 }
 
 

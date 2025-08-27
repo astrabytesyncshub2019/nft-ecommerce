@@ -44,3 +44,8 @@ export const updateProduct = async (productId, updateFields) => {
   )
 }
 
+export const deleteProduct = async (productId) => {
+  return await productModel.findByIdAndDelete(productId)
+
+}
+

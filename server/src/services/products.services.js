@@ -1,4 +1,4 @@
-import { createProducts, getAllProducts, updateProduct } from "../dao/products.dao.js"
+import { createProducts, deleteProduct, getAllProducts, updateProduct } from "../dao/products.dao.js"
 import { AppError, NotFoundError } from "../utils/errorHandler.js"
 
 export const createProductsServices = async (name, description, price, discount, category, image, createdBy) => {
@@ -16,7 +16,7 @@ export const getAllProductsService = async (page, limit) => {
         throw new AppError("Fecthing products unsuccessfull")
     }
     else if (allProducts.length === 0) {
-        throw new AppError("No products found", 404)
+        throw new AppError("No products founded", 404)
     }
 
     return allProducts
@@ -26,8 +26,15 @@ export const getAllProductsService = async (page, limit) => {
 export const updateProductServices = async (productId, updateFields) => {
     const updatedProduct = await updateProduct(productId, updateFields)
 
-    if (!updatedProduct) return new NotFoundError("Product not found")
+    if (!updatedProduct) throw new NotFoundError("Product not founded")
     return updatedProduct
+
+}
+
+export const deleteProductServices = async (productId) => {
+    const deletedProduct = await deleteProduct(productId)
+    if (!deletedProduct) return new NotFoundError("Product not founded")
+    return deletedProduct
 
 }
 
