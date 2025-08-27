@@ -1,4 +1,4 @@
-import { createUser, findUserByEmail, updateRefreshToken } from "../dao/users.dao.js"
+import { createUser, findUserByEmail, updateRefreshToken, updateUserDeatils } from "../dao/users.dao.js"
 import { AppError, BadRequestError, ConflictError } from "../utils/errorHandler.js"
 import { signRefreshToken, signToken } from "../utils/signToken.js"
 
@@ -43,3 +43,11 @@ export const loginUserService = async (email, password) => {
 
 
 }
+
+
+export const updateUserDeatilsServices = async (currentUser, allowedUserUpdateDetails) => {
+    const updatedUser = await updateUserDeatils(currentUser, allowedUserUpdateDetails)
+    return updatedUser
+
+}
+

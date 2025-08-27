@@ -1,5 +1,5 @@
 import { Router } from "express"
-import { loginUserController, logoutUserController, registerUserController, getCurrentUserController } from "../controllers/users.controllers.js"
+import { loginUserController, logoutUserController, registerUserController, getCurrentUserController,updateUserDetailsController } from "../controllers/users.controllers.js"
 import { registerValidations, loginValidations } from "../validations/users.validations.js"
 import { validateRequest } from "../middlewares/validateRequest.js"
 import { authMiddleware } from "../middlewares/authMiddleware.js"
@@ -9,5 +9,5 @@ router.post("/signup", registerValidations, validateRequest, registerUserControl
 router.post("/signin", loginValidations, validateRequest, loginUserController)
 router.post("/logout", authMiddleware, logoutUserController)
 router.get("/currentUser", authMiddleware, getCurrentUserController)
-
+router.patch("/updateDetails",authMiddleware,updateUserDetailsController)
 export default router

@@ -1,6 +1,6 @@
 import { cookieOptionsForAcessToken, cookieOptionsForRefreshToken } from "../config/cookieOptions.js"
 import { findUserById, updateRefreshToken } from "../dao/users.dao.js"
-import { loginUserService, registerUserService } from "../services/users.services.js"
+import { loginUserService, registerUserService, updateUserDeatilsServices } from "../services/users.services.js"
 import { NotFoundError, UnauthorizedError } from "../utils/errorHandler.js"
 import { errorResponse, successResponse } from "../utils/response.js"
 
@@ -67,3 +67,23 @@ export const getCurrentUserController = async (req, res, next) => {
         next(error)
     }
 }
+
+
+export const updateUserDetailsController = async (req, res, next) => {
+    try {
+        const currentUser = req.user?._id
+        if (!currentUser) {
+            return errorResponse(res, "Unauthorized user", 401)
+        }
+
+        const { password, ...allowedUserUpdateDetails } = req.body
+        const updatedUserDetails = await updateUserDeatilsServices(currentUser, allowedUserUpdateDetails)
+
+        if (!updatedUserDetails) return errorResponse(res, "User not found", 404)
+        return successResponse(res, "User updated successfully", updatedUserDetails, 200)
+
+    } catch (error) {
+        next(error)
+    }
+}
+

@@ -13,7 +13,7 @@ export const createUser = async (fullname, email, password, phonenumber, address
         refreshToken
     }
 
-    if (role) userData.role = role 
+    if (role) userData.role = role
     console.log(role)
 
     return await userModel.create(userData)
@@ -33,4 +33,13 @@ export const updateRefreshToken = async (userId, refreshToken) => {
 
 export const findUserById = async (id) => {
     return await userModel.findById(id).select("-password")
+}
+
+
+export const updateUserDeatils = async (currentUser, allowedUserUpdateDetails) => {
+    return await userModel.findByIdAndUpdate(
+        currentUser,
+        { $set: allowedUserUpdateDetails },
+        { new: true, runValidators: true }
+    )
 }
