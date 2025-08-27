@@ -1,6 +1,7 @@
-import { createUser, findUserByEmail, updateRefreshToken, updateUserDeatils } from "../dao/users.dao.js"
+import { createUser, findUserByEmail, findUserById, updateRefreshToken, updateUserDeatils } from "../dao/users.dao.js"
 import { AppError, BadRequestError, ConflictError } from "../utils/errorHandler.js"
 import { signRefreshToken, signToken } from "../utils/signToken.js"
+import userModel from "../models/users.models.js"
 
 export const registerUserService = async (fullname, email, password, phonenumber, address, role) => {
     const userAlreadyExists = await findUserByEmail(email)
@@ -50,4 +51,19 @@ export const updateUserDeatilsServices = async (currentUser, allowedUserUpdateDe
     return updatedUser
 
 }
+
+export const updatePasswordService = async (userId, currentPassword, newPassword) => {
+    const user = await findUserById(userId, true)
+    if (!user) throw new BadRequestError("User not found")
+
+    const isMatch = await user.comparePassword(currentPassword)
+    if (!isMatch) throw new BadRequestError("Current password is incorrect")
+
+    user.password = newPassword
+    const updatedUser = await user.save()
+    if (!updatedUser) throw new AppError("Password update failed")
+
+    return updatedUser
+}
+
 
