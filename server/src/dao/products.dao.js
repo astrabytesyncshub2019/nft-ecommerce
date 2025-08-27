@@ -35,3 +35,12 @@ export const findProductById = async (productId) => {
   return await productModel.findById(productId)
 
 }
+
+export const updateProduct = async (productId, updateFields) => {
+  return await productModel.findByIdAndUpdate(
+    productId,
+    { $set: updateFields },
+    { new: true, runValidators: true }
+  )
+}
+

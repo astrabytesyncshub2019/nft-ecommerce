@@ -1,5 +1,5 @@
-import { createProducts, getAllProducts } from "../dao/products.dao.js"
-import { AppError } from "../utils/errorHandler.js"
+import { createProducts, getAllProducts, updateProduct } from "../dao/products.dao.js"
+import { AppError, NotFoundError } from "../utils/errorHandler.js"
 
 export const createProductsServices = async (name, description, price, discount, category, image, createdBy) => {
 
@@ -22,3 +22,12 @@ export const getAllProductsService = async (page, limit) => {
     return allProducts
 
 }
+
+export const updateProductServices = async (productId, updateFields) => {
+    const updatedProduct = await updateProduct(productId, updateFields)
+
+    if (!updatedProduct) return new NotFoundError("Product not found")
+    return updatedProduct
+
+}
+
