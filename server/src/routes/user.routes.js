@@ -1,5 +1,5 @@
 import { Router } from "express"
-import { loginUserController, logoutUserController, registerUserController, getCurrentUserController, updateUserDetailsController, updatePasswordController } from "../controllers/users.controllers.js"
+import { loginUserController, logoutUserController, registerUserController, getCurrentUserController, updateUserDetailsController, updatePasswordController, forgotPasswordController, resetPasswordController } from "../controllers/users.controllers.js"
 import { registerValidations, loginValidations } from "../validations/users.validations.js"
 import { validateRequest } from "../middlewares/validateRequest.js"
 import { authMiddleware } from "../middlewares/authMiddleware.js"
@@ -11,4 +11,6 @@ router.post("/logout", authMiddleware, logoutUserController)
 router.get("/currentUser", authMiddleware, getCurrentUserController)
 router.patch("/updateDetails", authMiddleware, updateUserDetailsController)
 router.patch("/updatePassword", authMiddleware, updatePasswordController)
+router.patch("/forgetPassword", authMiddleware, forgotPasswordController)
+router.patch("/resetPassword", authMiddleware, resetPasswordController)
 export default router

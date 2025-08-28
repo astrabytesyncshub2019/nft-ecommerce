@@ -45,3 +45,14 @@ export const updateUserDeatils = async (currentUser, allowedUserUpdateDetails) =
         { new: true, runValidators: true }
     )
 }
+
+export const findUserByResetToken = async (hashedToken) => {
+    return await userModel.findOne({
+        resetPasswordToken: hashedToken,
+        resetPasswordExpire: { $gt: Date.now() }
+    }).select("+password")
+}
+
+export const saveUser = async (user) => {
+    return await user.save()
+}

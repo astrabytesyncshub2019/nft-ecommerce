@@ -1,6 +1,8 @@
-import { createUser, findUserByEmail, findUserById, updateRefreshToken, updateUserDeatils } from "../dao/users.dao.js"
+import { createUser, findUserByEmail, findUserById, findUserByResetToken, updateRefreshToken, updateUserDeatils } from "../dao/users.dao.js"
 import { AppError, BadRequestError, ConflictError } from "../utils/errorHandler.js"
 import { signRefreshToken, signToken } from "../utils/signToken.js"
+import { sendEmail } from "../utils/sendEmail.js"
+import crypto from "crypto"
 import userModel from "../models/users.models.js"
 
 export const registerUserService = async (fullname, email, password, phonenumber, address, role) => {
@@ -66,4 +68,41 @@ export const updatePasswordService = async (userId, currentPassword, newPassword
     return updatedUser
 }
 
+export const forgotPasswordServices = async (email) => {
+    const user = await findUserByEmail(email)
+    if (!user) throw new NotFoundError("User not found")
+
+    const resetToken = await user.getResetPasswordToken()
+
+    await user.save({ validateBeforeSave: false })
+
+
+    const resetUrl = `${process.env.FRONTEND_URL}/resetPassword?token=${resetToken}`
+
+    const message = `You requested a password reset. Click the link below to reset your password:\n\n${resetUrl}\n\nIf you did not request, ignore this email.`
+
+    await sendEmail({
+        to: user.email,
+        subject: "Password Reset Token",
+        text: message
+    })
+
+    return resetToken
+}
+
+export const resetPasswordService = async (token, newPassword) => {
+    const hashedToken = crypto.createHash("sha256").update(token).digest("hex")
+
+    const user = await findUserByResetToken(hashedToken)
+
+    if (!user) throw new BadRequestError("Invalid or expired token")
+
+    user.password = newPassword
+    user.resetPasswordToken = undefined
+    user.resetPasswordExpire = undefined
+
+    await user.save()
+
+    return user
+}
 

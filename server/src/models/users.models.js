@@ -1,5 +1,6 @@
 import mongoose from "mongoose";
 import bcrypt from "bcryptjs"
+import crypto from "crypto"
 const userSchema = new mongoose.Schema({
     fullname: {
         firstname: {
@@ -49,7 +50,9 @@ const userSchema = new mongoose.Schema({
             type: mongoose.Schema.Types.ObjectId,
             ref: "product"
         }
-    ]
+    ],
+    resetPasswordToken: String,
+    resetPasswordExpire: Date,
 }, { timestamps: true })
 
 userSchema.pre("save", async function (next) {
@@ -69,5 +72,13 @@ userSchema.set("toJSON", {
 userSchema.methods.comparePassword = async function (password) {
     return bcrypt.compare(password, this.password)
 }
+
+userSchema.methods.getResetPasswordToken = async function () {
+    const resetPasswordToken = await crypto.randomBytes(32).toString("hex")
+    this.resetPasswordToken = crypto.createHash("sha256").update(resetPasswordToken).digest("hex")
+    this.resetPasswordExpire = Date.now() + 15 * 60 * 100
+    return resetPasswordToken
+
+}
 const userModel = mongoose.model("user", userSchema)
-export default userModel;
+export default userModel; 

@@ -1,7 +1,7 @@
 import { cookieOptionsForAcessToken, cookieOptionsForRefreshToken } from "../config/cookieOptions.js"
-import { findUserById, updateRefreshToken } from "../dao/users.dao.js"
-import { loginUserService, registerUserService, updatePasswordService, updateUserDeatilsServices } from "../services/users.services.js"
-import { NotFoundError, UnauthorizedError } from "../utils/errorHandler.js"
+import { findUserByEmail, findUserById, updateRefreshToken } from "../dao/users.dao.js"
+import { forgotPasswordServices, loginUserService, registerUserService, resetPasswordService, updatePasswordService, updateUserDeatilsServices } from "../services/users.services.js"
+import { BadRequestError, NotFoundError, UnauthorizedError } from "../utils/errorHandler.js"
 import { errorResponse, successResponse } from "../utils/response.js"
 
 
@@ -95,9 +95,39 @@ export const updatePasswordController = async (req, res, next) => {
         return successResponse(res, "Password updated successfully", updatedUser, 200)
 
     } catch (error) {
-        next(error) 
+        next(error)
     }
 }
 
+export const forgotPasswordController = async (req, res, next) => {
+    try {
+        const { email } = req.body
+        if (!email) throw new BadRequestError("Email is required")
+
+        const resetPasword = await forgotPasswordServices(email)
+        return successResponse(res, "Reset email sent", resetPasword, 200)
+
+
+    } catch (error) {
+        next(error)
+
+    }
+
+}
+
+export const resetPasswordController = async (req, res, next) => {
+    try {
+        const { newPassword } = req.body
+        const { token } = req.query
+
+        if (!token || !newPassword) throw new BadRequestError("Token and new password are required")
+
+        const updatedUser = await resetPasswordService(token, newPassword)
+
+        return successResponse(res, "Password reset successful", { userId: updatedUser._id }, 200)
+    } catch (error) {
+        next(error)
+    }
+}
 
 
