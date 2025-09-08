@@ -10,6 +10,7 @@ import chalk from "chalk"
 import cookieParser from "cookie-parser"
 import path from "path"
 import { fileURLToPath } from "url"
+import cors from "cors"
 
 
 import { errorHandler } from "./src/utils/errorHandler.js"
@@ -26,11 +27,16 @@ const __dirname = path.dirname(__filename)
 app.use(express.urlencoded({ extended: true }))
 app.use(express.json())
 app.use(cookieParser())
+app.use(cors({
+  origin: 'http://localhost:5173', 
+  credentials: true
+}))
 // app.use("/uploads", express.static(path.join(__dirname, "src/uploads")))
 
 app.use("/api/users", userRoutes)
 app.use("/api/products", productRoutes)
 app.use("/api/cart",cartRoutes)
+
 
 app.use(errorHandler)
 app.listen(PORT, () => {

@@ -1,20 +1,36 @@
+import imagekit from "../config/imageKit.config.js"
 import { createProductsServices, deleteProductServices, getAllProductsService, updateProductServices } from "../services/products.services.js"
 import { errorResponse, successResponse } from "../utils/response.js"
 
 export const productsController = async (req, res, next) => {
+    const validCategories = ["backpacks", "luggage", "duffles"]
     try {
         const { name, description, price, discount, category } = req.body
         // console.log("cat:",category)
         const createdBy = req.user._id;
         // console.log(createdBy)
         if (!req.file) return errorResponse(res, "At least one file is required", 400)
+        if (!validCategories.includes(category)) {
+            return errorResponse(res, "Invalid category", 400)
+        }
 
-        // const image = { url: `/uploads/${req.file.filename}` }
+
+
+        // Upload image to ImageKit inside "products" folder
+        const uploadResponse = await imagekit.upload({
+            file: req.file.buffer,             // file buffer from multer memoryStorage
+            fileName: req.file.originalname,   // original filename
+            folder: `/products/${category}`,   // ✅ will create nested folders automatically
+            useUniqueFileName: true            // prevents overwriting files
+        })
+
         const image = {
-            url: `/uploads/${req.file.filename}`,
+            url: uploadResponse.url,
+            fileId: uploadResponse.fileId,
             hash: req.file.hash
         }
-        // console.log(image)
+
+
 
         const createdProduct = await createProductsServices(name, description, price, discount, category, image, createdBy)
 
@@ -56,7 +72,7 @@ export const updateProductController = async (req, res, next) => {
         // console.log(updatedProduct)
 
         if (!updatedProduct) return errorResponse(res, "Product not founded", 404)
-        
+
 
         return successResponse(res, "Product updated successfully", updatedProduct, 200)
     } catch (error) {
