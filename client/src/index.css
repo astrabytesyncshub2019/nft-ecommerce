@@ -19,3 +19,13 @@ body {
     --secondary-bg-color:#cdea68;
 
 }
+/* Normal dots */
+.swiper-pagination-bullet {
+  background: #d1d5db; /* gray-300 */
+  opacity: 1; /* make them fully visible */
+}
+
+/* Active dot */
+.swiper-pagination-bullet-active {
+  background: var(--heading-color) !important; /* green-600 */
+}
