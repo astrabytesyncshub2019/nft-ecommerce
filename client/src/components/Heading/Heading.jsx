@@ -4,7 +4,7 @@ import img3 from '../../assets/img3.jpg'
 const Heading = () => {
   return (
    <>
-   <div className="mainsection flex items-center justify-between px-12 py-16 gap-28">
+   <div className="mainsection flex items-center justify-between px-12 py-[12vw] gap-28">
              <div className="heading text-[5.5rem] font-bold tracking-tighter leading-[5rem] w-2/3 uppercase text-[var(--text-color)]">
                <h1>
                  From Office to <span className="text-[var(--primary-color)]">Adventure</span>

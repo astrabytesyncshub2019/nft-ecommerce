@@ -10,7 +10,7 @@ const Navbar = () => {
     ]
 
     return (
-        <nav className="navbar px-10 py-3 flex justify-between items-center ">
+        <nav className="navbar px-10 py-3 flex justify-between items-center bg-[#f2f2f2]  fixed w-full z-50">
             <div className="logo text-[var(--heading-color)] text-4xl font-bold tracking-tighter">
                 Scatch
             </div>
