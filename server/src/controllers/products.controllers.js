@@ -1,4 +1,5 @@
 import imagekit from "../config/imageKit.config.js"
+import { findProductsByCategory, getAllProducts } from "../dao/products.dao.js"
 import { createProductsServices, deleteProductServices, getAllProductsService, updateProductServices } from "../services/products.services.js"
 import { errorResponse, successResponse } from "../utils/response.js"
 
@@ -92,6 +93,27 @@ export const deleteProductController = async (req, res, next) => {
 
     }
 
+}
+
+export const getProductsByCategoryController = async (req, res, next) => {
+    try {
+        const category = req.params
+        let products
+
+        if (category) {
+            products = await findProductsByCategory(category)
+            if (!products || products.length === 0) {
+                return successResponse(res, "No products found for this category", [], 200)
+            }
+        } else {
+            d
+            products = await getAllProducts()
+        }
+
+        return successResponse(res, "Products fetched successfully", products, 200)
+    } catch (error) {
+        next(error)
+    }
 }
 
 

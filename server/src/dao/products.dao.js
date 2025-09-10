@@ -17,9 +17,7 @@ export const createProducts = async (name, description, price, discount, categor
 }
 
 
-/*
-   fetching products with pagination 
- */
+
 export const getAllProducts = async (page = 1, limit = 10) => {
   const skip = (page - 1) * limit
   const products = await productModel.find().skip(skip).limit(limit)
@@ -46,6 +44,11 @@ export const updateProduct = async (productId, updateFields) => {
 
 export const deleteProduct = async (productId) => {
   return await productModel.findByIdAndDelete(productId)
+
+}
+
+export const findProductsByCategory = async (category) => {
+  return await productModel.find( category)
 
 }
 
