@@ -29,7 +29,6 @@ export const loginUserController = async (req, res, next) => {
         res.cookie("accessToken", token, cookieOptionsForAcessToken)
         res.cookie("refreshToken", refreshToken, cookieOptionsForRefreshToken)
         req.user = existingUser
-        // console.log(req.user.id)
 
         return successResponse(res, "User Login successfully", existingUser, 200)
 

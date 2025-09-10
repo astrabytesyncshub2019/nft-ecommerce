@@ -5,6 +5,7 @@ import Duffles from "./pages/Duffles.jsx"
 import Layout from './pages/Layout.jsx'
 import BackpacksPage from "./pages/BackpacksPage.jsx"
 import LuggageBags from "./pages/LuggageBags.jsx"
+import AuthPage from './pages/AuthPage.jsx'
 
 const App = () => {
   return (
@@ -14,9 +15,9 @@ const App = () => {
         <Route path="/luggage" element={<LuggageBags/>} />
         <Route path="/backpacks" element={<BackpacksPage />} />
         <Route path="/duffles" element={<Duffles />} />
-        <Route path="/login" element/>
         
       </Route>
+        <Route path="/login" element={<AuthPage/>}/>
     </Routes>
   )
 }
