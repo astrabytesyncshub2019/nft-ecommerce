@@ -1,5 +1,5 @@
 import React from "react"
-import { NavLink } from "react-router-dom"
+import { NavLink ,Link} from "react-router-dom"
 import { ShoppingCart, CircleUserRound } from "lucide-react"
 
 const Navbar = () => {
@@ -12,7 +12,9 @@ const Navbar = () => {
     return (
         <nav className="navbar px-10 py-3 flex justify-between items-center bg-[#f2f2f2]  fixed w-full z-50">
             <div className="logo text-[var(--heading-color)] text-4xl font-bold tracking-tighter">
-                Scatch
+                <Link to={"/"}>
+                    Scatch
+                </Link>
             </div>
 
             <div className="flex items-center gap-20">

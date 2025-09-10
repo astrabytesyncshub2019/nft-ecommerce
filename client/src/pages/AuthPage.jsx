@@ -55,7 +55,7 @@ const AuthPage = () => {
             }
 
         try {
-            isRegister
+             isRegister
                 ? await registerUserApi(payload)
                 : await loginUserApi(payload)
 

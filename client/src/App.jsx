@@ -17,7 +17,7 @@ const App = () => {
         <Route path="/duffles" element={<Duffles />} />
         
       </Route>
-        <Route path="/login" element={<AuthPage/>}/>
+        <Route path="/user" element={<AuthPage/>}/>
     </Routes>
   )
 }
