@@ -23,18 +23,15 @@ export const cartController = async (req, res, next) => {
 export const getCartProducts = async (req, res, next) => {
     try {
         const userId = req.user._id
-        const cartProducts = await getAllCartProducts(userId)
-        // console.log(cartProducts)
-
-        if (!cartProducts) return errorResponse(res, "Cart is empty", 404)
-        return successResponse(res, "cart products fetched successfully", cartProducts)
-
+        const cart = await getAllCartProducts(userId)
+        const items = cart ? cart.items : []   // return empty array if cart does not exist
+        return successResponse(res, "Cart products fetched successfully", items)
     } catch (error) {
         next(error)
-
     }
-
 }
+
+
 
 export const removeCartProductController = async (req, res, next) => {
     try {

@@ -6,6 +6,9 @@ import * as Yup from "yup"
 import { FaUser, FaEnvelope, FaPhoneAlt, FaLock } from "react-icons/fa"
 import { registerUserApi, loginUserApi } from "../api/userAPI"
 import { useNavigate } from "react-router-dom"
+import { useDispatch } from "react-redux"
+import { login } from "../store/authslice"
+
 
 const registerSchema = Yup.object().shape({
     firstname: Yup.string().required("First name is required"),
@@ -23,10 +26,12 @@ const loginSchema = Yup.object().shape({
 })
 
 const AuthPage = () => {
-    const [isRegister, setIsRegister] = useState(true)
+    const [isRegister, setIsRegister] = useState(false)
     const [showPassword, setShowPassword] = useState(false)
     const [conflictError, setConflictError] = useState("")
+    const [apiError, setApiError] = useState("")
     const navigate = useNavigate()
+    const dispatch = useDispatch()
 
     const {
         register,
@@ -55,11 +60,21 @@ const AuthPage = () => {
             }
 
         try {
-             isRegister
-                ? await registerUserApi(payload)
-                : await loginUserApi(payload)
+            if (isRegister) {
+                await registerUserApi(payload)
+                setIsRegister(false)
+            } else {
+                const res = await loginUserApi(payload)
 
-            navigate("/")
+                dispatch(
+                    login({
+                        user: res.data
+
+                    })
+                )
+
+                navigate("/")
+            }
         } catch (err) {
             const status = err.response?.status
             const message =
@@ -70,11 +85,12 @@ const AuthPage = () => {
             if (status === 409) {
                 setConflictError("User already exists with this email")
             } else {
-                alert(message)
+                setApiError(message)
             }
 
             console.error("API Error:", message)
         }
+
     }
 
     return (
@@ -121,10 +137,10 @@ const AuthPage = () => {
                         placeholder="Enter your email"
                         icon={<FaEnvelope />}
                         register={register}
-                        error={errors.email?.message}
+                        error={errors.email?.message || apiError}
                     />
 
-                    {/* password field */}
+
                     <div className="w-full">
                         <label
                             htmlFor="password"
@@ -150,11 +166,12 @@ const AuthPage = () => {
                                 {showPassword ? <Eye /> : <EyeOff />}
                             </span>
                         </div>
-                        {errors.password && (
-                            <p className="text-red-600 text-xs mt-1">
-                                {errors.password.message}
-                            </p>
+                        {errors.password ? (
+                            <p className="text-red-600 text-xs mt-1">{errors.password.message}</p>
+                        ) : apiError && (
+                            <p className="text-red-600 text-xs mt-1">{apiError}</p>  
                         )}
+
                     </div>
 
                     {isRegister && (

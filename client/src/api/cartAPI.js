@@ -8,7 +8,7 @@ export const addToCart = async (productId) => {
 
 export const getCartProducts = async () => {
     const res = await axiosInstance.get("/api/cart/")
-    return res.data?.data?.items || []
+    return res.data?.data || []
 }
 
 export const deleteCart = async () => {

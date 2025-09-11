@@ -13,13 +13,16 @@ const Cart = () => {
   const [cart, setCart] = useState([])
   const [loading, setLoading] = useState(true)
 
-
   const fetchCart = async () => {
     try {
       const data = await getCartProducts()
-      setCart(data || [])
+      setCart(data|| []) 
     } catch (err) {
-      console.error("Error fetching cart:", err)
+      if (err.response?.status === 404) {
+        setCart([])
+      } else {
+        console.error("Error fetching cart:", err)
+      }
     } finally {
       setLoading(false)
     }
@@ -27,30 +30,29 @@ const Cart = () => {
 
   useEffect(() => {
     fetchCart()
-  }, [cart])
+  }, [])
 
-
-  const handleIncrease = async (id) => {
+  const handleIncrease = async (productId) => {
     try {
-      await incrementCartProduct(id)
+      await incrementCartProduct(productId)
       fetchCart()
     } catch (err) {
       console.error("Error incrementing product:", err)
     }
   }
 
-  const handleDecrease = async (id) => {
+  const handleDecrease = async (productId) => {
     try {
-      await decrementProductFromCart(id)
+      await decrementProductFromCart(productId)
       fetchCart()
     } catch (err) {
       console.error("Error decrementing product:", err)
     }
   }
 
-  const handleRemove = async (id) => {
+  const handleRemove = async (productId) => {
     try {
-      await removeProductFormCart(id)
+      await removeProductFormCart(productId)
       fetchCart()
     } catch (err) {
       console.error("Error removing product:", err)
@@ -66,14 +68,15 @@ const Cart = () => {
     }
   }
 
-  const total = cart.reduce((sum, item) => sum + item.price * item.quantity, 0)
+  const total = cart.reduce(
+    (sum, item) => sum + item.product.price * item.quantity,
+    0
+  )
 
   if (loading) return <p className="text-center py-6">Loading cart...</p>
 
   return (
-    <>
-    <section className="min-h-screen w-full bg-white px-6 py-24" >
-
+    <section className="min-h-screen w-full bg-white px-6 py-24">
       <div className="p-6 max-w-5xl mx-auto">
         <h1 className="text-3xl font-bold mb-2 text-center uppercase">Your Cart</h1>
 
@@ -84,31 +87,31 @@ const Cart = () => {
             <div className="grid gap-6">
               {cart.map((item) => (
                 <div
-                  key={item.productId}
+                  key={item.product._id}
                   className="flex items-center justify-between bg-white p-4 rounded-lg shadow-md"
                 >
                   <div className="flex items-center gap-4">
                     <img
-                      src={item.image}
-                      alt={item.name}
+                      src={item.product.image.url}
+                      alt={item.product.name}
                       className="w-24 h-24 object-cover rounded-md"
                     />
                     <div>
-                      <h2 className="text-xl font-semibold">{item.name}</h2>
-                      <p className="text-gray-600">₹{item.price}</p>
+                      <h2 className="text-xl font-semibold">{item.product.name}</h2>
+                      <p className="text-gray-600">₹{item.product.price}</p>
                     </div>
                   </div>
 
                   <div className="flex items-center gap-3">
                     <button
-                      onClick={() => handleDecrease(item.productId)}
+                      onClick={() => handleDecrease(item.product._id)}
                       className="p-2 border rounded-md hover:bg-gray-100"
                     >
                       <Minus size={18} />
                     </button>
                     <span className="px-3 font-semibold">{item.quantity}</span>
                     <button
-                      onClick={() => handleIncrease(item.productId)}
+                      onClick={() => handleIncrease(item.product._id)}
                       className="p-2 border rounded-md hover:bg-gray-100"
                     >
                       <Plus size={18} />
@@ -117,10 +120,10 @@ const Cart = () => {
 
                   <div className="flex items-center gap-4">
                     <p className="text-lg font-bold">
-                      ₹{item.price * item.quantity}
+                      ₹{item.product.price * item.quantity}
                     </p>
                     <button
-                      onClick={() => handleRemove(item.productId)}
+                      onClick={() => handleRemove(item.product._id)}
                       className="text-red-500 hover:text-red-700"
                     >
                       <Trash2 size={20} />
@@ -142,9 +145,8 @@ const Cart = () => {
           </>
         )}
       </div>
-    <SmoothSailing/>
+      <SmoothSailing />
     </section>
-    </>
   )
 }
 

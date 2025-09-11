@@ -2,7 +2,7 @@ export const cookieOptionsForAcessToken = {
     httpOnly: true,
     secure: true,
     sameSite: "strict",
-    maxAge: 60 * 60 * 1000,
+    maxAge: 120 * 60 * 1000,
     path: "/"
 }
 

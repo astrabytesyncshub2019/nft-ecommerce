@@ -7,6 +7,7 @@ import 'swiper/css/pagination'
 import allProducts from "../../assets/allProducts.jpeg"
 import { getProductsByCategory } from '../../api/productAPI.js'
 import { Handbag } from "lucide-react"
+import AddToCartButton from '../AddToCartButton/AddToCart.jsx'
 
 const Slider = () => {
   const [products, setProducts] = useState([])
@@ -22,7 +23,7 @@ const Slider = () => {
       }
     }
     fetchProducts()
-  }, [products])
+  }, [])
 
   return (
     <div className="my-10 relative">
@@ -69,9 +70,7 @@ const Slider = () => {
 
 
                 <div className="absolute bottom-4 right-4 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                  <button className="bg-white p-3 rounded-full shadow-md text-black hover:bg-[--heading-color] hover:text-white transition">
-                    <Handbag size={24} />
-                  </button>
+                  <AddToCartButton productId={product._id} />
                 </div>
               </div>
 

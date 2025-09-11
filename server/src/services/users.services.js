@@ -32,7 +32,7 @@ export const loginUserService = async (email, password) => {
     if (!existingUser) throw new BadRequestError("Invalid email or password")
 
     const isPasswordValid = await existingUser.comparePassword(password)
-    if (!isPasswordValid) throw new BadRequestError("Invalid user or password")
+    if (!isPasswordValid) throw new BadRequestError("Invalid email or password")
 
     const token = await signToken({ id: existingUser._id, email: existingUser.email })
     if (!token) throw new AppError("Token Generations is failed")
