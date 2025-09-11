@@ -10,6 +10,7 @@ const HomePage = () => {
     <>
       <section className="bg-[#f1f1f1] min-h-screen ">
         <Heading />
+
       </section>
 
       <section className="px-12 py-16">

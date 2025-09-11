@@ -5,7 +5,7 @@ import 'swiper/css'
 import 'swiper/css/navigation'
 import 'swiper/css/pagination'
 import allProducts from "../../assets/allProducts.jpeg"
-import { getAllProducts } from '../../api/productAPI.js'
+import { getProductsByCategory } from '../../api/productAPI.js'
 import { Handbag } from "lucide-react"
 
 const Slider = () => {
@@ -14,7 +14,7 @@ const Slider = () => {
   useEffect(() => {
     const fetchProducts = async () => {
       try {
-        const res = await getAllProducts()
+        const res = await getProductsByCategory("luggage")
         setProducts(Array.isArray(res) ? res : [])
       } catch (err) {
         console.error(err)
@@ -22,7 +22,7 @@ const Slider = () => {
       }
     }
     fetchProducts()
-  }, [])
+  }, [products])
 
   return (
     <div className="my-10 relative">
@@ -34,12 +34,12 @@ const Slider = () => {
       </p>
 
       <Swiper
-        modules={[Navigation, Pagination ,Autoplay]}
+        modules={[Navigation, Pagination, Autoplay]}
         spaceBetween={20}
         slidesPerView={3}
         autoplay={{
-          delay:3000,
-          pauseOnMouseEnter:true
+          delay: 3000,
+          pauseOnMouseEnter: true
         }}
         pagination={{ clickable: true }}
         breakpoints={{
@@ -56,7 +56,7 @@ const Slider = () => {
           </div>
         </SwiperSlide>
 
-        {products.map((product) => (
+        {products.slice(0, 10).map((product) => (
           <SwiperSlide key={product._id}>
             <div className="group flex flex-col items-center w-full bg-white shadow-xl rounded-xl overflow-hidden cursor-pointer transition-transform duration-300 hover:scale-105 mb-14 text-white">
 
@@ -67,7 +67,7 @@ const Slider = () => {
                   className="w-full h-full object-cover rounded-t-lg transition-transform duration-300 group-hover:scale-110"
                 />
 
-          
+
                 <div className="absolute bottom-4 right-4 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
                   <button className="bg-white p-3 rounded-full shadow-md text-black hover:bg-[--heading-color] hover:text-white transition">
                     <Handbag size={24} />
@@ -75,7 +75,7 @@ const Slider = () => {
                 </div>
               </div>
 
-    
+
               <div className="p-4 w-full bg-[--heading-color]">
                 <h3 className=" text-lg tracking-tighter">{product.name}</h3>
                 <div className="flex items-center gap-2 mt-2">

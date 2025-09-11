@@ -38,7 +38,9 @@ const Navbar = () => {
 
 
                 <div className="flex items-center gap-4 text-zinc-700 cursor-pointer">
+                    <Link to={"/cart"}>
                     <ShoppingCart className="w-6 h-6 hover:text-[var(--primary-color)] transition" />
+                    </Link>
                     <CircleUserRound className="w-6 h-6 hover:text-[var(--primary-color)] transition" />
                 </div>
             </div>

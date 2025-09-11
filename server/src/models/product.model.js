@@ -12,7 +12,7 @@ const productSchema = new mongoose.Schema(
             type: Number, required: true, min: 0
         },
         discount: {
-            type: Number, default: 0, min: 0, max: 100
+            type: Number, default: 0, min: 0
         },
         category: {
             type: String, required: true, enum: ["backpacks", "luggage", "duffles"]
