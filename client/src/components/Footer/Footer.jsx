@@ -32,7 +32,7 @@ const Footer = () => {
           <div>
             <h4 className="font-bold uppercase mb-4">Account</h4>
             <ul className="space-y-2">
-              <Link to="/user" className="hover:underline cursor-pointer block">Sign In</Link>
+              <Link to="/auth" className="hover:underline cursor-pointer block">Sign In</Link>
               <Link className="hover:underline cursor-pointer block">Shop all products</Link>
             </ul>
           </div>

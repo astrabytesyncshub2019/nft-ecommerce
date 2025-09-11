@@ -169,7 +169,7 @@ const AuthPage = () => {
                         {errors.password ? (
                             <p className="text-red-600 text-xs mt-1">{errors.password.message}</p>
                         ) : apiError && (
-                            <p className="text-red-600 text-xs mt-1">{apiError}</p>  
+                            <p className="text-red-600 text-xs mt-1">{apiError}</p>
                         )}
 
                     </div>
@@ -192,6 +192,17 @@ const AuthPage = () => {
                         {isRegister ? "Register" : "Login"}
                     </button>
                 </form>
+                <button
+                    type="button"
+                    className="w-full mt-4 flex items-center justify-center gap-2 border border-gray-300 py-2 rounded-lg hover:bg-gray-100"
+                >
+                    <img
+                        src="https://developers.google.com/identity/images/g-logo.png"
+                        alt="Google"
+                        className="w-5 h-5"
+                    />
+                    Continue with Google
+                </button>
 
                 <p className="mt-4 text-center text-gray-600 text-sm">
                     {isRegister ? "Already have an account?" : "Don’t have an account?"}{" "}

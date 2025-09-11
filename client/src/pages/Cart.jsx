@@ -16,7 +16,7 @@ const Cart = () => {
   const fetchCart = async () => {
     try {
       const data = await getCartProducts()
-      setCart(data|| []) 
+      setCart(data || [])
     } catch (err) {
       if (err.response?.status === 404) {
         setCart([])
@@ -68,29 +68,34 @@ const Cart = () => {
     }
   }
 
-  const total = cart.reduce(
-    (sum, item) => sum + item.product.price * item.quantity,
+ const total = cart.reduce(
+    (sum, item) => sum + (item.product.price - item.product.discount) * item.quantity,
     0
   )
 
   if (loading) return <p className="text-center py-6">Loading cart...</p>
 
   return (
+
     <section className="min-h-screen w-full bg-white px-6 py-24">
       <div className="p-6 max-w-5xl mx-auto">
         <h1 className="text-3xl font-bold mb-2 text-center uppercase">Your Cart</h1>
 
         {cart.length === 0 ? (
+
           <p className="text-lg text-center">Your cart is empty.</p>
         ) : (
           <>
             <div className="grid gap-6">
               {cart.map((item) => (
+
+
                 <div
                   key={item.product._id}
-                  className="flex items-center justify-between bg-white p-4 rounded-lg shadow-md"
+                  className="flex items-center justify-between bg-white p-4 rounded-lg shadow-md "
                 >
-                  <div className="flex items-center gap-4">
+
+                  <div className="flex items-center gap-6 flex-1">
                     <img
                       src={item.product.image.url}
                       alt={item.product.name}
@@ -98,11 +103,12 @@ const Cart = () => {
                     />
                     <div>
                       <h2 className="text-xl font-semibold">{item.product.name}</h2>
-                      <p className="text-gray-600">₹{item.product.price}</p>
+                      <span className="text-gray-600 ">₹{item.product.price - item.product.discount}</span>
+                      <span className="text-gray-600 line-through ml-2 text-sm">₹{item.product.price}</span>
                     </div>
                   </div>
 
-                  <div className="flex items-center gap-3">
+                  <div className="flex items-center gap-2 mr-8">
                     <button
                       onClick={() => handleDecrease(item.product._id)}
                       className="p-2 border rounded-md hover:bg-gray-100"
@@ -120,7 +126,7 @@ const Cart = () => {
 
                   <div className="flex items-center gap-4">
                     <p className="text-lg font-bold">
-                      ₹{item.product.price * item.quantity}
+                      ₹{(item.product.price - item.product.discount) * item.quantity}
                     </p>
                     <button
                       onClick={() => handleRemove(item.product._id)}
@@ -134,12 +140,18 @@ const Cart = () => {
             </div>
 
             <div className="flex justify-between items-center mt-8 border-t pt-6">
-              <h2 className="text-2xl font-bold">Total: ₹{total}</h2>
+              <h2 className="text-2xl font-bold flex-1 ">Total: ₹{total}</h2>
               <button
                 onClick={handleDeleteCart}
-                className="bg-red-500 text-white px-4 py-2 rounded-lg hover:bg-red-600"
+                className="bg-red-500 text-white px-4 py-2 rounded-lg hover:bg-red-600 mr-8"
               >
                 Clear Cart
+              </button>
+              <button
+            
+                className="bg-[var(--heading-color)] text-white px-4 py-2 rounded-lg hover:bg-[#017465] capitalize"
+              >
+                checkout
               </button>
             </div>
           </>
