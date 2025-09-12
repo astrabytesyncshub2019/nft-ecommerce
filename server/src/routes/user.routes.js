@@ -1,8 +1,12 @@
 import { Router } from "express"
-import { loginUserController, logoutUserController, registerUserController, getCurrentUserController, updateUserDetailsController, updatePasswordController, forgotPasswordController, resetPasswordController } from "../controllers/users.controllers.js"
+import passport from "passport"
+import { loginUserController, logoutUserController, registerUserController, getCurrentUserController, updateUserDetailsController, updatePasswordController, forgotPasswordController, resetPasswordController, googleAuthController } from "../controllers/users.controllers.js"
 import { registerValidations, loginValidations } from "../validations/users.validations.js"
 import { validateRequest } from "../middlewares/validateRequest.js"
 import { authMiddleware } from "../middlewares/authMiddleware.js"
+import { signRefreshToken, signToken } from "../utils/signToken.js"
+import { cookieOptionsForAcessToken, cookieOptionsForRefreshToken } from "../config/cookieOptions.js"
+import { updateRefreshToken } from "../dao/users.dao.js"
 const router = Router()
 
 router.post("/signup", registerValidations, validateRequest, registerUserController)
@@ -13,4 +17,13 @@ router.patch("/updateDetails", authMiddleware, updateUserDetailsController)
 router.patch("/updatePassword", authMiddleware, updatePasswordController)
 router.patch("/forgetPassword", authMiddleware, forgotPasswordController)
 router.patch("/resetPassword", authMiddleware, resetPasswordController)
+router.get("/google", passport.authenticate("google", { scope: ["profile", "email"] }))
+
+router.get(
+    "/google/callback",
+    passport.authenticate("google", { failureRedirect: "/login", session: false }),
+    googleAuthController
+)
+
+
 export default router

@@ -16,19 +16,22 @@ const userSchema = new mongoose.Schema({
     },
     email: {
         type: String,
-        required: [true, "Email is required"],
+        // required: function () {
+        //     return !this.googleId
+        // },
         trim: true,
         unique: true,
     },
     password: {
         type: String,
-        required: true,
+        password: { type: String, required: function () { return !this.googleId } },
         minlength: [6, "Password must be at least 6 charcters"],
     },
     phonenumber: {
         type: Number,
         required: [true, 'Phone number is required'],
         trim: true,
+        required: false
     },
     addresses: [
         {
@@ -53,6 +56,7 @@ const userSchema = new mongoose.Schema({
     ],
     resetPasswordToken: String,
     resetPasswordExpire: Date,
+    googleId: { type: String },
 }, { timestamps: true })
 
 userSchema.pre("save", async function (next) {

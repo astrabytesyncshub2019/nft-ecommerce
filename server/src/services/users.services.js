@@ -6,6 +6,7 @@ import crypto from "crypto"
 import userModel from "../models/users.models.js"
 
 export const registerUserService = async (fullname, email, password, phonenumber, address, role) => {
+    // console.log(fullname,email)
     const userAlreadyExists = await findUserByEmail(email)
     if (userAlreadyExists) throw new ConflictError("User alredy exists")
 
@@ -16,7 +17,7 @@ export const registerUserService = async (fullname, email, password, phonenumber
     if (!token) throw new AppError("Token generations is failed")
 
     const refreshToken = await signRefreshToken({ id: newUser._id, email: newUser.email })
-    // console.log(refreshToken)            
+    console.log(refreshToken)            
     if (!refreshToken) throw new AppError("Refresh Token Generations is failed ")
 
     const updatedUser = await updateRefreshToken(newUser._id, refreshToken)

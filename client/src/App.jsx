@@ -10,6 +10,7 @@ import Cart from "./pages/Cart.jsx"
 import { useDispatch, useSelector } from "react-redux"
 import { loadUser } from "./store/authslice.js"
 import { Toaster } from "react-hot-toast"
+import GoogleCallback from "./pages/GoogleCallback.jsx"
 
 const App = () => {
   const dispatch = useDispatch()
@@ -22,7 +23,7 @@ const App = () => {
   if (loading) return <div className="text-white">Loading...</div>
 
   return (
-    <>  
+    <>
       <Routes>
         <Route path="/" element={<Layout />}>
           <Route index element={<HomePage />} />
@@ -32,6 +33,8 @@ const App = () => {
           <Route path="/cart" element={<Cart />} />
         </Route>
         <Route path="/auth" element={<AuthPage />} />
+        <Route path="/auth/success" element={<GoogleCallback />} />
+
       </Routes>
 
       <Toaster position="top-right" reverseOrder={false} />

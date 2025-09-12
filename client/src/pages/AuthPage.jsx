@@ -65,6 +65,8 @@ const AuthPage = () => {
                 const res = await registerUserApi(payload)
                 dispatch(login({ user: res.data }))
                 navigate("/")
+                localStorage.setItem("accessToken", res.accessToken)
+                localStorage.setItem("refreshToken", res.refreshToken)
                 setTimeout(() => {
                     toast.success("Account created successfully")
 
@@ -74,6 +76,8 @@ const AuthPage = () => {
 
                 dispatch(login({ user: res.data }))
                 navigate("/")
+                localStorage.setItem("accessToken", res.accessToken)
+                localStorage.setItem("refreshToken", res.refreshToken)
                 setTimeout(() => {
                     toast.success(`Welcome Back ,${res.data.fullname.firstname}`)
                 }, 1500)
@@ -86,10 +90,10 @@ const AuthPage = () => {
 
             setApiError(message)
             console.error("API Error:", message)
-           
-                toast.error(message)
 
-           
+            toast.error(message)
+
+
         }
     }
 
@@ -185,6 +189,7 @@ const AuthPage = () => {
 
                 <button
                     type="button"
+                    onClick={() => window.open("http://localhost:8000/api/users/google", "_self")}
                     className="w-full mt-4 flex items-center justify-center gap-2 border border-gray-300 py-2 rounded-lg hover:bg-gray-100"
                 >
                     <img

@@ -11,7 +11,9 @@ import cookieParser from "cookie-parser"
 import path from "path"
 import { fileURLToPath } from "url"
 import cors from "cors"
-
+import session from "express-session"
+import passport from "passport"
+import "./src/config/passport.config.js"
 
 import { errorHandler } from "./src/utils/errorHandler.js"
 import userRoutes from "./src/routes/user.routes.js"
@@ -31,7 +33,15 @@ app.use(cors({
   origin: 'http://localhost:5173', 
   credentials: true
 }))
-// app.use("/uploads", express.static(path.join(__dirname, "src/uploads")))
+
+app.use(session({
+  secret: process.env.SESSION_SECRET || "keyboardcat",
+  resave: false,
+  saveUninitialized: false
+}))
+
+app.use(passport.initialize())
+app.use(passport.session())
 
 app.use("/api/users", userRoutes)
 app.use("/api/products", productRoutes)

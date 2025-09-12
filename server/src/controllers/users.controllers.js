@@ -3,11 +3,13 @@ import { findUserByEmail, findUserById, updateRefreshToken } from "../dao/users.
 import { forgotPasswordServices, loginUserService, registerUserService, resetPasswordService, updatePasswordService, updateUserDeatilsServices } from "../services/users.services.js"
 import { BadRequestError, NotFoundError, UnauthorizedError } from "../utils/errorHandler.js"
 import { errorResponse, successResponse } from "../utils/response.js"
+import { signRefreshToken, signToken } from "../utils/signToken.js"
 
 
 export const registerUserController = async (req, res, next) => {
     try {
         const { fullname, email, password, phonenumber, address, role } = req.body
+        // console.log(fullname,email,password,phonenumber,address,role)
         const { newUser, token, refreshToken } = await registerUserService(fullname, email, password, phonenumber, address, role)
 
         res.cookie("accessToken", token, cookieOptionsForAcessToken)
@@ -128,5 +130,23 @@ export const resetPasswordController = async (req, res, next) => {
         next(error)
     }
 }
+
+export const googleAuthController = async (req, res) => {
+    try {
+        const token = await signToken({ id: req.user._id, email: req.user.email })
+        const refresh = await signRefreshToken({ id: req.user._id })
+
+        await updateRefreshToken(req.user._id, refresh)
+
+        res.cookie("accessToken", token, cookieOptionsForAcessToken)
+        res.cookie("refreshToken", refresh, cookieOptionsForRefreshToken)
+
+        res.redirect("http://localhost:5173")
+    } catch (error) {
+        console.error("Google login failed:", error)
+        res.redirect("http://localhost:5173/login?error=google_auth_failed")
+    }
+}
+
 
 

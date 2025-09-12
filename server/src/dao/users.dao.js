@@ -1,23 +1,24 @@
 import userModel from "../models/users.models.js"
 
-export const createUser = async (fullname, email, password, phonenumber, address, role, refreshToken) => {
+export const createUser = async (fullname,email,password,phonenumber,address,role = "user",refreshToken,googleId) => {
     const userData = {
         fullname: {
             firstname: fullname.firstname,
-            lastname: fullname.lastname
+            lastname: fullname.lastname || "",
         },
         email,
-        password,
-        phonenumber,
-        address,
-        refreshToken
+        password: password || undefined,      
+        phonenumber: phonenumber || undefined, 
+        addresses: address || [],             
+        role,
+        refreshToken: refreshToken || undefined,
+        googleId: googleId || undefined,
     }
-
-    if (role) userData.role = role
-    console.log(role)
 
     return await userModel.create(userData)
 }
+
+
 
 export const findUserByEmail = async (email) => {
     return await userModel.findOne({ email })
