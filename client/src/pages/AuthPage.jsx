@@ -8,10 +8,12 @@ import { registerUserApi, loginUserApi } from "../api/userAPI"
 import { useNavigate } from "react-router-dom"
 import { useDispatch } from "react-redux"
 import { login } from "../store/authslice"
-
+import toast from "react-hot-toast"
 
 const registerSchema = Yup.object().shape({
-    firstname: Yup.string().required("First name is required"),
+    firstname: Yup.string()
+        .required("First name is required")
+        .min(3, "First name must be at least 3 characters"),
     lastname: Yup.string().required("Last name is required"),
     email: Yup.string().email("Invalid email").required("Email is required"),
     password: Yup.string().min(6, "At least 6 characters").required("Password is required"),
@@ -28,7 +30,6 @@ const loginSchema = Yup.object().shape({
 const AuthPage = () => {
     const [isRegister, setIsRegister] = useState(false)
     const [showPassword, setShowPassword] = useState(false)
-    const [conflictError, setConflictError] = useState("")
     const [apiError, setApiError] = useState("")
     const navigate = useNavigate()
     const dispatch = useDispatch()
@@ -42,7 +43,7 @@ const AuthPage = () => {
     })
 
     const onSubmit = async (data) => {
-        setConflictError("")
+        setApiError("")
 
         const payload = isRegister
             ? {
@@ -61,36 +62,35 @@ const AuthPage = () => {
 
         try {
             if (isRegister) {
-                await registerUserApi(payload)
-                setIsRegister(false)
+                const res = await registerUserApi(payload)
+                dispatch(login({ user: res.data }))
+                navigate("/")
+                setTimeout(() => {
+                    toast.success("Account created successfully")
+
+                }, 1500);
             } else {
                 const res = await loginUserApi(payload)
 
-                dispatch(
-                    login({
-                        user: res.data
-
-                    })
-                )
-
+                dispatch(login({ user: res.data }))
                 navigate("/")
+                setTimeout(() => {
+                    toast.success(`Welcome Back ,${res.data.fullname.firstname}`)
+                }, 1500)
             }
         } catch (err) {
-            const status = err.response?.status
             const message =
                 err.response?.data?.message ||
                 err.response?.data?.errors?.join(", ") ||
                 "Something went wrong"
 
-            if (status === 409) {
-                setConflictError("User already exists with this email")
-            } else {
-                setApiError(message)
-            }
-
+            setApiError(message)
             console.error("API Error:", message)
-        }
+           
+                toast.error(message)
 
+           
+        }
     }
 
     return (
@@ -102,12 +102,6 @@ const AuthPage = () => {
                 <p className="text-zinc-700 mb-6">
                     {isRegister ? "Join us and start your journey" : "Login to continue"}
                 </p>
-
-                {conflictError && (
-                    <div className="mb-4 p-3 bg-red-100 border border-red-400 text-red-700 rounded-lg text-sm text-center">
-                        {conflictError}
-                    </div>
-                )}
 
                 <form className="space-y-4" onSubmit={handleSubmit(onSubmit)}>
                     {isRegister && (
@@ -137,9 +131,8 @@ const AuthPage = () => {
                         placeholder="Enter your email"
                         icon={<FaEnvelope />}
                         register={register}
-                        error={errors.email?.message || apiError}
+                        error={errors.email?.message}
                     />
-
 
                     <div className="w-full">
                         <label
@@ -166,12 +159,9 @@ const AuthPage = () => {
                                 {showPassword ? <Eye /> : <EyeOff />}
                             </span>
                         </div>
-                        {errors.password ? (
+                        {errors.password && (
                             <p className="text-red-600 text-xs mt-1">{errors.password.message}</p>
-                        ) : apiError && (
-                            <p className="text-red-600 text-xs mt-1">{apiError}</p>
                         )}
-
                     </div>
 
                     {isRegister && (
@@ -192,6 +182,7 @@ const AuthPage = () => {
                         {isRegister ? "Register" : "Login"}
                     </button>
                 </form>
+
                 <button
                     type="button"
                     className="w-full mt-4 flex items-center justify-center gap-2 border border-gray-300 py-2 rounded-lg hover:bg-gray-100"
