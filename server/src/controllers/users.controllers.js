@@ -132,21 +132,22 @@ export const resetPasswordController = async (req, res, next) => {
 }
 
 export const googleAuthController = async (req, res) => {
-    try {
-        const token = await signToken({ id: req.user._id, email: req.user.email })
-        const refresh = await signRefreshToken({ id: req.user._id })
+  try {
+    const token = await signToken({ id: req.user._id, email: req.user.email })
+    const refresh = await signRefreshToken({ id: req.user._id })
 
-        await updateRefreshToken(req.user._id, refresh)
+    await updateRefreshToken(req.user._id, refresh)
 
-        res.cookie("accessToken", token, cookieOptionsForAcessToken)
-        res.cookie("refreshToken", refresh, cookieOptionsForRefreshToken)
+    res.cookie("accessToken", token, cookieOptionsForAcessToken)
+    res.cookie("refreshToken", refresh, cookieOptionsForRefreshToken)
 
-        res.redirect("http://localhost:5173")
-    } catch (error) {
-        console.error("Google login failed:", error)
-        res.redirect("http://localhost:5173/login?error=google_auth_failed")
-    }
+    res.redirect("http://localhost:5173/?google=success")
+  } catch (error) {
+    console.error("Google login failed:", error)
+    res.redirect("http://localhost:5173/login?google=failed")
+  }
 }
+
 
 
 

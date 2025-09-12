@@ -10,11 +10,11 @@ import Cart from "./pages/Cart.jsx"
 import { useDispatch, useSelector } from "react-redux"
 import { loadUser } from "./store/authslice.js"
 import { Toaster } from "react-hot-toast"
-import GoogleCallback from "./pages/GoogleCallback.jsx"
 
 const App = () => {
   const dispatch = useDispatch()
-  const { loading } = useSelector((state) => state.auth)
+  const { loading } = useSelector((state) => state.auth)   
+    
 
   useEffect(() => {
     dispatch(loadUser())
@@ -33,7 +33,6 @@ const App = () => {
           <Route path="/cart" element={<Cart />} />
         </Route>
         <Route path="/auth" element={<AuthPage />} />
-        <Route path="/auth/success" element={<GoogleCallback />} />
 
       </Routes>
 

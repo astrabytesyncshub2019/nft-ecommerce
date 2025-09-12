@@ -17,7 +17,7 @@ router.patch("/updateDetails", authMiddleware, updateUserDetailsController)
 router.patch("/updatePassword", authMiddleware, updatePasswordController)
 router.patch("/forgetPassword", authMiddleware, forgotPasswordController)
 router.patch("/resetPassword", authMiddleware, resetPasswordController)
-router.get("/google", passport.authenticate("google", { scope: ["profile", "email"] }))
+router.get("/google", passport.authenticate("google", { scope: ["profile", "email"],prompt:"select_account" }))
 
 router.get(
     "/google/callback",
