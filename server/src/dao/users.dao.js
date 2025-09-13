@@ -1,15 +1,15 @@
 import userModel from "../models/users.models.js"
 
-export const createUser = async (fullname,email,password,phonenumber,address,role = "user",refreshToken,googleId) => {
+export const createUser = async (fullname, email, password, phonenumber, address, role = "user", refreshToken, googleId) => {
     const userData = {
         fullname: {
             firstname: fullname.firstname,
             lastname: fullname.lastname || "",
         },
         email,
-        password: password || undefined,      
-        phonenumber: phonenumber || undefined, 
-        addresses: address || [],             
+        password: password || undefined,
+        phonenumber: phonenumber || undefined,
+        addresses: address || [],
         role,
         refreshToken: refreshToken || undefined,
         googleId: googleId || undefined,

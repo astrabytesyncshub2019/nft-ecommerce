@@ -76,13 +76,24 @@ export const updateUserDetailsController = async (req, res, next) => {
         if (!currentUser) {
             return errorResponse(res, "Unauthorized user", 401)
         }
+        const { password, email, ...otherDetails } = req.body
+        if (email) {
+            const existingUser = await findUserByEmail(email)
+            if (existingUser && existingUser._id.toString() !== currentUser.toString()) {
+                return errorResponse(res, "Email already in use", 400)
+            }
+        }
 
-        const { password, ...allowedUserUpdateDetails } = req.body
-        const updatedUserDetails = await updateUserDeatilsServices(currentUser, allowedUserUpdateDetails)
+        const updatedUserDetails = await updateUserDeatilsServices(
+            currentUser,
+            { ...otherDetails, email }
+        )
 
-        if (!updatedUserDetails) return errorResponse(res, "User not found", 404)
+        if (!updatedUserDetails) {
+            return errorResponse(res, "User not found", 404)
+        }
+
         return successResponse(res, "User updated successfully", updatedUserDetails, 200)
-
     } catch (error) {
         next(error)
     }
@@ -132,20 +143,20 @@ export const resetPasswordController = async (req, res, next) => {
 }
 
 export const googleAuthController = async (req, res) => {
-  try {
-    const token = await signToken({ id: req.user._id, email: req.user.email })
-    const refresh = await signRefreshToken({ id: req.user._id })
+    try {
+        const token = await signToken({ id: req.user._id, email: req.user.email })
+        const refresh = await signRefreshToken({ id: req.user._id })
 
-    await updateRefreshToken(req.user._id, refresh)
+        await updateRefreshToken(req.user._id, refresh)
 
-    res.cookie("accessToken", token, cookieOptionsForAcessToken)
-    res.cookie("refreshToken", refresh, cookieOptionsForRefreshToken)
+        res.cookie("accessToken", token, cookieOptionsForAcessToken)
+        res.cookie("refreshToken", refresh, cookieOptionsForRefreshToken)
 
-    res.redirect("http://localhost:5173/?google=success")
-  } catch (error) {
-    console.error("Google login failed:", error)
-    res.redirect("http://localhost:5173/login?google=failed")
-  }
+        res.redirect("http://localhost:5173/?google=success")
+    } catch (error) {
+        console.error("Google login failed:", error)
+        res.redirect("http://localhost:5173/login?google=failed")
+    }
 }
 
 

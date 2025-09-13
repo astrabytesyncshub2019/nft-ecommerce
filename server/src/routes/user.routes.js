@@ -4,9 +4,6 @@ import { loginUserController, logoutUserController, registerUserController, getC
 import { registerValidations, loginValidations } from "../validations/users.validations.js"
 import { validateRequest } from "../middlewares/validateRequest.js"
 import { authMiddleware } from "../middlewares/authMiddleware.js"
-import { signRefreshToken, signToken } from "../utils/signToken.js"
-import { cookieOptionsForAcessToken, cookieOptionsForRefreshToken } from "../config/cookieOptions.js"
-import { updateRefreshToken } from "../dao/users.dao.js"
 const router = Router()
 
 router.post("/signup", registerValidations, validateRequest, registerUserController)
@@ -18,11 +15,7 @@ router.patch("/updatePassword", authMiddleware, updatePasswordController)
 router.patch("/forgetPassword", authMiddleware, forgotPasswordController)
 router.patch("/resetPassword", authMiddleware, resetPasswordController)
 router.get("/google", passport.authenticate("google", { scope: ["profile", "email"],prompt:"select_account" }))
-
-router.get(
-    "/google/callback",
-    passport.authenticate("google", { failureRedirect: "/login", session: false }),
-    googleAuthController
+router.get("/google/callback",passport.authenticate("google", { failureRedirect: "/login", session: false }),googleAuthController
 )
 
 

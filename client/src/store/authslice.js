@@ -1,10 +1,10 @@
 import { createSlice } from "@reduxjs/toolkit"
-import { getCurrentUser } from "../api/userAPI"  
+import { getCurrentUser } from "../api/userAPI"
 
 const initialState = {
     user: null,
     isAuthenticated: false,
-    loading: true, 
+    loading: true,
 }
 
 const authSlice = createSlice({
@@ -12,7 +12,7 @@ const authSlice = createSlice({
     initialState,
     reducers: {
         login: (state, action) => {
-            state.user = action.payload.user
+            state.user = action.payload.user || action.payload
             state.isAuthenticated = true
             state.loading = false
         },
@@ -39,7 +39,7 @@ export const loadUser = () => async (dispatch) => {
     try {
         dispatch(setLoading(true))
         const res = await getCurrentUser()
-        dispatch(setUser(res.data))  
+        dispatch(setUser(res.data))
     } catch (err) {
         dispatch(logout())
     }

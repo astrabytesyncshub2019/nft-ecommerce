@@ -10,11 +10,12 @@ import Cart from "./pages/Cart.jsx"
 import { useDispatch, useSelector } from "react-redux"
 import { loadUser } from "./store/authslice.js"
 import { Toaster } from "react-hot-toast"
+import Profile from "./components/Profile/Profile.jsx"
 
 const App = () => {
   const dispatch = useDispatch()
-  const { loading } = useSelector((state) => state.auth)   
-    
+  const { loading } = useSelector((state) => state.auth)
+
 
   useEffect(() => {
     dispatch(loadUser())
