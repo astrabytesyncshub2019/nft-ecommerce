@@ -18,7 +18,10 @@ export const logoutUserApi = async () => {
     return res.data
 }
 export const upadteUserProfileApi = async (data) => {
-    const res = await axiosInstance.patch("/api/users/updateDetails",data)
+    const res = await axiosInstance.patch("/api/users/updateDetails", data)
     return res.data.data
-
+}
+export const updatePasswordApi = async (data) => {
+    const res = await axiosInstance.patch("/api/users/updatePassword", data)
+    return res.data.data
 }

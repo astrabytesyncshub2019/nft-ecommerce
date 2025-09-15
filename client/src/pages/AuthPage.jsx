@@ -9,6 +9,7 @@ import { useNavigate } from "react-router-dom"
 import { useDispatch } from "react-redux"
 import { login } from "../store/authslice"
 import toast from "react-hot-toast"
+import { Link } from "react-router-dom"
 
 const registerSchema = Yup.object().shape({
     firstname: Yup.string()
@@ -163,6 +164,14 @@ const AuthPage = () => {
                                 {showPassword ? <Eye /> : <EyeOff />}
                             </span>
                         </div>
+                        {!isRegister && (
+                            <p className="text-right text-sm mt-1">
+                                <Link to="/forgot-password" className="text-[var(--heading-color)] hover:underline">
+                                    Forgot Password?
+                                </Link>
+                            </p>
+                        )}
+
                         {errors.password && (
                             <p className="text-red-600 text-xs mt-1">{errors.password.message}</p>
                         )}

@@ -46,7 +46,7 @@ const Profile = ({ setShowProfile }) => {
     const handleUpdate = async (data) => {
         try {
             const res = await upadteUserProfileApi(data)
-            dispatch(login({ user: res })) 
+            dispatch(login({ user: res }))
             toast.success("Profile updated")
             setEditMode(false)
         } catch (error) {
@@ -58,7 +58,7 @@ const Profile = ({ setShowProfile }) => {
     const handleLogout = async () => {
         try {
             await logoutUserApi()
-            dispatch(logoutAction()) 
+            dispatch(logoutAction())
             toast.success("Logout successfully")
             navigate("/")
             setShowProfile(false)
@@ -72,7 +72,7 @@ const Profile = ({ setShowProfile }) => {
 
     return (
         <div className="fixed inset-0 bg-black/40 flex items-center justify-center z-50">
-            <div className="w-[400px] bg-white rounded-2xl shadow-xl p-6 relative">
+            <div className=" bg-white rounded-2xl shadow-xl p-6 relative">
                 <button
                     onClick={() => setShowProfile(false)}
                     className="absolute top-3 right-3 text-gray-500 hover:text-red-500"
@@ -175,6 +175,14 @@ const Profile = ({ setShowProfile }) => {
                         >
                             <LogOut size={18} /> Logout
                         </button>
+                        <button
+                            type="button"
+                            onClick={() => navigate("/change-password")}
+                            className="flex items-center gap-2 bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded-lg"
+                        >
+                            Change Password
+                        </button>
+
                     </div>
                 </form>
             </div>

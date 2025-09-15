@@ -11,6 +11,8 @@ import { useDispatch, useSelector } from "react-redux"
 import { loadUser } from "./store/authslice.js"
 import { Toaster } from "react-hot-toast"
 import Profile from "./components/Profile/Profile.jsx"
+import ChangePassword from "./pages/ChnagePassword.jsx"
+import ForgotPassword from "./pages/ForgetPassword.jsx"
 
 const App = () => {
   const dispatch = useDispatch()
@@ -34,6 +36,8 @@ const App = () => {
           <Route path="/cart" element={<Cart />} />
         </Route>
         <Route path="/auth" element={<AuthPage />} />
+        <Route path="/change-password" element={<ChangePassword/>}/>
+        <Route path="/forgot-password" element={<ForgotPassword/>}/>
 
       </Routes>
 
