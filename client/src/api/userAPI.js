@@ -25,3 +25,13 @@ export const updatePasswordApi = async (data) => {
     const res = await axiosInstance.patch("/api/users/updatePassword", data)
     return res.data.data
 }
+export const forgotPasswordApi = async (email) => {
+    const res = await axiosInstance.patch("/api/users/forgetPassword", { email })
+    return res.data
+}
+export const resetPasswordApi = async (token, newPassword) => {
+    const res = await axiosInstance.patch(`/api/users/resetPassword?token=${token}`, {
+        newPassword,
+    })
+    return res.data
+}
