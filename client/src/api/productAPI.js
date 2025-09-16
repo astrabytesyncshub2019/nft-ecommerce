@@ -17,9 +17,7 @@ export const createProductApi = async (product) => {
 }
 
 export const updateProductApi = async (productId, formData) => {
-  const res = await axiosInstance.patch(`/api/products/${productId}`, formData, {
-    headers: { "Content-Type": "multipart/form-data" }
-  })
+  const res = await axiosInstance.patch(`/api/products/${productId}`, formData)
   return res.data
 }
 export const deleteProductApi = async (productId) => {

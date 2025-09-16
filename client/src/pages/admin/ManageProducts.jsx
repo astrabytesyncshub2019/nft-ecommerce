@@ -85,7 +85,7 @@ const ManageProducts = () => {
         image: null,
       })
 
-      // Refresh product list
+
       fetchProducts(selectedCategory)
 
     } catch (err) {

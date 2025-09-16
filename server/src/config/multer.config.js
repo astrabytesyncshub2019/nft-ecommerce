@@ -29,7 +29,7 @@ const upload = multer({
 export default upload
 
 // Middleware to generate hash
-export const uploadWithHash = (fieldName, findDuplicateInDB) => {
+export const uploadWithHash = (fieldName, findProductByImageHash) => {
   return async (req, res, next) => {
     const singleUpload = upload.single(fieldName)
 
@@ -38,12 +38,10 @@ export const uploadWithHash = (fieldName, findDuplicateInDB) => {
         if (err) return next(err)
         if (!req.file) return next() // no file uploaded
 
-        // 1️⃣ Generate hash from buffer
         const hash = crypto.createHash("sha256").update(req.file.buffer).digest("hex")
         req.file.hash = hash
 
-        // 2️⃣ Check for duplicate in DB
-        const existingProduct = await findDuplicateInDB(hash)
+        const existingProduct = await findProductByImageHash(hash)
         if (existingProduct) {
           return next(new AppError("Duplicate image detected. Upload rejected.", 409))
         }

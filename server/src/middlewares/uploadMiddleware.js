@@ -15,7 +15,6 @@ export const uploadWithHash = (fieldName) => {
         const hash = crypto.createHash("sha256").update(req.file.buffer).digest("hex")
         req.file.hash = hash
 
-    
         const existingProduct = await findProductByImageHash(hash)
         if (existingProduct) {
           return next(new ConflictError("Duplicate image detected. Upload rejected.", 409))

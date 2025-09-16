@@ -13,10 +13,10 @@ export const productsController = async (req, res, next) => {
             return errorResponse(res, "Invalid category", 400)
         }
         const uploadResponse = await imagekit.upload({
-            file: req.file.buffer,            
-            fileName: req.file.originalname,   
-            folder: `/products/${category}`,   
-            useUniqueFileName: true            
+            file: req.file.buffer,
+            fileName: req.file.originalname,
+            folder: `/products/${category}`,
+            useUniqueFileName: true
         })
 
         const image = {
@@ -50,32 +50,40 @@ export const getAllProductsController = async (req, res, next) => {
 }
 
 export const updateProductController = async (req, res, next) => {
-  try {
-    const productId = req.params.productId
-    const { name, description, price, discount, category } = req.body || {}
+    try {
+        const productId = req.params.productId
+        const { name, description, price, discount, category } = req.body || {}
 
-    const updateFields = {}
-    if (name) updateFields.name = name
-    if (description) updateFields.description = description
-    if (price) updateFields.price = price
-    if (discount) updateFields.discount = discount
-    if (category) updateFields.category = category
+        const updateFields = {}
+        if (name) updateFields.name = name
+        if (description) updateFields.description = description
+        if (price) updateFields.price = price
+        if (discount) updateFields.discount = discount
+        if (category) updateFields.category = category
 
-    if (req.file) {
-      updateFields.image = {
-        url: `/uploads/${req.file.filename}`,
-        hash: req.file.hash
-      }
+        if (req.file) {
+            const uploadResult = await imagekit.upload({
+                file: req.file.buffer,
+                fileName: req.file.originalname,
+                folder: `/products/${category}`,
+            })
+
+            updateFields.image = {
+                url: uploadResult.url,
+                fileId: uploadResult.fileId,
+                hash: req.file.hash
+            }
+        }
+
+        const updatedProduct = await updateProductServices(productId, updateFields)
+        if (!updatedProduct) return errorResponse(res, "Product not found", 404)
+
+        return successResponse(res, "Product updated successfully", updatedProduct, 200)
+    } catch (error) {
+        next(error)
     }
-
-    const updatedProduct = await updateProductServices(productId, updateFields)
-    if (!updatedProduct) return errorResponse(res, "Product not found", 404)
-
-    return successResponse(res, "Product updated successfully", updatedProduct, 200)
-  } catch (error) {
-    next(error)
-  }
 }
+
 
 
 export const deleteProductController = async (req, res, next) => {
