@@ -22,6 +22,12 @@ const productSchema = new mongoose.Schema(
             hash: { type: String, required: false },
             fileId: { type: String }
         },
+        stock: {
+            type: Number,
+            default: 0,
+            min: 0,
+            // required: true
+        },
         createdBy: { type: mongoose.Schema.Types.ObjectId, ref: "user", required: true }
     },
     { timestamps: true }

@@ -8,6 +8,8 @@ import {
   deleteCart
 } from "../api/cartAPI"
 import SmoothSailing from "../components/SmoothSailing/SmoothSailing"
+import toast from "react-hot-toast"
+
 
 const Cart = () => {
   const [cart, setCart] = useState([])
@@ -37,6 +39,8 @@ const Cart = () => {
       await incrementCartProduct(productId)
       fetchCart()
     } catch (err) {
+      const message = err.response?.data?.message || "Error incrementing product"
+      toast.error(message)
       console.error("Error incrementing product:", err)
     }
   }
@@ -46,16 +50,19 @@ const Cart = () => {
       await decrementProductFromCart(productId)
       fetchCart()
     } catch (err) {
+      const message = err.response?.data?.message || "Error decrementing product"
+      toast.error(message)
       console.error("Error decrementing product:", err)
     }
   }
+
 
   const handleRemove = async (productId) => {
     try {
       await removeProductFormCart(productId)
       fetchCart()
     } catch (err) {
-      console.error("Error removing product:", err)
+      toast.error(err.response?.data?.message || "Error removing product")
     }
   }
 
@@ -63,12 +70,14 @@ const Cart = () => {
     try {
       await deleteCart()
       setCart([])
+      toast.success("Cart cleared")
     } catch (err) {
-      console.error("Error deleting cart:", err)
+      toast.error(err.response?.data?.message || "Error deleting cart")
     }
   }
 
- const total = cart.reduce(
+
+  const total = cart.reduce(
     (sum, item) => sum + (item.product.price - item.product.discount) * item.quantity,
     0
   )
@@ -148,7 +157,7 @@ const Cart = () => {
                 Clear Cart
               </button>
               <button
-            
+
                 className="bg-[var(--heading-color)] text-white px-4 py-2 rounded-lg hover:bg-[#017465] capitalize"
               >
                 checkout

@@ -27,6 +27,7 @@ const ManageProducts = () => {
     price: "",
     category: "",
     discount: "",
+    stock: "",
     image: null,
   })
 
@@ -38,6 +39,7 @@ const ManageProducts = () => {
       price: "",
       category: "",
       discount: "",
+      stock: "",
       image: null,
     })
   }
@@ -63,8 +65,8 @@ const ManageProducts = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault()
-    if (!formData.name || !formData.price || !formData.category) {
-      toast.error("Name, price, and category are required")
+    if (!formData.name || !formData.price || !formData.category || !formData.stock) {
+      toast.error("Name, price, category and stock are required")
       return
     }
 
@@ -126,7 +128,7 @@ const ManageProducts = () => {
             <Plus size={20} /> Add Product
           </button>
         </div>
-    
+
         <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-6 flex flex-col sm:flex-row sm:items-center gap-4">
           <label className="text-sm font-semibold text-gray-700 min-w-fit">
             Filter by Category:
@@ -171,18 +173,18 @@ const ManageProducts = () => {
         {/* Form Modal */}
 
       </div>
-        {showForm && (
-          <ProductFormModal
-            editingProduct={editingProduct}
-            formData={formData}
-            setFormData={setFormData}
-            onSubmit={handleSubmit}
-            onClose={() => {
-              setShowForm(false)
-              resetForm()
-            }}
-          />
-        )}
+      {showForm && (
+        <ProductFormModal
+          editingProduct={editingProduct}
+          formData={formData}
+          setFormData={setFormData}
+          onSubmit={handleSubmit}
+          onClose={() => {
+            setShowForm(false)
+            resetForm()
+          }}
+        />
+      )}
       {showConfirm && (
         <ConfirmDialog
           title="Delete Product"

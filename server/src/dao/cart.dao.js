@@ -1,5 +1,6 @@
 import Cart from "../models/cart.model.js";
-import { AppError, NotFoundError } from "../utils/errorHandler.js"
+import productModel from "../models/product.model.js";
+import { AppError, BadRequestError, NotFoundError } from "../utils/errorHandler.js"
 
 export const findCartByUser = async (userId) => {
     return await Cart.findOne({ user: userId });
@@ -36,7 +37,7 @@ export const getAllCartProducts = async (userId) => {
     return await Cart.findOne({ user: userId })
         .populate({
             path: "items.product",
-            select: "name description price image category discount"
+            select: "name description price image category discount stock"
         })
 
 }
@@ -51,34 +52,46 @@ export const removeProductFromCart = async (currentUSerId, productId) => {
 
 export const incrementProductOfCart = async (currentUserId, productId) => {
     const cart = await Cart.findOne({ user: currentUserId, "items.product": productId })
-
     if (!cart) throw new NotFoundError("Product not found in cart", 404)
 
-    cart.items.map(item => {
+    const product = await productModel.findById(productId)
+    if (!product) throw new NotFoundError("Product not found", 404)
+
+    cart.items = cart.items.map(item => {
         if (item.product.toString() === productId) {
-            item.quantity += 1
+            const newQty = item.quantity + 1
+            if (newQty > product.stock) {
+                throw new BadRequestError(`Only ${product.stock} items available in stock`)
+            }
+            item.quantity = newQty
         }
-        return item;
-    });
+        return item
+    })
 
     await cart.save()
     return cart
-
 }
+
 
 export const decrementProductOfCart = async (currentUserId, productId) => {
     const cart = await Cart.findOne({ user: currentUserId, "items.product": productId })
     if (!cart) throw new NotFoundError("Product not found in cart", 404)
 
-    cart.items.map(item => {
+    cart.items = cart.items.filter(item => {
         if (item.product.toString() === productId) {
-            item.quantity -= 1
+            const newQty = item.quantity - 1
+            if (newQty > 0) {
+                item.quantity = newQty
+                return true
+            } else {
+                return false
+            }
         }
-        return item
+        return true
     })
+
     await cart.save()
     return cart
-
 }
 
 export const deleteCart = async (currentUserId) => {

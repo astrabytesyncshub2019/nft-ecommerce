@@ -1,10 +1,10 @@
 import { createProducts, deleteProduct, findProductById, getAllProducts, updateProduct } from "../dao/products.dao.js"
 import { AppError, NotFoundError } from "../utils/errorHandler.js"
 import imagekit from "../config/imageKit.config.js"
+import Cart from "../models/cart.model.js"
 
-export const createProductsServices = async (name, description, price, discount, category, image, createdBy) => {
-
-    const createdProduct = await createProducts(name, description, price, discount, category, image, createdBy)
+export const createProductsServices = async (name, description, price, discount, category, image, createdBy, stock) => {
+    const createdProduct = await createProducts(name, description, price, discount, category, image, createdBy, stock)
     if (!createdProduct) throw new AppError("Product is not created")
 
     return createdProduct
@@ -43,6 +43,10 @@ export const deleteProductServices = async (productId) => {
         }
     }
     const deletedProduct = await deleteProduct(productId)
+    await Cart.updateMany(
+        { "items.product": productId },
+        { $pull: { items: { product: productId } } }
+    )
     return deletedProduct
 }
 

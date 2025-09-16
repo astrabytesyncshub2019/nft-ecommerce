@@ -12,7 +12,7 @@ const ProductFormModal = ({
   }
 
   const handleFileChange = (e) => {
-    setFormData({ ...formData, image: e.target.files[0] })  
+    setFormData({ ...formData, image: e.target.files[0] })
   }
 
   return (
@@ -35,7 +35,7 @@ const ProductFormModal = ({
 
         <div className="px-8 py-6">
           <form onSubmit={onSubmit} className="space-y-6">
-        
+
             <div>
               <label className="block text-sm font-semibold">Product Name *</label>
               <input
@@ -48,7 +48,7 @@ const ProductFormModal = ({
               />
             </div>
 
-       
+
             <div>
               <label className="block text-sm font-semibold">Description</label>
               <textarea
@@ -60,7 +60,7 @@ const ProductFormModal = ({
               />
             </div>
 
-          
+
             <div className="flex flex-col md:flex-row gap-6">
               <div className="flex-1">
                 <label className="block text-sm font-semibold">Price (₹) *</label>
@@ -83,9 +83,17 @@ const ProductFormModal = ({
                   className="w-full border rounded-xl px-4 py-3"
                 />
               </div>
+              <div className="flex-1">
+                <label className="block text-sm font-semibold">Stock</label>
+                <input
+                  type="number"
+                  name="stock"
+                  value={formData.stock}
+                  onChange={handleChange}
+                  className="w-full border rounded-xl px-4 py-3"
+                />
+              </div>
             </div>
-
-       
             <div>
               <label className="block text-sm font-semibold">Category *</label>
               <select
@@ -102,7 +110,7 @@ const ProductFormModal = ({
               </select>
             </div>
 
-        
+
             <div>
               <label className="block text-sm font-semibold">Product Image</label>
               <input
@@ -114,7 +122,7 @@ const ProductFormModal = ({
               />
             </div>
 
-        
+
             {formData.image && (
               <div className="flex justify-center">
                 <img
@@ -125,7 +133,7 @@ const ProductFormModal = ({
               </div>
             )}
 
-          
+
             <div className="flex justify-end gap-4 pt-6 border-t">
               <button
                 type="button"

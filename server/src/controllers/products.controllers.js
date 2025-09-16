@@ -6,7 +6,7 @@ import { errorResponse, successResponse } from "../utils/response.js"
 export const productsController = async (req, res, next) => {
     const validCategories = ["backpacks", "luggage", "duffles"]
     try {
-        const { name, description, price, discount, category } = req.body
+        const { name, description, price, discount, category, stock } = req.body
         const createdBy = req.user._id;
         if (!req.file) return errorResponse(res, "At least one file is required", 400)
         if (!validCategories.includes(category)) {
@@ -27,7 +27,7 @@ export const productsController = async (req, res, next) => {
 
 
 
-        const createdProduct = await createProductsServices(name, description, price, discount, category, image, createdBy)
+        const createdProduct = await createProductsServices(name, description, price, discount, category, image, createdBy, stock)
 
         return successResponse(res, "Product is created ", createdProduct, 201)
 
@@ -87,16 +87,16 @@ export const updateProductController = async (req, res, next) => {
 
 
 export const deleteProductController = async (req, res, next) => {
-  try {
-    const productId = req.params.productId
-    const deletedProduct = await deleteProductServices(productId)
-    if (!deletedProduct) {
-      return errorResponse(res, "Deletion of product failed", 400)
+    try {
+        const productId = req.params.productId
+        const deletedProduct = await deleteProductServices(productId)
+        if (!deletedProduct) {
+            return errorResponse(res, "Deletion of product failed", 400)
+        }
+        return successResponse(res, "Product deleted successfully", deletedProduct, 200)
+    } catch (error) {
+        next(error)
     }
-    return successResponse(res, "Product deleted successfully", deletedProduct, 200)
-  } catch (error) {
-    next(error)
-  }
 }
 
 export const getProductsByCategoryController = async (req, res, next) => {

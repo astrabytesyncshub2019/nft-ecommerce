@@ -32,6 +32,7 @@ const ProductRow = ({ product, onEdit, onDelete }) => (
         <span className="text-gray-400 text-sm">No discount</span>
       )}
     </td>
+    <td className="py-4 px-6 capitalize">{product.stock}</td>
     <td className="py-4 px-6 flex justify-center gap-2">
       <button
         onClick={() => onEdit(product)}

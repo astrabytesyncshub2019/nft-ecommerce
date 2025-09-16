@@ -1,6 +1,6 @@
 import { hash } from "crypto"
 import productModel from "../models/product.model.js"
-export const createProducts = async (name, description, price, discount, category, image, createdBy) => {
+export const createProducts = async (name, description, price, discount, category, image, createdBy, stock) => {
 
   const product = await productModel.create({
     name,
@@ -9,7 +9,8 @@ export const createProducts = async (name, description, price, discount, categor
     discount,
     category,
     image,
-    createdBy
+    createdBy,
+    stock
   })
 
   return product
@@ -48,7 +49,7 @@ export const deleteProduct = async (productId) => {
 }
 
 export const findProductsByCategory = async (category) => {
-  return await productModel.find( category)
+  return await productModel.find(category)
 
 }
 

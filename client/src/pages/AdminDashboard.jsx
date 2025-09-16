@@ -24,8 +24,8 @@ const AdminDashboard = () => {
     try {
       await logoutUserApi()
       dispatch(logoutAction())
-      toast.success("Logout successfully")
       navigate("/")
+      toast.success("Logout successfully")
     } catch (err) {
       dispatch(logoutAction())
       navigate("/")
@@ -37,7 +37,7 @@ const AdminDashboard = () => {
       {/* Sidebar */}
       <aside
         className={`bg-[var(--heading-color)] text-white p-4 flex flex-col justify-between ${
-          collapsed ? "w-20" : "w-64"
+          collapsed ? "w-20" : ""
         } transition-all`}
       >
         <div>

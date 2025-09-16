@@ -11,6 +11,7 @@ const ProductTable = ({ products, loading, onEdit, onDelete }) => (
                         <th className="py-4 px-6 text-left">Price</th>
                         <th className="py-4 px-6 text-left">Category</th>
                         <th className="py-4 px-6 text-left">Discount</th>
+                        <th className="py-4 px-6 text-left">Stock</th>
                         <th className="py-4 px-6 text-center">Actions</th>
                     </tr>
                 </thead>
