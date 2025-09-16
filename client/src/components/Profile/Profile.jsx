@@ -3,16 +3,15 @@ import { useSelector, useDispatch } from "react-redux"
 import { LogOut, Edit2, Save, X } from "lucide-react"
 import { FaUser, FaEnvelope, FaPhoneAlt } from "react-icons/fa"
 import { logoutUserApi, upadteUserProfileApi } from "../../api/userAPI"
-import { logout as logoutAction } from "../../store/authslice"
+import { logout as logoutAction, login } from "../../store/authslice"
 import toast from "react-hot-toast"
 import { useNavigate } from "react-router-dom"
-import { login } from "../../store/authslice"
 import { useForm } from "react-hook-form"
 import { yupResolver } from "@hookform/resolvers/yup"
 import * as Yup from "yup"
 
 const Profile = ({ setShowProfile }) => {
-    const { user, loading } = useSelector((state) => state.auth)
+    const { user } = useSelector((state) => state.auth)
     const dispatch = useDispatch()
     const navigate = useNavigate()
     const [editMode, setEditMode] = useState(false)
@@ -36,13 +35,6 @@ const Profile = ({ setShowProfile }) => {
         },
     })
 
-    if (loading) return <div className="p-6 text-center text-gray-600">Loading profile...</div>
-    if (!user) {
-        toast.error("You are not logged in")
-        navigate("/")
-        return null
-    }
-
     const handleUpdate = async (data) => {
         try {
             const res = await upadteUserProfileApi(data)
@@ -60,12 +52,12 @@ const Profile = ({ setShowProfile }) => {
             await logoutUserApi()
             dispatch(logoutAction())
             toast.success("Logout successfully")
-            navigate("/")
+            navigate("/auth") // redirect to login after logout
             setShowProfile(false)
         } catch (error) {
             console.error("Logout error", error.message)
             dispatch(logoutAction())
-            navigate("/")
+            navigate("/auth")
             setShowProfile(false)
         }
     }
@@ -182,14 +174,12 @@ const Profile = ({ setShowProfile }) => {
                         >
                             Change Password
                         </button>
-
                     </div>
                 </form>
             </div>
         </div>
     )
 }
-
 
 const InputField = ({ id, label, type = "text", icon, editMode, register, error, displayValue }) => {
     return (

@@ -28,14 +28,13 @@ export const authMiddleware = async (req, res, next) => {
         }
 
         try {
-            // console.log(refreshToken)
+
             const decoded = jwt.verify(refreshToken, process.env.JWT_REFRESHTOKEN_SECERET_KEY)
-            // console.log(decoded)
+
             const user = await findUserById(decoded.id)
             if (!user) return errorResponse(res, "Unauthorized - user not found", 401)
 
             const newAccessToken = await signToken({ id: user._id, email: user.email })
-            // console.log("new access token is ", newAccessToken)
             res.cookie("accessToken", newAccessToken, cookieOptionsForAcessToken)
 
             req.user = user

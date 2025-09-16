@@ -18,10 +18,9 @@ const productSchema = new mongoose.Schema(
             type: String, required: true, enum: ["backpacks", "luggage", "duffles"]
         },
         image: {
-            url: { type: String, required: true },
-            hash: { type: String, required: true }
+            url: { type: String, required: false },
+            hash: { type: String, required: false }
         },
-
         createdBy: { type: mongoose.Schema.Types.ObjectId, ref: "user", required: true }
     },
     { timestamps: true }
@@ -30,11 +29,11 @@ const productSchema = new mongoose.Schema(
 
 productSchema.set("toJSON", {
     transform: (doc, ret) => {
-        delete ret.__v          
-        delete ret.image.hash   
-        delete ret.createdBy   
-        delete ret.createdAt    
-        delete ret.updatedAt    
+        delete ret.__v
+        delete ret.image.hash
+        delete ret.createdBy
+        delete ret.createdAt
+        delete ret.updatedAt
         return ret
     }
 })

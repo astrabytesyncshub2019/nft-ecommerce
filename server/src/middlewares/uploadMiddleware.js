@@ -10,19 +10,18 @@ export const uploadWithHash = (fieldName) => {
     singleUpload(req, res, async (err) => {
       try {
         if (err) return next(err)
-        if (!req.file) return next() // no file uploaded
+        if (!req.file) return next() 
 
-        // 1️⃣ Generate SHA-256 hash from buffer
         const hash = crypto.createHash("sha256").update(req.file.buffer).digest("hex")
         req.file.hash = hash
 
-        // 2️⃣ Check for duplicate in DB
+    
         const existingProduct = await findProductByImageHash(hash)
         if (existingProduct) {
           return next(new ConflictError("Duplicate image detected. Upload rejected.", 409))
         }
 
-        // 3️⃣ Continue to controller
+
         next()
       } catch (error) {
         next(error)

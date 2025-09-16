@@ -1,5 +1,5 @@
 import { createUser, findUserByEmail, findUserById, findUserByResetToken, updateRefreshToken, updateUserDeatils } from "../dao/users.dao.js"
-import { AppError, BadRequestError, ConflictError } from "../utils/errorHandler.js"
+import { AppError, BadRequestError, ConflictError, NotFoundError } from "../utils/errorHandler.js"
 import { signRefreshToken, signToken } from "../utils/signToken.js"
 import { sendEmail } from "../utils/sendEmail.js"
 import crypto from "crypto"
@@ -77,7 +77,7 @@ export const forgotPasswordServices = async (email) => {
     await user.save({ validateBeforeSave: false })
 
 
-    const resetUrl = `${process.env.FRONTEND_URL}/resetPassword?token=${resetToken}`
+    const resetUrl = `${process.env.FRONTEND_URL}/reset-password?token=${resetToken}`
 
     const message = `You requested a password reset. Click the link below to reset your password:\n\n${resetUrl}\n\nIf you did not request, ignore this email.`
 

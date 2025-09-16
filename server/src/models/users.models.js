@@ -80,7 +80,7 @@ userSchema.methods.comparePassword = async function (password) {
 userSchema.methods.getResetPasswordToken = async function () {
     const resetPasswordToken = await crypto.randomBytes(32).toString("hex")
     this.resetPasswordToken = crypto.createHash("sha256").update(resetPasswordToken).digest("hex")
-    this.resetPasswordExpire = Date.now() + 15 * 60 * 100
+    this.resetPasswordExpire = Date.now() + 1 * 60 * 100
     return resetPasswordToken
 
 }

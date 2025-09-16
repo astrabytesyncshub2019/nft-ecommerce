@@ -13,13 +13,13 @@ router.post(
   "/createProducts",
   authMiddleware,
   adminMiddleware,
-  uploadWithHash("image", findProductByImageHash), 
+  uploadWithHash("image", findProductByImageHash),
   productsController
 )
 router.get("/", getAllProductsController)
-router.patch("/:productId", authMiddleware, adminMiddleware, uploadWithHash("image"), validateProducts, validateRequest, updateProductController)
+router.patch("/:productId", authMiddleware, adminMiddleware, uploadWithHash("image"), updateProductController)
 router.delete("/:productId", authMiddleware, adminMiddleware, deleteProductController)
-router.get("/category/:category",getProductsByCategoryController)
+router.get("/category/:category", getProductsByCategoryController)
 
 
 export default router
