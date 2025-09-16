@@ -87,17 +87,16 @@ export const updateProductController = async (req, res, next) => {
 
 
 export const deleteProductController = async (req, res, next) => {
-    try {
-        const productId = req.params.productId
-        const deletedProduct = await deleteProductServices(productId)
-        if (!deletedProduct) return errorResponse(res, "Deletion of product failed", 400)
-        return successResponse(res, "Product deleted successfully", deletedProduct, 200)
-
-    } catch (error) {
-        next(error)
-
+  try {
+    const productId = req.params.productId
+    const deletedProduct = await deleteProductServices(productId)
+    if (!deletedProduct) {
+      return errorResponse(res, "Deletion of product failed", 400)
     }
-
+    return successResponse(res, "Product deleted successfully", deletedProduct, 200)
+  } catch (error) {
+    next(error)
+  }
 }
 
 export const getProductsByCategoryController = async (req, res, next) => {

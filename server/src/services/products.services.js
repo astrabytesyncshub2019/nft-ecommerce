@@ -1,5 +1,6 @@
-import { createProducts, deleteProduct, getAllProducts, updateProduct } from "../dao/products.dao.js"
+import { createProducts, deleteProduct, findProductById, getAllProducts, updateProduct } from "../dao/products.dao.js"
 import { AppError, NotFoundError } from "../utils/errorHandler.js"
+import imagekit from "../config/imageKit.config.js"
 
 export const createProductsServices = async (name, description, price, discount, category, image, createdBy) => {
 
@@ -32,9 +33,16 @@ export const updateProductServices = async (productId, updateFields) => {
 }
 
 export const deleteProductServices = async (productId) => {
+    const product = await findProductById(productId)
+    if (!product) throw new NotFoundError("Product not found")
+    if (product.image?.fileId) {
+        try {
+            await imagekit.deleteFile(product.image.fileId)
+        } catch (err) {
+            console.error("Failed to delete image from ImageKit:", err.message)
+        }
+    }
     const deletedProduct = await deleteProduct(productId)
-    if (!deletedProduct) return new NotFoundError("Product not founded")
     return deletedProduct
-
 }
 

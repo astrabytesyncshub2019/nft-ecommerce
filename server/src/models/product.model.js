@@ -19,7 +19,8 @@ const productSchema = new mongoose.Schema(
         },
         image: {
             url: { type: String, required: false },
-            hash: { type: String, required: false }
+            hash: { type: String, required: false },
+            fileId: { type: String }
         },
         createdBy: { type: mongoose.Schema.Types.ObjectId, ref: "user", required: true }
     },

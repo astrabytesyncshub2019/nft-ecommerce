@@ -22,13 +22,12 @@ const fileFilter = (req, file, cb) => {
 
 const upload = multer({
   storage,
-  limits: { fileSize: 12 * 1024 * 1024 }, // 12MB
+  limits: { fileSize: 12 * 1024 * 1024 }, 
   fileFilter
 })
 
 export default upload
 
-// Middleware to generate hash
 export const uploadWithHash = (fieldName, findProductByImageHash) => {
   return async (req, res, next) => {
     const singleUpload = upload.single(fieldName)
@@ -36,7 +35,7 @@ export const uploadWithHash = (fieldName, findProductByImageHash) => {
     singleUpload(req, res, async (err) => {
       try {
         if (err) return next(err)
-        if (!req.file) return next() // no file uploaded
+        if (!req.file) return next() 
 
         const hash = crypto.createHash("sha256").update(req.file.buffer).digest("hex")
         req.file.hash = hash
