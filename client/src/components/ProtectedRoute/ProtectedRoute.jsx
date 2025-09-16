@@ -4,7 +4,6 @@ import toast from "react-hot-toast"
 
 const ProtectedRoute = ({ children, role }) => {
     const { user, isAuthenticated, loading } = useSelector((state) => state.auth)
-    console.log(user)
 
     if (loading) {
         return (

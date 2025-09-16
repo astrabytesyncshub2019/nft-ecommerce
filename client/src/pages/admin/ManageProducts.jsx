@@ -45,32 +45,35 @@ const ManageProducts = () => {
   const handleSubmit = async (e) => {
     e.preventDefault()
 
+    // Basic validation
     if (!formData.name || !formData.price || !formData.category) {
       toast.error("Name, price, and category are required")
       return
     }
 
     try {
-      let successMessage = ""
-
       const payload = new FormData()
       payload.append("name", formData.name)
       payload.append("description", formData.description)
       payload.append("price", formData.price)
       payload.append("category", formData.category)
       payload.append("discount", formData.discount || 0)
-      if (formData.image) payload.append("image", formData.image)
 
-      if (editingProduct) {
-        await updateProductApi(editingProduct._id, payload)
-        successMessage = "Product updated successfully"
-      } else {
-
-        await createProductApi(payload)
-        successMessage = "Product created successfully"
+      // Only append image if new file is selected
+      if (formData.image) {
+        payload.append("image", formData.image)
       }
 
-      toast.success(successMessage)
+      if (editingProduct) {
+  
+        await updateProductApi(editingProduct._id, payload)
+        toast.success("Product updated successfully")
+      } else {
+  
+        await createProductApi(payload)
+        toast.success("Product created successfully")
+      }
+
       setShowForm(false)
       setEditingProduct(null)
       setFormData({
@@ -82,13 +85,22 @@ const ManageProducts = () => {
         image: null,
       })
 
+      // Refresh product list
       fetchProducts(selectedCategory)
 
     } catch (err) {
       console.error(err)
-      toast.error("Failed to save product")
+
+      // Handle duplicate image error
+      if (err.response && err.response.status === 409) {
+        toast.error(err.response.data.message || "Duplicate image detected")
+      } else {
+        toast.error("Failed to save product")
+      }
     }
   }
+
+
 
 
 
