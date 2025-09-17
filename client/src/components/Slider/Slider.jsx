@@ -57,37 +57,42 @@ const Slider = () => {
           </div>
         </SwiperSlide>
 
-        {products.slice(0, 10).map((product) => (
-          <SwiperSlide key={product._id}>
-            <div className="group flex flex-col items-center w-full bg-white shadow-xl rounded-xl overflow-hidden cursor-pointer transition-transform duration-300 hover:scale-105 mb-14 text-white">
+        {products.slice(0, 10).map((product) => {
+          const discountPercent = ((product.discount / product.price) * 100).toFixed(0)
+          const finalPrice = product.price - product.discount
+          return (
+            <SwiperSlide key={product._id}>
+              <div className="group flex flex-col items-center w-full bg-white shadow-xl rounded-xl overflow-hidden cursor-pointer transition-transform duration-300 hover:scale-105 mb-14 text-white">
 
-              <div className="relative w-full h-full overflow-hidden">
-                <img
-                  src={product.image.url}
-                  alt={product.name}
-                  className="w-full h-full object-cover rounded-t-lg transition-transform duration-300 group-hover:scale-110"
-                />
-
-
-                <div className="absolute bottom-4 right-4 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                  <AddToCartButton productId={product._id} />
-                </div>
-              </div>
-
-
-              <div className="p-4 w-full bg-[--heading-color]">
-                <h3 className=" text-lg tracking-tighter">{product.name}</h3>
-                <div className="flex items-center gap-2 mt-2">
-                  <span className="font-semibold">Rs. {product.price}</span>
-                  <span className="text-sm text-gray-300 line-through">
-                    Rs. {product.price - product.discount}
+                <div className="relative w-full h-full overflow-hidden">
+                  <img
+                    src={product.image.url}
+                    alt={product.name}
+                    className="w-full h-full object-cover rounded-t-lg transition-transform duration-300 group-hover:scale-110"
+                  />
+                  <div>
+                  <span className="absolute top-6 left-2 text-red-600 text-sm  px-2 py-2 rounded z-40 font-bold">
+                    {discountPercent}% OFF
                   </span>
+                  </div>
+                  <div className="absolute bottom-4 right-4 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                    <AddToCartButton productId={product._id} />
+                  </div>
+                </div>
+                <div className="p-4 w-full bg-[--heading-color]">
+                  <h3 className=" text-lg tracking-tighter">{product.name}</h3>
+                  <div className="flex items-center gap-2 mt-2">
+                    <span className="font-semibold">Rs. {finalPrice}</span>
+                    <span className="text-sm text-gray-300 line-through">
+                      Rs. {product.price }
+                    </span>
+                  </div>
                 </div>
               </div>
-            </div>
-          </SwiperSlide>
+            </SwiperSlide>
+          )
 
-        ))}
+        })}
       </Swiper>
     </div>
   )
