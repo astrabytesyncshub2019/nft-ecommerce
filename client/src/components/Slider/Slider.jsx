@@ -57,7 +57,7 @@ const Slider = () => {
           </div>
         </SwiperSlide>
 
-        {products.slice(0, 10).map((product) => {
+        {products.slice(2, 7).map((product) => {
           const discountPercent = ((product.discount / product.price) * 100).toFixed(0)
           const finalPrice = product.price - product.discount
           return (

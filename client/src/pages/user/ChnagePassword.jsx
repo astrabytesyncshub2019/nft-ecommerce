@@ -3,7 +3,7 @@ import React, { useState } from "react"
 import { useForm } from "react-hook-form"
 import { yupResolver } from "@hookform/resolvers/yup"
 import * as Yup from "yup"
-import { updatePasswordApi } from "../api/userAPI"
+import { updatePasswordApi } from "../../api/userAPI"
 import toast from "react-hot-toast"
 import { useNavigate, Link } from "react-router-dom"
 

@@ -4,7 +4,7 @@ import { useForm } from "react-hook-form"
 import { yupResolver } from "@hookform/resolvers/yup"
 import * as Yup from "yup"
 import toast from "react-hot-toast"
-import { resetPasswordApi } from "../api/userAPI"
+import { resetPasswordApi } from "../../api/userAPI"
 import { Eye, EyeOff } from "lucide-react"
 
 // Validation schema

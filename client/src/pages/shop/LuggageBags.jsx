@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from "react"
-import { getProductsByCategory } from "../api/productAPI.js"
+import { getProductsByCategory } from "../../api/productAPI.js"
 import { Handbag } from "lucide-react"
-import SmoothSailing from "../components/SmoothSailing/SmoothSailing.jsx"
-import AddToCartButton from "../components/AddToCartButton/AddToCart.jsx"
+import SmoothSailing from "../../components/SmoothSailing/SmoothSailing.jsx"
+import AddToCartButton from "../../components/AddToCartButton/AddToCart.jsx"
 
 const LuggageBags = () => {
   const [products, setProducts] = useState([])
@@ -25,7 +25,7 @@ const LuggageBags = () => {
       <h2 className="text-3xl font-bold mb-2 text-center uppercase tracking-tighter">Luggage bags</h2>
       <p className="text-gray-700 text-center">From weekend getaways to world tours — we’ve got your back..</p>
 
-      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-6 mt-16">
+      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 mt-16">
         {products.map((product) => {
           const discountPercent = ((product.discount / product.price) * 100).toFixed(0)
           const finalPrice = product.price - product.discount
@@ -35,7 +35,7 @@ const LuggageBags = () => {
               key={product._id}
               className="group flex flex-col items-center w-full bg-white shadow-xl rounded-xl overflow-hidden cursor-pointer transition-transform duration-300 hover:scale-105 mb-14"
             >
-              <div className="relative w-full h-[300px] overflow-hidden ">
+              <div className="relative w-full h-[400px] overflow-hidden ">
                 <span className="absolute top-2 left-2 text-red-600 text-sm  px-2 py-1 rounded z-40 font-bold">
                   {discountPercent}% OFF
                 </span>

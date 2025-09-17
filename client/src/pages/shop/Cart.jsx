@@ -6,8 +6,8 @@ import {
   incrementCartProduct,
   decrementProductFromCart,
   deleteCart
-} from "../api/cartAPI"
-import SmoothSailing from "../components/SmoothSailing/SmoothSailing"
+} from "../../api/cartAPI"
+import SmoothSailing from "../../components/SmoothSailing/SmoothSailing"
 import toast from "react-hot-toast"
 
 

@@ -8,6 +8,7 @@ import {
   LogOut,
   ChevronLeft,
   ChevronRight,
+  Home,
 } from "lucide-react"
 import { useDispatch, useSelector } from "react-redux"
 import { logout as logoutAction } from "../store/authslice"
@@ -48,6 +49,9 @@ const AdminDashboard = () => {
             {collapsed ? <ChevronRight size={20} /> : <ChevronLeft size={20} />}
           </button>
           <nav className="flex flex-col gap-4">
+            <Link to="/" className="flex items-center gap-2 hover:text-green-400">
+              <Home size={20} /> {!collapsed && "Home"}
+            </Link>
             <Link to="/admin" className="flex items-center gap-2 hover:text-green-400">
               <LayoutDashboard size={20} /> {!collapsed && "Dashboard"}
             </Link>

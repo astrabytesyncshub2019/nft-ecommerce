@@ -1,9 +1,9 @@
 import { useEffect } from "react"
 import { useLocation, useNavigate, Outlet } from "react-router-dom"
 import { useDispatch, useSelector } from "react-redux"
-import { login } from "../store/authslice.js"
-import Navbar from "../components/Navbar/Navbar.jsx"
-import Footer from "../components/Footer/Footer.jsx"
+import { login } from "../../store/authslice.js"
+import Navbar from "../../components/Navbar/Navbar.jsx"
+import Footer from "../../components/Footer/Footer.jsx"
 import toast from "react-hot-toast"
 
 const Layout = () => {

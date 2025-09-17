@@ -123,7 +123,7 @@ const ManageProducts = () => {
           </div>
           <button
             onClick={() => setShowForm(true)}
-            className="flex items-center gap-2 bg-green-600 text-white px-6 py-3 rounded-lg hover:bg-green-700 transition-colors duration-200 shadow-sm font-medium"
+            className="flex items-center gap-2 bg-[var(--heading-color)] text-white px-6 py-3 rounded-lg hover:bg-green-700 transition-colors duration-200 shadow-sm font-medium"
           >
             <Plus size={20} /> Add Product
           </button>
@@ -160,6 +160,7 @@ const ManageProducts = () => {
               price: p.price,
               category: p.category,
               discount: p.discount,
+              stock: p.stock,
               image: null,
             })
             setShowForm(true)

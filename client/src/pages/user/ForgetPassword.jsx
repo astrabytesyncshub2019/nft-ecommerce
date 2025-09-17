@@ -3,7 +3,7 @@ import { useForm } from "react-hook-form"
 import { yupResolver } from "@hookform/resolvers/yup"
 import * as Yup from "yup"
 import toast from "react-hot-toast"
-import { forgotPasswordApi } from "../api/userAPI"
+import { forgotPasswordApi } from "../../api/userAPI"
 
 const schema = Yup.object({
     email: Yup.string().email("Invalid email").required("Email is required"),
