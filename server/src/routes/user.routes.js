@@ -1,6 +1,6 @@
 import { Router } from "express"
 import passport from "passport"
-import { loginUserController, logoutUserController, registerUserController, getCurrentUserController, updateUserDetailsController, updatePasswordController, forgotPasswordController, resetPasswordController, googleAuthController } from "../controllers/users.controllers.js"
+import { loginUserController, logoutUserController, registerUserController, getCurrentUserController, updateUserDetailsController, updatePasswordController, forgotPasswordController, resetPasswordController, googleAuthController, userAddressController } from "../controllers/users.controllers.js"
 import { registerValidations, loginValidations } from "../validations/users.validations.js"
 import { validateRequest } from "../middlewares/validateRequest.js"
 import { authMiddleware } from "../middlewares/authMiddleware.js"
@@ -17,6 +17,7 @@ router.patch("/resetPassword", resetPasswordController)
 router.get("/google", passport.authenticate("google", { scope: ["profile", "email"],prompt:"select_account" }))
 router.get("/google/callback",passport.authenticate("google", { failureRedirect: "/login", session: false }),googleAuthController
 )
+router.post("/checkout",authMiddleware,userAddressController)
 
 
 export default router

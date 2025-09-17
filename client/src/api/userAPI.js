@@ -35,3 +35,8 @@ export const resetPasswordApi = async (token, newPassword) => {
     })
     return res.data
 }
+
+export const addAddressApi = async (data) => {
+    const res = await axiosInstance.post("/api/users/checkout", data)
+    return res.data.data
+}

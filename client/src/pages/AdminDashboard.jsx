@@ -61,9 +61,7 @@ const AdminDashboard = () => {
             <Link to="/admin/products" className="flex items-center gap-2 hover:text-green-400">
               <ShoppingBag size={20} /> {!collapsed && "Products"}
             </Link>
-            <Link to="#" className="flex items-center gap-2 hover:text-green-400">
-              <Settings size={20} /> {!collapsed && "Settings"}
-            </Link>
+
           </nav>
         </div>
 

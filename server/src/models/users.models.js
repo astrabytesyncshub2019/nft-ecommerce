@@ -48,12 +48,6 @@ const userSchema = new mongoose.Schema({
         type: String,
         default: null
     },
-    likedProducts: [
-        {
-            type: mongoose.Schema.Types.ObjectId,
-            ref: "product"
-        }
-    ],
     resetPasswordToken: String,
     resetPasswordExpire: Date,
     googleId: { type: String },

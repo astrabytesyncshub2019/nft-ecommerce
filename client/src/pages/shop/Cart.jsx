@@ -8,12 +8,17 @@ import {
   deleteCart
 } from "../../api/cartAPI"
 import SmoothSailing from "../../components/SmoothSailing/SmoothSailing"
+import CheckoutForm from "../../components/CheckOutForm/CheckOutForm"
 import toast from "react-hot-toast"
+import { addAddressApi } from "../../api/userAPI"
+import { palceOrderApi } from "../../api/ordersAPI"
 
 
 const Cart = () => {
   const [cart, setCart] = useState([])
   const [loading, setLoading] = useState(true)
+  const [showCheckout, setShowCheckout] = useState(false)
+  const [selectedProduct, setSelectedProduct] = useState(null)
 
   const fetchCart = async () => {
     try {
@@ -82,6 +87,43 @@ const Cart = () => {
     0
   )
 
+  const handleCheckoutItem = (item) => {
+    setSelectedProduct(item)
+    setShowCheckout(true)
+
+  }
+
+  const handlePlaceOrder = async (addressData) => {
+    try {
+      const newAddress = await addAddressApi(addressData)
+      const addressId = newAddress._id
+
+      if (selectedProduct) {
+        await palceOrderApi(
+          addressId,
+          selectedProduct.product._id,
+          selectedProduct.quantity
+        )
+        setCart(prev =>
+          prev.filter(item => item.product._id !== selectedProduct.product._id)
+        )
+      } else {
+        await palceOrderApi(addressId)
+        setCart([])
+      }
+
+      toast.success("Order placed successfully")
+      setShowCheckout(false)
+      setSelectedProduct(null)
+      fetchCart()
+    } catch (err) {
+      console.error(err)
+      toast.error(err.response?.data?.message || "Failed to place order")
+    }
+  }
+
+
+
   if (loading) return <p className="text-center py-6">Loading cart...</p>
 
   return (
@@ -143,7 +185,14 @@ const Cart = () => {
                     >
                       <Trash2 size={20} />
                     </button>
+                    <button
+                      onClick={() => handleCheckoutItem(item)}
+                      className="bg-[var(--heading-color)] text-white px-4 py-2 rounded-lg hover:bg-green-700"
+                    >
+                      Buy Now
+                    </button>
                   </div>
+
                 </div>
               ))}
             </div>
@@ -157,7 +206,7 @@ const Cart = () => {
                 Clear Cart
               </button>
               <button
-
+                onClick={() => handleCheckoutItem()}
                 className="bg-[var(--heading-color)] text-white px-4 py-2 rounded-lg hover:bg-[#017465] capitalize"
               >
                 checkout
@@ -166,6 +215,9 @@ const Cart = () => {
           </>
         )}
       </div>
+      {showCheckout && (
+        <CheckoutForm onSubmit={handlePlaceOrder} onCancel={() => setShowCheckout(false)} />
+      )}
       <SmoothSailing />
     </section>
   )

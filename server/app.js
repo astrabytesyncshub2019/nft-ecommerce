@@ -1,7 +1,7 @@
 import { configDotenv } from "dotenv"
 configDotenv({
-    path: "./.env",
-    quiet: true
+  path: "./.env",
+  quiet: true
 })
 
 import express from "express"
@@ -19,6 +19,7 @@ import { errorHandler } from "./src/utils/errorHandler.js"
 import userRoutes from "./src/routes/user.routes.js"
 import productRoutes from "./src/routes/products.routes.js"
 import cartRoutes from "./src/routes/cart.routes.js"
+import orderRoutes from "./src/routes/order.routes.js"
 
 
 const app = express()
@@ -30,7 +31,7 @@ app.use(express.urlencoded({ extended: true }))
 app.use(express.json())
 app.use(cookieParser())
 app.use(cors({
-  origin: 'http://localhost:5173', 
+  origin: 'http://localhost:5173',
   credentials: true
 }))
 
@@ -45,11 +46,12 @@ app.use(passport.session())
 
 app.use("/api/users", userRoutes)
 app.use("/api/products", productRoutes)
-app.use("/api/cart",cartRoutes)
+app.use("/api/cart", cartRoutes)
+app.use("/api/order", orderRoutes)
 
 
 app.use(errorHandler)
 app.listen(PORT, () => {
-    connectDB()
-    console.log(chalk.yellowBright(`Server running at http://localhost:${PORT}`))
+  connectDB()
+  console.log(chalk.yellowBright(`Server running at http://localhost:${PORT}`))
 })

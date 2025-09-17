@@ -3,7 +3,7 @@ import mongoose from "mongoose"
 const addressSchema = new mongoose.Schema({
     user: {
         type: mongoose.Schema.Types.ObjectId,
-        ref: "User",
+        ref: "user",
         required: true
     },
     street: {
@@ -29,6 +29,7 @@ const addressSchema = new mongoose.Schema({
     },
     landmark: String
 }, { timestamps: true })
+
 
 const addressModel = mongoose.model("address", addressSchema)
 export default addressModel

@@ -1,5 +1,6 @@
 import { cookieOptionsForAcessToken, cookieOptionsForRefreshToken } from "../config/cookieOptions.js"
 import { findUserByEmail, findUserById, updateRefreshToken } from "../dao/users.dao.js"
+import addressModel from "../models/address.model.js"
 import { forgotPasswordServices, loginUserService, registerUserService, resetPasswordService, updatePasswordService, updateUserDeatilsServices } from "../services/users.services.js"
 import { BadRequestError, NotFoundError, UnauthorizedError } from "../utils/errorHandler.js"
 import { errorResponse, successResponse } from "../utils/response.js"
@@ -156,6 +157,30 @@ export const googleAuthController = async (req, res) => {
     } catch (error) {
         console.error("Google login failed:", error)
         res.redirect("http://localhost:5173/auth")
+    }
+}
+
+export const userAddressController = async (req, res, next) => {
+    try {
+        const user = await findUserById(req.user._id)
+        if (!user) throw new NotFoundError("User not found")
+
+        const { street, city, state, postalCode, country, landmark } = req.body             
+        const address = await addressModel.create({
+            user: user._id,
+            street,
+            city,
+            state,
+            postalCode,
+            country,
+            landmark
+        })
+
+        user.addresses.push(address._id)
+        await user.save()
+        return successResponse(res, "Address added successfully", address, 201)
+    } catch (err) {
+        next(err)
     }
 }
 

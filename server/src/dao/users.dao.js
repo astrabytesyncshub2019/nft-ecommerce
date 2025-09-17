@@ -32,12 +32,10 @@ export const updateRefreshToken = async (userId, refreshToken) => {
     )
 }
 
-export const findUserById = async (id, includePassword = false) => {
-    if (includePassword) {
-        return await userModel.findById(id).select("+password")
-    }
-    return await userModel.findById(id).select("-password")
+export const findUserById = async (id) => {
+    return await userModel.findById(id).select("-password").populate("addresses")
 }
+
 
 export const updateUserDeatils = async (currentUser, allowedUserUpdateDetails) => {
     return await userModel.findByIdAndUpdate(
