@@ -152,10 +152,10 @@ export const googleAuthController = async (req, res) => {
         res.cookie("accessToken", token, cookieOptionsForAcessToken)
         res.cookie("refreshToken", refresh, cookieOptionsForRefreshToken)
 
-        res.redirect("http://localhost:5173/?google=success")
+        res.redirect("http://localhost:5173")
     } catch (error) {
         console.error("Google login failed:", error)
-        res.redirect("http://localhost:5173/login?google=failed")
+        res.redirect("http://localhost:5173/auth")
     }
 }
 
