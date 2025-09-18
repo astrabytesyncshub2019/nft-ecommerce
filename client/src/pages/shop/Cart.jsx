@@ -9,9 +9,11 @@ import {
 } from "../../api/cartAPI"
 import SmoothSailing from "../../components/SmoothSailing/SmoothSailing"
 import CheckoutForm from "../../components/CheckOutForm/CheckOutForm"
+import ConfirmDialog from "../../components/ConfirmDialogBox/ConfirmDialog"
 import toast from "react-hot-toast"
 import { addAddressApi } from "../../api/userAPI"
 import { palceOrderApi } from "../../api/ordersAPI"
+
 
 
 const Cart = () => {
@@ -19,6 +21,7 @@ const Cart = () => {
   const [loading, setLoading] = useState(true)
   const [showCheckout, setShowCheckout] = useState(false)
   const [selectedProduct, setSelectedProduct] = useState(null)
+  const [showConfirm, setShowConfirm] = useState(false)
 
   const fetchCart = async () => {
     try {
@@ -76,6 +79,7 @@ const Cart = () => {
       await deleteCart()
       setCart([])
       toast.success("Cart cleared")
+      setShowConfirm((prev) => !prev)
     } catch (err) {
       toast.error(err.response?.data?.message || "Error deleting cart")
     }
@@ -200,7 +204,7 @@ const Cart = () => {
             <div className="flex justify-between items-center mt-8 border-t pt-6">
               <h2 className="text-2xl font-bold flex-1 ">Total: ₹{total}</h2>
               <button
-                onClick={handleDeleteCart}
+                onClick={(prev) => setShowConfirm(true)}
                 className="bg-red-500 text-white px-4 py-2 rounded-lg hover:bg-red-600 mr-8"
               >
                 Clear Cart
@@ -219,6 +223,15 @@ const Cart = () => {
         <CheckoutForm onSubmit={handlePlaceOrder} onCancel={() => setShowCheckout(false)} />
       )}
       <SmoothSailing />
+
+      {showConfirm && (
+        <ConfirmDialog
+          title="Delete Product"
+          message="Are you sure you want to delete this product? This action cannot be undone."
+          onConfirm={handleDeleteCart}
+          onCancel={() => setShowConfirm(false)}
+        />
+      )}
     </section>
   )
 }

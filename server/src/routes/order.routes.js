@@ -15,6 +15,6 @@ router.post("/", authMiddleware, placeOrderController)
 router.get("/", authMiddleware, getUserOrdersController)
 
 router.get("/all", authMiddleware, adminMiddleware, getAllOrdersController)
-// router.patch("/:orderId/status", authMiddleware, adminMiddleware, updateOrderStatusController)             
+router.patch("/:orderId/status", authMiddleware, adminMiddleware, updateOrderStatusController)             
 
 export default router

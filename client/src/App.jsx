@@ -18,6 +18,7 @@ import ProtectedRoute from "./components/ProtectedRoute/ProtectedRoute.jsx"
 import AdminDashboard from "./pages/AdminDashboard.jsx"
 import Dashboard from "./pages/admin/Dashboard.jsx"
 import ManageProducts from "./pages/admin/ManageProducts.jsx"
+import NotFound from "./pages/NotFoundPage.jsx"
 
 const App = () => {
   const dispatch = useDispatch()
@@ -37,12 +38,13 @@ const App = () => {
           <Route path="/cart" element={<Cart />} />
         </Route>
 
-        {/* Public Routes */}
+
         <Route path="/auth" element={<AuthPage />} />
         <Route path="/forgot-password" element={<ForgotPassword />} />
         <Route path="/reset-password" element={<ResetPassword />} />
+        <Route path="*" element={<NotFound />} />
 
-        {/* Protected User Routes */}
+
         <Route
           path="/profile"
           element={
@@ -60,7 +62,6 @@ const App = () => {
           }
         />
 
-        {/* Admin Route Example */}
         <Route
           path="/admin"
           element={
