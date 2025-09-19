@@ -1,57 +1,96 @@
-import React from 'react'
+import React, { useLayoutEffect, useRef } from "react"
+import { Link } from "react-router-dom"
+import gsap from "gsap"
+import { ScrollTrigger } from "gsap/ScrollTrigger"
+import SmoothSailing from "../SmoothSailing/SmoothSailing"
+import { Sparkles } from "lucide-react"
+
 import cat1 from "../../assets/cat1.jpeg"
 import cat2 from "../../assets/cat2.jpeg"
 import cat3 from "../../assets/cat3.jpeg"
-import { Link } from "react-router"
-import SmoothSailing from '../SmoothSailing/SmoothSailing'
+
+gsap.registerPlugin(ScrollTrigger)
+
+const categories = [
+  { id: 1, title: "Luggage", img: cat1, link: "/luggage" },
+  { id: 2, title: "Backpacks", img: cat2, link: "/backpacks" },
+  { id: 3, title: "Duffles", img: cat3, link: "/duffles" },
+]
 
 const Category = () => {
-    return (
-        <>
-            <h1 className='text-[2.3rem] uppercase tracking-tighter text-center'>Shop by Category</h1>
-            <div className="cards w-full flex flex-row gap-4 mt-8">
-                <div className="card w-full h-[450px] relative cursor-pointer">
-                    <img src={cat1} alt="image" className='rounded-lg h-full' />
+  const sectionRef = useRef(null)
 
-                    <div className="links text-3xl uppercase font-bold  text-white absolute bottom-4 left-4">
-                        <div>Luggage</div>
-                        <div className='text-lg underline hover:text-[var(--secondary-bg-color)] '>
-                            <Link to={"/Luggage"}>more</Link>
-                        </div>
+  useLayoutEffect(() => {
+    const ctx = gsap.context(() => {
+      gsap.from(".category-card", {
+        scrollTrigger: {
+          trigger: sectionRef.current,
+          start: "top 80%",
+          toggleActions: "play none none reset",
+        },
+        opacity: 0,
+        y: 50,
+        duration: 0.8,
+        stagger: 0.2,
+        ease: "power3.out",
+      })
+    }, sectionRef)
 
-                    </div>
+    return () => ctx.revert()
+  }, [])
 
-                </div>
-                <div className="card w-full h-[450px] relative cursor-pointer">
-                    <img src={cat2} alt="image" className='rounded-lg h-full' />
-                    <div className="links text-3xl uppercase font-bold  text-white absolute bottom-4 left-4">
-                        <div>Backpacks</div>
-                        <div className='text-lg underline hover:text-[var(--secondary-bg-color)] '>
-                            <Link to={"/Backpacks"}>more</Link>
-                        </div>
+  return (
+    <div ref={sectionRef} className="px-6 md:px-12 mt-16">
+      <div className="relative px-4 ">
+        {/* Header Section */}
+        <div className="text-center mb-16 lg:mb-20 max-w-4xl mx-auto">
+          <div className="inline-flex items-center gap-2 mb-6 px-4 py-2 bg-gradient-to-r from-[var(--secondary-bg-color)] to-[var(--heading-color)] text-white rounded-full shadow-lg">
+            <Sparkles className="w-4 h-4" />
+            <span className="text-sm font-semibold tracking-wide uppercase">Explore Categories</span>
+          </div>
 
-                    </div>
+          <h1 className="text-3xl lg:text-5xl font-bold text-[#27292e]">
+            Shop by Category
+          </h1>
 
+          <p className="text-lg sm:text-xl text-gray-600 leading-relaxed max-w-2xl mx-auto">
+            Discover our curated collection of travel essentials designed for every adventure
+          </p>
+        </div>
+      </div>
 
+      <div className="mt-2 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+        {categories.map(({ id, title, img, link }) => (
+          <div
+            key={id}
+            className="category-card relative group h-[300px] sm:h-[350px] md:h-[400px] rounded-xl overflow-hidden shadow-lg cursor-pointer"
+          >
 
-                </div>
-                <div className="card w-full h-[450px] relative cursor-pointer">
-                    <img src={cat3} alt="image" className='rounded-lg h-full' />
-                    <div className="links text-3xl uppercase font-bold  text-white absolute bottom-4 left-4">
-                        <div>Duffles</div>
-                        <div className='text-lg underline hover:text-[var(--secondary-bg-color)] '>
-                            <Link to={"/Duffles"}>more</Link>
-                        </div>
+            <img
+              src={img}
+              alt={title}
+              className="w-full h-full object-cover transform transition-transform duration-500 group-hover:scale-105"
+            />
 
-                    </div>
+            {/* Overlay */}
+            <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/20 to-transparent"></div>
 
-
-                </div>
-
+            <div className="absolute bottom-4 left-4 text-white">
+              <h2 className="text-xl md:text-2xl font-bold">{title}</h2>
+              <Link
+                to={link}
+                className="text-sm underline hover:text-[var(--secondary-bg-color)]"
+              >
+                More
+              </Link>
             </div>
-            <SmoothSailing/>
-        </>
-    )
+          </div>
+        ))}
+      </div>
+
+      <SmoothSailing />
+    </div>
+  )
 }
 
 export default Category
