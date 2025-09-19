@@ -51,7 +51,7 @@ export const placeCartOrderService = async (userId, addressId) => {
 
     return order
 }
-export const placeSingleOrderService = async (userId, productId, quantity, addressId) => {
+export const placeSingleOrderService = async (userId, productId, quantity, addressId,paymentMethod) => {
     const product = await productModel.findById(productId)
     if (!product) throw new BadRequestError("Product not found")
     if (quantity > product.stock) {
@@ -63,7 +63,8 @@ export const placeSingleOrderService = async (userId, productId, quantity, addre
         name: product.name,
         price: product.price,
         discount: product.discount,
-        quantity
+        quantity,
+        paymentMethod
     }
 
     const totalAmount = (product.price - product.discount) * quantity

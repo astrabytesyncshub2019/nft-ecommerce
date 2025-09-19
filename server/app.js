@@ -20,6 +20,7 @@ import userRoutes from "./src/routes/user.routes.js"
 import productRoutes from "./src/routes/products.routes.js"
 import cartRoutes from "./src/routes/cart.routes.js"
 import orderRoutes from "./src/routes/order.routes.js"
+import stripeRoute from "./src/routes/payment.routes.js"
 
 
 const app = express()
@@ -48,6 +49,7 @@ app.use("/api/users", userRoutes)
 app.use("/api/products", productRoutes)
 app.use("/api/cart", cartRoutes)
 app.use("/api/order", orderRoutes)
+app.use("/api/payment",stripeRoute)
 
 
 app.use(errorHandler)

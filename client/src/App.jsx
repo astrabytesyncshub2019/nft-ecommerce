@@ -19,6 +19,8 @@ import AdminDashboard from "./pages/AdminDashboard.jsx"
 import Dashboard from "./pages/admin/Dashboard.jsx"
 import ManageProducts from "./pages/admin/ManageProducts.jsx"
 import NotFound from "./pages/NotFoundPage.jsx"
+import PaymentSuccess from "./pages/shop/PaymentSucess.jsx"
+import PaymentCancelled from "./pages/shop/PaymentCancelled.jsx"
 
 const App = () => {
   const dispatch = useDispatch()
@@ -42,6 +44,8 @@ const App = () => {
         <Route path="/auth" element={<AuthPage />} />
         <Route path="/forgot-password" element={<ForgotPassword />} />
         <Route path="/reset-password" element={<ResetPassword />} />
+        <Route path="/payment-sucess" element={<PaymentSuccess/>}/>
+        <Route path="/payment-cancel" element={<PaymentCancelled/>}/>
         <Route path="*" element={<NotFound />} />
 
 
