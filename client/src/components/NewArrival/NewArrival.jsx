@@ -13,35 +13,33 @@ const NewArrival = () => {
 
   useLayoutEffect(() => {
     const ctx = gsap.context(() => {
-      const tl = gsap.timeline({
+      gsap.timeline({
         scrollTrigger: {
           trigger: sectionRef.current,
-          start: "top 70%",
+          start: "top 60%",
           toggleActions: "play none none reset",
-          once: true
+          once: true,
         },
       })
-
-      tl.from(".leftsection > *", {
-        x: -60,
-        opacity: 0,
-        duration: 0.8,
-        stagger: 0.2,
-        ease: "power3.out",
-      })
-
-      tl.from(
-        ".rightsection img",
-        {
-          x: 60,
-          scale: 0.8,
+        .from(".leftsection > *", {
+          x: -60,
           opacity: 0,
           duration: 0.8,
-          stagger: 0.3,
-          ease: "back.out(1.7)",
-        },
-        "-=0.5"
-      )
+          stagger: 0.2,
+          ease: "power3.out",
+        })
+        .from(
+          ".rightsection img",
+          {
+            x: 60,
+            scale: 0.8,
+            opacity: 0,
+            duration: 0.8,
+            stagger: 0.3,
+            ease: "back.out(1.7)",
+          },
+          "-=0.5"
+        )
     }, sectionRef)
 
     return () => ctx.revert()
@@ -88,7 +86,7 @@ const NewArrival = () => {
             </p>
           </div>
 
-          {/* Feature Highlights with Icons - RESPONSIVE GRID */}
+
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4 pt-4 max-w-md mx-auto lg:mx-0">
             <div className="flex items-start gap-3 p-3 rounded-xl bg-white/80 backdrop-blur-sm border border-gray-200/50 hover:bg-white hover:shadow-sm transition-all duration-300 group">
               <div className="w-8 h-8 sm:w-10 sm:h-10 bg-gradient-to-br from-green-500 to-green-600 rounded-lg flex items-center justify-center flex-shrink-0 mt-0.5 shadow-md group-hover:scale-110 transition-transform duration-300">
@@ -117,32 +115,26 @@ const NewArrival = () => {
 
           {/* CTA Button */}
           <div className="pt-6 flex justify-center lg:justify-start">
-            <Link to="/new-arrivals">
-              <button className="group relative inline-flex items-center gap-2 bg-gradient-to-r from-[var(--heading-color)] to-[var(--secondary-bg-color)] hover:from-[var(--secondary-bg-color)] hover:to-[var(--heading-color)] text-white px-6 sm:px-8 py-3 rounded-xl font-semibold uppercase tracking-wide transition-all duration-300 shadow-lg hover:shadow-xl overflow-hidden">
-                <span className="text-sm sm:text-base">Shop Now</span>
-                <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform duration-300 flex-shrink-0" />
-
-                {/* Button shine effect */}
-                <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent -skew-x-12 transform -translate-x-full group-hover:translate-x-full transition-transform duration-700"></div>
-              </button>
-            </Link>
+            <button
+              className="group inline-flex items-center gap-2 bg-[var(--heading-color)] hover:bg-[#4f8951] text-white px-8 py-3 lg:py-4 rounded-lg font-semibold uppercase tracking-wide transition-all duration-300 mx-auto lg:mx-0 shadow-md group-hover:shadow-lg"
+            >
+              <span>Shop Now</span>
+              <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform duration-300" />
+            </button>
           </div>
         </div>
 
-        {/* Right Section - FIXED IMAGE ALIGNMENT & RESPONSIVE */}
+
         <div className="rightsection w-full lg:w-1/2 relative flex justify-center lg:block mt-8 lg:mt-0">
           <div className="relative w-full h-[350px] sm:h-[350px] lg:h-[450px] xl:h-[500px] max-w-md lg:max-w-lg mx-auto">
 
-            {/* Main Image */}
             <div className="img1 relative w-full h-full rounded-2xl shadow-2xl border-2 border-white/50 overflow-hidden hover:scale-105 transition-transform duration-300">
               <img
                 src={arrivalImg2}
                 alt="New Arrival Collection"
                 className="w-full h-full object-cover rounded-2xl"
               />
-              {/* Image overlay */}
-              <div className="absolute inset-0 bg-gradient-to-t from-black/20 via-transparent to-transparent rounded-2xl"></div>
-              {/* Product badge */}
+
               <div className="absolute top-3 left-3 bg-white/95 backdrop-blur-sm rounded-lg px-2 py-1.5 shadow-lg z-20">
                 <span className="text-xs font-semibold text-gray-700 tracking-wide flex items-center gap-1">
                   <div className="w-1.5 h-1.5 bg-[var(--heading-color)] rounded-full"></div>
@@ -151,25 +143,18 @@ const NewArrival = () => {
               </div>
             </div>
 
-            {/* Secondary Image */}
-            <div className="img2 absolute bottom-4 right-4 w-[50%] sm:w-[45%] lg:w-[40%] rounded-xl shadow-2xl border-2 border-white/50 overflow-hidden hover:scale-105 transition-transform duration-300">
+            <div className="img2 absolute top-[70%] right-4 w-[50%] sm:w-[45%] lg:w-[40%] rounded-xl shadow-2xl border-2 border-white/50 overflow-hidden hover:scale-105 transition-transform duration-300">
               <img
                 src={arrivalImg1}
                 alt="Featured Product"
                 className="w-full h-full object-cover rounded-xl"
               />
-              {/* Image overlay */}
-              <div className="absolute inset-0 bg-gradient-to-t from-black/20 via-transparent to-transparent rounded-xl"></div>
-
 
             </div>
           </div>
         </div>
 
       </div>
-
-      {/* Decorative bottom element */}
-      <div className="absolute bottom-0 left-0 right-0 h-8 lg:h-16 bg-gradient-to-t from-[var(--heading-color)]/5 to-transparent"></div>
     </section>
   )
 }

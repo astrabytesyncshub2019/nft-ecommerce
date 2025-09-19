@@ -51,7 +51,17 @@ app.use("/api/order", orderRoutes)
 
 
 app.use(errorHandler)
-app.listen(PORT, () => {
-  connectDB()
-  console.log(chalk.yellowBright(`Server running at http://localhost:${PORT}`))
-})
+if (process.env.NODE_ENV === 'production') {
+  try {
+    app.listen(PORT, () => {
+      connectDB()
+      console.log(chalk.yellowBright(`Server running at http://localhost:${PORT}`))
+    })
+
+  } catch (error) {
+    console.log("Server not on Production");
+    process.exit(1);
+  }
+}
+
+export default app

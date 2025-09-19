@@ -8,7 +8,7 @@ import BrandToday from '../components/BrandToday/BrandToday'
 const HomePage = () => {
   return (
     <>
-      <section className="bg-[#f1f1f1] min-h-screen ">
+      <section className="bg-[#f1f1f1]  ">
         <Heading />
 
       </section>
@@ -17,11 +17,11 @@ const HomePage = () => {
         <Slider />
       </section>
 
-      <section className="px-12 py-24 bg-[#f1f1f1] min-h-screen">
+      <section className="px-12 py-24 bg-[#f1f1f1] ">
         <NewArrival />
       </section>
 
-      <section className="px-12 py-16 min-h-screen">
+      <section className="px-12 py-16 ">
         <Category />
       </section>
 

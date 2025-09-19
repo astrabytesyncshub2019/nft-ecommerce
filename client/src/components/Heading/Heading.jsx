@@ -22,7 +22,7 @@ const Heading = () => {
     <div className="mainsection flex flex-col-reverse md:flex-row items-center justify-between px-6 md:px-12 py-[12vw] gap-12 md:gap-28">
       <div
         ref={headingRef}
-        className="heading text-[2.5rem] md:text-[5rem] font-bold tracking-tighter leading-[3rem] md:leading-[5rem] w-full md:w-2/3 uppercase text-[var(--text-color)] text-center md:text-left"
+        className="heading md:text-[6.5vw] font-bold tracking-tighter leading-[3rem] md:leading-[5rem] w-full md:w-2/3 uppercase text-[var(--text-color)] text-center md:text-left"
       >
         <h1>
           From Office to{" "}
