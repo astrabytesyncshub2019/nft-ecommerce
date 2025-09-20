@@ -1,6 +1,6 @@
 import React, { useEffect, useState, useRef, useLayoutEffect } from "react"
 import { getProductsByCategory } from "../../api/productAPI.js"
-import { Backpack, Compass, Handbag, Mountain, Star } from "lucide-react"
+import { Backpack, Compass, Dumbbell, Handbag, Mountain, PlaneLandingIcon, PlaneTakeoffIcon, Star } from "lucide-react"
 import SmoothSailing from "../../components/SmoothSailing/SmoothSailing.jsx"
 import AddToCartButton from "../../components/AddToCartButton/AddToCart.jsx"
 import gsap from "gsap"
@@ -33,10 +33,25 @@ const Duffles = () => {
       <div className="text-center mb-16 relative">
         <div className="absolute inset-0 bg-gradient-to-r from-orange-600 to-red-600 opacity-5 blur-3xl rounded-full transform scale-150"></div>
 
-        <div
-          className="relative mx-auto mb-6 w-16 h-16 bg-gradient-to-r from-orange-500 to-red-500 rounded-full flex items-center justify-center shadow-lg"
-        >
-          <Handbag className="w-8 h-8 text-white" />
+        <div className="relative flex justify-center items-center gap-8 mb-10">
+          <div
+            className="w-12 h-12 bg-gradient-to-r from-orange-500 to-red-500 rounded-full flex items-center justify-center shadow-xl transform hover:scale-110 transition-transform cursor-pointer"
+          >
+            <PlaneTakeoffIcon className="w-6 h-6 text-white" />
+          </div>
+
+          <div
+            className="w-16 h-16 bg-gradient-to-r from-pink-500 to-red-500 rounded-full flex items-center justify-center shadow-2xl transform hover:scale-110 transition-transform cursor-pointer"
+          >
+            <Handbag className="w-8 h-8 text-white" />
+          </div>
+
+          <div
+
+            className="w-12 h-12 bg-gradient-to-r from-orange-500 to-red-500 rounded-full flex items-center justify-center shadow-xl transform hover:scale-110 transition-transform cursor-pointer"
+          >
+            <Compass className="w-6 h-6 text-white" />
+          </div>
         </div>
 
         <h2

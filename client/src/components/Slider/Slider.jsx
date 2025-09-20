@@ -56,18 +56,18 @@ const Slider = () => {
 
       <div className="text-center mb-12 relative">
         <div className="flex items-center justify-center gap-3 mb-4">
-          <div className="w-12 h-12 bg-gradient-to-r from-blue-500 to-purple-500 rounded-full flex items-center justify-center shadow-lg">
+          <div className="w-12 h-12 bg-gradient-to-r from-[var(--heading-color)] to-[var(--secondary-bg-color)] rounded-full flex items-center justify-center shadow-lg">
             <Sparkles className="w-6 h-6 text-white" />
           </div>
         </div>
 
         <h2
-          className="text-4xl sm:text-5xl md:text-6xl font-black uppercase tracking-tighter mb-4  text-[#27292e]"
+          className="text-4xl sm:text-5xl md:text-6xl uppercase block lg:inline text-transparent bg-clip-text bg-gradient-to-r from-[var(--heading-color)] to-[var(--secondary-bg-color)] font-bold"
         >
           Shop Products
         </h2>
 
-        <div className="h-px bg-gradient-to-r from-transparent via-blue-400 to-transparent max-w-md mx-auto mb-4"></div>
+  
 
         <p
           className="text-xl sm:text-2xl text-gray-600 font-light capitalize tracking-tight"

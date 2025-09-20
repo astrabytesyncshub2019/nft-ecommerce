@@ -6,7 +6,7 @@ configDotenv({
     path: "./.env",
     quiet: true
 })
-console.log(process.env.STRIPE_WEBHOOK_SECRET)
+// console.log(process.env.STRIPE_WEBHOOK_SECRET)
 
 
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY)

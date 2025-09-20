@@ -21,6 +21,7 @@ import ManageProducts from "./pages/admin/ManageProducts.jsx"
 import NotFound from "./pages/NotFoundPage.jsx"
 import PaymentSuccess from "./pages/shop/PaymentSucess.jsx"
 import PaymentCancelled from "./pages/shop/PaymentCancelled.jsx"
+import Orders from "./pages/shop/Order.jsx"
 
 const App = () => {
   const dispatch = useDispatch()
@@ -38,14 +39,15 @@ const App = () => {
           <Route path="/backpacks" element={<Backpacks />} />
           <Route path="/duffles" element={<Duffles />} />
           <Route path="/cart" element={<Cart />} />
+          <Route path="/orders" element={<Orders />} />
         </Route>
 
 
         <Route path="/auth" element={<AuthPage />} />
         <Route path="/forgot-password" element={<ForgotPassword />} />
         <Route path="/reset-password" element={<ResetPassword />} />
-        <Route path="/payment-success" element={<PaymentSuccess/>}/>
-        <Route path="/payment-cancel" element={<PaymentCancelled/>}/>
+        <Route path="/payment-success" element={<PaymentSuccess />} />
+        <Route path="/payment-cancel" element={<PaymentCancelled />} />
         <Route path="*" element={<NotFound />} />
 
 

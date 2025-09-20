@@ -26,7 +26,7 @@ const Heading = () => {
       >
         <h1>
           From Office to{" "}
-          <span className="text-[var(--heading-color)]">Adventure</span>
+          <span className="block lg:inline text-transparent bg-clip-text bg-gradient-to-r from-[var(--heading-color)] to-[var(--secondary-bg-color)]">Adventure</span>
         </h1>
         <h1>We’ve Got Your Back</h1>
       </div>

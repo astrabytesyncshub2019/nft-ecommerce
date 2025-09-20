@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from "react"
 import { NavLink, Link, useNavigate } from "react-router-dom"
-import { ShoppingCart, CircleUserRound, X, Menu } from "lucide-react"
+import { ShoppingCart, CircleUserRound, X, Menu, Package, Package2, PackageCheck, PackageIcon, PackageOpen, PackageSearchIcon } from "lucide-react"
 import Profile from "../Profile/Profile"
 import { useSelector } from "react-redux"
 import toast from "react-hot-toast"
@@ -80,6 +80,9 @@ const Navbar = () => {
           <Link to={"/cart"}>
             <ShoppingCart className="w-6 h-6 hover:text-[var(--primary-color)] transition" />
           </Link>
+          <Link to={"/orders"}>
+            <PackageSearchIcon className="w-6 h-6 hover:text-[var(--primary-color)] transition" />
+          </Link>
           <CircleUserRound
             className="w-6 h-6 hover:text-[var(--primary-color)] transition"
             onClick={handleProfileClick}
@@ -87,7 +90,7 @@ const Navbar = () => {
         </div>
       </div>
 
-      {/* Mobile Menu Button */}
+
       <div className="md:hidden flex items-center gap-4">
         <Link to={"/cart"}>
           <ShoppingCart className="w-6 h-6 hover:text-[var(--primary-color)] transition" />
@@ -105,7 +108,7 @@ const Navbar = () => {
         </button>
       </div>
 
-      {/* Mobile Menu */}
+
       {menuOpen && (
         <div className="absolute top-16 left-0 w-full bg-[#f2f2f2] flex flex-col items-center gap-6 py-6 shadow-md md:hidden">
           {links.map((link, index) => (

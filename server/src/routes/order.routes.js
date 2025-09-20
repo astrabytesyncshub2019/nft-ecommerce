@@ -12,7 +12,7 @@ const router = Router()
 
 
 router.post("/", authMiddleware, placeOrderController)
-router.get("/", authMiddleware, getUserOrdersController)
+router.get("/my-order", authMiddleware, getUserOrdersController)
 
 router.get("/all", authMiddleware, adminMiddleware, getAllOrdersController)
 router.patch("/:orderId/status", authMiddleware, adminMiddleware, updateOrderStatusController)             

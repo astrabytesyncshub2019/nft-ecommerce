@@ -6,10 +6,10 @@ export const placeOrderController = async (req, res, next) => {
   try {
     const shippingAddress = req.user.addresses?.[0]
     if (!shippingAddress) return NotFoundError("Address not found")
-    
+
     const { productId, quantity, paymentMethod = "COD" } = req.body
     let order
-    
+
     if (productId) {
       order = await placeSingleOrderService(req.user._id, productId, quantity || 1, shippingAddress._id, paymentMethod)
     } else {
@@ -61,3 +61,5 @@ export const updateOrderStatusController = async (req, res, next) => {
     next(err)
   }
 }
+
+

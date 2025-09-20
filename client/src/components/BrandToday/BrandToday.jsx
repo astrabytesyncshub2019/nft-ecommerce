@@ -1,7 +1,7 @@
 import React, { useLayoutEffect, useRef } from "react"
 import gsap from "gsap"
 import { ScrollTrigger } from "gsap/ScrollTrigger"
-import { Truck, Package, ArrowRight, Sparkles, StarIcon ,BaggageClaim} from "lucide-react"
+import { Truck, Package, ArrowRight, Sparkles, StarIcon, BaggageClaim } from "lucide-react"
 import bag3 from "../../assets/bag3.jpeg"
 import duf1 from "../../assets/duf1.jpeg"
 
@@ -17,18 +17,18 @@ const BrandToday = () => {
         const ctx = gsap.context(() => {
             gsap.timeline({
                 scrollTrigger: {
-                    trigger: sectionRef.current ,
-                    start: "top 80%",
+                    trigger: sectionRef.current,
+                    start: "top 60%",
                     toggleActions: "play none none reverse",
                     once: true,
-                    // markers:true
                 }
             })
                 .from(textRef.current, {
-                    x: -80,
+                    x: 80,
                     opacity: 0,
                     duration: 1,
-                    ease: "power3.out"
+                    ease: "power3.out", 
+                
                 })
                 .from([img1Ref.current, img2Ref.current], {
                     scale: 0,

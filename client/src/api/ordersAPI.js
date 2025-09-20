@@ -17,7 +17,8 @@ export const palceOrderApi = async (addressId, productId = null, quantity = null
 }
 
 export const getUserOrdersApi = async () => {
-    const res = await axiosInstance.get("/api/order")
+    const res = await axiosInstance.get("/api/order/my-order")
+    console.log(res.data.data)
     return res.data.data
 }
 

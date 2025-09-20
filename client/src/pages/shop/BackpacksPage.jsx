@@ -31,29 +31,28 @@ const Backpacks = () => {
         {/* Adventure Icons */}
         <div className="relative flex justify-center items-center gap-8 mb-10">
           <div
-            className="w-14 h-14 bg-gradient-to-r from-emerald-500 to-teal-500 rounded-full flex items-center justify-center shadow-xl transform hover:scale-110 transition-transform cursor-pointer"
+            className="w-12 h-12 bg-gradient-to-r from-emerald-500 to-teal-500 rounded-full flex items-center justify-center shadow-xl transform hover:scale-110 transition-transform cursor-pointer"
           >
-            <Mountain className="w-7 h-7 text-white" />
+            <Mountain className="w-6 h-6 text-white" />
+          </div>
+
+          <div
+            className="w-16 h-16 bg-gradient-to-r from-sky-500 to-blue-500 rounded-full flex items-center justify-center shadow-2xl transform hover:scale-110 transition-transform cursor-pointer"
+          >
+            <Backpack className="w-8 h-8 text-white" />
           </div>
 
           <div
 
-            className="w-20 h-20 bg-gradient-to-r from-sky-500 to-blue-500 rounded-full flex items-center justify-center shadow-2xl transform hover:scale-110 transition-transform cursor-pointer"
+            className="w-12 h-12 bg-gradient-to-r from-blue-500 to-indigo-500 rounded-full flex items-center justify-center shadow-xl transform hover:scale-110 transition-transform cursor-pointer"
           >
-            <Backpack className="w-10 h-10 text-white" />
-          </div>
-
-          <div
-
-            className="w-14 h-14 bg-gradient-to-r from-blue-500 to-indigo-500 rounded-full flex items-center justify-center shadow-xl transform hover:scale-110 transition-transform cursor-pointer"
-          >
-            <Compass className="w-7 h-7 text-white" />
+            <Compass className="w-6 h-6 text-white" />
           </div>
         </div>
 
         <h2
 
-          className="relative text-4xl sm:text-5xl md:text-6xl lg:text-8xl font-black mb-6 tracking-tighter uppercase bg-gradient-to-r from-gray-900 via-emerald-800 to-sky-800 bg-clip-text text-transparent leading-tight drop-shadow-sm"
+          className="relative text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-black mb-6 tracking-tighter uppercase bg-gradient-to-r from-gray-900 via-emerald-800 to-sky-800 bg-clip-text text-transparent leading-tight drop-shadow-sm"
         >
           Backpacks
         </h2>

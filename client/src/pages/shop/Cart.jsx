@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react"
-import { Minus, Plus, Trash2, ShoppingCart, Package } from "lucide-react"
+import { Minus, Plus, Trash2, ShoppingCart, Package, Mountain, Compass, Backpack } from "lucide-react"
 import {
   getCartProducts,
   removeProductFormCart,
@@ -138,11 +138,10 @@ const Cart = () => {
         // Redirect to payment page - cart will only be cleared after successful payment
         window.location.href = data.url
       } else {
-        // COD: Backend has already cleared cart, now update frontend
+
         toast.success("Order placed successfully with COD")
         setShowCheckout(false)
         setSelectedProduct(null)
-        // Refresh cart from backend to get updated state
         fetchCart()
       }
     } catch (err) {
@@ -165,14 +164,22 @@ const Cart = () => {
   }
 
   return (
-    <section className="min-h-screen w-full bg-gradient-to-br from-gray-50 to-gray-100 px-4 py-24">
+    <section className="min-h-screen w-full bg-gradient-to-br from-blue-100 via-white to-teal-100  px-4 py-24">
       <div className="max-w-6xl mx-auto">
         {/* Header */}
         <div className="text-center mb-8">
-          <div className="flex items-center justify-center gap-3 mb-4">
-            <ShoppingCart className="h-8 w-8 text-[var(--heading-color)]" />
-            <h1 className="text-3xl md:text-4xl font-bold text-gray-800">Your Cart</h1>
+          <div className="relative flex justify-center items-center gap-8 mb-4">
+            <div
+              className="w-16 h-16 bg-gradient-to-r from-blue-500 to-teal-500 rounded-full flex items-center justify-center shadow-2xl transform hover:scale-110 transition-transform cursor-pointer"
+            >
+              <ShoppingCart className="w-8 h-8 text-white" />
+            </div>
           </div>
+          <h2
+            className="relative text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-black mb-2 tracking-tighter uppercase bg-gradient-to-r from-gray-900 via-teal-500 to-red-800 bg-clip-text text-transparent leading-tight drop-shadow-sm"
+          >
+            Cart
+          </h2>
           {cart.length > 0 && (
             <p className="text-gray-600">
               {totalItems} {totalItems === 1 ? 'item' : 'items'} in your cart

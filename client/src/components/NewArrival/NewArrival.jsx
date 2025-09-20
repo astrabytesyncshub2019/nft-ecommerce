@@ -50,8 +50,7 @@ const NewArrival = () => {
       ref={sectionRef}
       className="new-arrival relative py-12 sm:py-16 lg:py-24 px-4 sm:px-6 lg:px-8 bg-gradient-to-b from-gray-50 to-white"
     >
-      {/* Background Pattern */}
-      <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] from-[var(--heading-color)]/3 via-transparent to-transparent opacity-50"></div>
+    
 
       <div className="relative max-w-7xl mx-auto flex flex-col lg:flex-row justify-center lg:justify-between items-center lg:items-start gap-8 lg:gap-16">
 
@@ -71,8 +70,8 @@ const NewArrival = () => {
               <span className="block lg:inline text-transparent bg-clip-text bg-gradient-to-r from-[var(--heading-color)] to-[var(--secondary-bg-color)]">
                 Arrivals
               </span>
+            <div className="w-2/3 h-1 bg-gradient-to-r from-[var(--heading-color)] to-[var(--secondary-bg-color)] rounded-full mx-auto lg:mx-0"></div>
             </h2>
-            <div className="w-16 sm:w-20 h-1 bg-gradient-to-r from-[var(--heading-color)] to-[var(--secondary-bg-color)] rounded-full mx-auto lg:mx-0"></div>
           </div>
 
           {/* Description */}
