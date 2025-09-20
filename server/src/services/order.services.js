@@ -2,13 +2,15 @@ import { findCartByUser } from "../dao/cart.dao.js"
 import { createOrder, findOrdersByUser, findAllOrders, updateOrderStatus } from "../dao/order.dao.js"
 import Cart from "../models/cart.model.js"
 import productModel from "../models/product.model.js"
+import orderModel from "../models/order.model.js"
 import { BadRequestError } from "../utils/errorHandler.js"
 
-
-export const placeCartOrderService = async (userId, addressId) => {
+export const placeCartOrderService = async (userId, addressId, paymentMethod = "COD") => {
     const cart = await findCartByUser(userId)
     const products = await cart.populate("items.product")
-    // console.log(products)
+
+    // console.log("Cart items:", products.items.length)
+
     if (!products || products.length === 0) throw new BadRequestError("Cart is empty")
 
     for (const item of products.items) {
@@ -27,14 +29,25 @@ export const placeCartOrderService = async (userId, addressId) => {
         quantity: item.quantity
     }))
 
+    // console.log("ORDER ITEMS services order",orderItems)
+
     const totalAmount = orderItems.reduce(
         (sum, item) => sum + (item.price - item.discount) * item.quantity,
         0
     )
-    for (const item of products.items) {
-        await productModel.findByIdAndUpdate(item.product._id, {
-            $inc: { stock: -item.quantity }
-        })
+
+    // Only reduce stock and clear cart if payment method is COD
+    if (paymentMethod === "COD") {
+        for (const item of products.items) {
+            await productModel.findByIdAndUpdate(item.product._id, {
+                $inc: { stock: -item.quantity }
+            })
+        }
+
+        cart.items = []
+        await cart.save()
+    } else {
+        console.log("ONLINE order - NOT clearing cart yet")
     }
 
     const order = await createOrder({
@@ -42,16 +55,15 @@ export const placeCartOrderService = async (userId, addressId) => {
         items: orderItems,
         shippingAddress: addressId,
         totalAmount,
-        paymentMethod: "COD",
+        paymentMethod,
         status: "pending"
     })
 
-    cart.items = []
-    await cart.save()
-
+    // console.log("Order created:", order._id, "with payment method:", paymentMethod)
     return order
 }
-export const placeSingleOrderService = async (userId, productId, quantity, addressId,paymentMethod) => {
+
+export const placeSingleOrderService = async (userId, productId, quantity, addressId, paymentMethod = "COD") => {
     const product = await productModel.findById(productId)
     if (!product) throw new BadRequestError("Product not found")
     if (quantity > product.stock) {
@@ -63,47 +75,68 @@ export const placeSingleOrderService = async (userId, productId, quantity, addre
         name: product.name,
         price: product.price,
         discount: product.discount,
-        quantity,
-        paymentMethod
+        quantity
     }
 
     const totalAmount = (product.price - product.discount) * quantity
 
-    // reduce stock
-    await productModel.findByIdAndUpdate(product._id, {
-        $inc: { stock: -quantity }
-    })
+    if (paymentMethod === "COD") {
+        await productModel.findByIdAndUpdate(product._id, {
+            $inc: { stock: -quantity }
+        })
 
-    await Cart.updateOne(
-        { user: userId },
-        { $pull: { items: { product: productId } } }
-    )
+        await Cart.updateOne(
+            { user: userId },
+            { $pull: { items: { product: productId } } }
+        )
+    } else {
+        console.log("ONLINE single order - NOT clearing cart yet")
+    }
 
     const order = await createOrder({
         user: userId,
         items: [orderItem],
         shippingAddress: addressId,
         totalAmount,
-        paymentMethod: "COD",
+        paymentMethod,
         status: "pending"
     })
 
+    // console.log("Single order created:", order._id, "with payment method:", paymentMethod)
     return order
 }
 
+export const completeOnlineOrderService = async (orderId) => {
+    const order = await orderModel.findById(orderId).populate('items.product')
+    if (!order) throw new BadRequestError("Order not found")
 
+    // console.log("Completing online order with", order.items.length, "items")
 
+    for (const item of order.items) {
+        await productModel.findByIdAndUpdate(item.product, {
+            $inc: { stock: -item.quantity }
+        })
+    }
+
+    // Clear cart items for this order
+    await Cart.updateOne(
+        { user: order.user },
+        { $set: { items: [] } }
+    )
+
+    console.log("Online order completion finished")
+    return order
+}
 
 export const getUserOrdersService = async (userId) => {
     return await findOrdersByUser(userId)
 }
 
-
 export const getAllOrdersService = async () => {
     return await findAllOrders()
 }
 
-
 export const updateOrderStatusService = async (orderId, status) => {
+    // console.log("Updating order status:", orderId, "to", status)
     return await updateOrderStatus(orderId, status)
 }

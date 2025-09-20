@@ -19,7 +19,7 @@ export const findAllOrders = async () => {
 export const updateOrderStatus = async (orderId, status) => {
     return await orderModel.findByIdAndUpdate(
         orderId,
-        { orderStatus: status },
+        { status: status }, // Changed from orderStatus to status
         { new: true }
     )
 }

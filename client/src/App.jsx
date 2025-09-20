@@ -44,7 +44,7 @@ const App = () => {
         <Route path="/auth" element={<AuthPage />} />
         <Route path="/forgot-password" element={<ForgotPassword />} />
         <Route path="/reset-password" element={<ResetPassword />} />
-        <Route path="/payment-sucess" element={<PaymentSuccess/>}/>
+        <Route path="/payment-success" element={<PaymentSuccess/>}/>
         <Route path="/payment-cancel" element={<PaymentCancelled/>}/>
         <Route path="*" element={<NotFound />} />
 

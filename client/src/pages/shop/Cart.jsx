@@ -95,96 +95,61 @@ const Cart = () => {
   }
 
   const handlePlaceOrder = async (addressData, paymentMethod = "COD") => {
-  try {
-    // 1️⃣ Save shipping address
-    const newAddress = await addAddressApi(addressData)
-    const addressId = newAddress._id
+    try {
+      // 1️⃣ Save shipping address
+      const newAddress = await addAddressApi(addressData)
+      const addressId = newAddress._id
 
-    // 2️⃣ Place order (backend returns order with status pending for ONLINE)
-    let orderRes
-    if (selectedProduct) {
-      orderRes = await palceOrderApi(addressId, selectedProduct.product._id, selectedProduct.quantity, paymentMethod)
-    } else {
-      orderRes = await palceOrderApi(addressId, null, null, paymentMethod)
-    }
+      // 2️⃣ Place order with payment method
+      let orderRes
+      if (selectedProduct) {
+        orderRes = await palceOrderApi(addressId, selectedProduct.product._id, selectedProduct.quantity, paymentMethod)
+      } else {
+        orderRes = await palceOrderApi(addressId, null, null, paymentMethod)
+      }
 
-    const order = orderRes.data
+      const order = orderRes.data
 
-    if (paymentMethod === "ONLINE") {
-      // 3️⃣ Start payment
-      const stripeRes = await fetch("http://localhost:8000/api/payment", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        credentials: "include",
-        body: JSON.stringify({
-          items: selectedProduct
-            ? [{
+      if (paymentMethod === "ONLINE") {
+
+        const stripeRes = await fetch("http://localhost:8000/api/payment", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          credentials: "include",
+          body: JSON.stringify({
+            items: selectedProduct
+              ? [{
                 name: selectedProduct.product.name,
                 price: selectedProduct.product.price - selectedProduct.product.discount,
                 quantity: selectedProduct.quantity,
               }]
-            : cart.map(item => ({
+              : cart.map(item => ({
                 name: item.product.name,
                 price: item.product.price - item.product.discount,
                 quantity: item.quantity,
               })),
-          orderId: order._id
+            orderId: order._id
+          })
         })
-      })
 
-      const data = await stripeRes.json()
-      if (!data.success) throw new Error(data.message || "Payment initiation failed")
+        const data = await stripeRes.json()
+        if (!data.success) throw new Error(data.message || "Payment initiation failed")
 
-      // Redirect to payment page
-      window.location.href = data.url
-    } else {
-      // COD: Clear selected item/cart on frontend
-      if (selectedProduct) {
-        setCart(prev => prev.filter(item => item.product._id !== selectedProduct.product._id))
+        // Redirect to payment page - cart will only be cleared after successful payment
+        window.location.href = data.url
       } else {
-        setCart([])
+        // COD: Backend has already cleared cart, now update frontend
+        toast.success("Order placed successfully with COD")
+        setShowCheckout(false)
+        setSelectedProduct(null)
+        // Refresh cart from backend to get updated state
+        fetchCart()
       }
-      toast.success("Order placed successfully with COD")
-      setShowCheckout(false)
-      setSelectedProduct(null)
-      fetchCart()
-    }
-  } catch (err) {
-    console.error(err)
-    toast.error(err.response?.data?.message || err.message || "Failed to place order")
-  }
-}
-
-
-  const handlePlaceOrderCOD = async (addressData, type = "checkout") => {
-    try {
-      const newAddress = await addAddressApi(addressData)
-      const addressId = newAddress._id
-
-      let orderRes
-      if (type === "buy-now" && selectedProduct) {
-        orderRes = await palceOrderApi(addressId, selectedProduct.product._id, selectedProduct.quantity)
-        setCart(prev =>
-          prev.filter(item => item.product._id !== selectedProduct.product._id)
-        )
-      } else {
-        orderRes = await palceOrderApi(addressId)
-        setCart([])
-      }
-
-      toast.success("Order placed successfully with COD")
-      setShowCheckout(false)
-      setSelectedProduct(null)
-      fetchCart()
     } catch (err) {
       console.error(err)
-      toast.error(err.response?.data?.message || "Failed to place order")
+      toast.error(err.response?.data?.message || err.message || "Failed to place order")
     }
   }
-
-
-
-
 
   if (loading) {
     return (
