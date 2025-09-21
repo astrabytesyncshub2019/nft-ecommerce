@@ -4,7 +4,7 @@ import { ScrollTrigger } from "gsap/ScrollTrigger"
 import { Truck, Package, ArrowRight, Sparkles, StarIcon, BaggageClaim } from "lucide-react"
 import bag3 from "../../assets/bag3.jpeg"
 import duf1 from "../../assets/duf1.jpeg"
-
+import { Link } from "react-router-dom"
 gsap.registerPlugin(ScrollTrigger)
 
 const BrandToday = () => {
@@ -27,8 +27,8 @@ const BrandToday = () => {
                     x: 80,
                     opacity: 0,
                     duration: 1,
-                    ease: "power3.out", 
-                
+                    ease: "power3.out",
+
                 })
                 .from([img1Ref.current, img2Ref.current], {
                     scale: 0,
@@ -111,7 +111,9 @@ const BrandToday = () => {
 
                     <div className="pt-4 flex justify-center lg:justify-start">
                         <button className="group inline-flex items-center gap-2 bg-[var(--heading-color)] hover:bg-[#4f8951] text-white px-8 py-3 lg:py-4 rounded-lg font-semibold uppercase tracking-wide transition-all duration-300 mx-auto lg:mx-0 shadow-md hover:shadow-lg">
+                            <Link to={"/backpacks"}>
                             <span>Discover</span>
+                            </Link>
                             <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform duration-300" />
                         </button>
                     </div>

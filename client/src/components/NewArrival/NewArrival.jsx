@@ -50,7 +50,7 @@ const NewArrival = () => {
       ref={sectionRef}
       className="new-arrival relative py-12 sm:py-16 lg:py-24 px-4 sm:px-6 lg:px-8 bg-gradient-to-b from-gray-50 to-white"
     >
-    
+
 
       <div className="relative max-w-7xl mx-auto flex flex-col lg:flex-row justify-center lg:justify-between items-center lg:items-start gap-8 lg:gap-16">
 
@@ -70,7 +70,7 @@ const NewArrival = () => {
               <span className="block lg:inline text-transparent bg-clip-text bg-gradient-to-r from-[var(--heading-color)] to-[var(--secondary-bg-color)]">
                 Arrivals
               </span>
-            <div className="w-2/3 h-1 bg-gradient-to-r from-[var(--heading-color)] to-[var(--secondary-bg-color)] rounded-full mx-auto lg:mx-0"></div>
+              <div className="w-2/3 h-1 bg-gradient-to-r from-[var(--heading-color)] to-[var(--secondary-bg-color)] rounded-full mx-auto lg:mx-0"></div>
             </h2>
           </div>
 
@@ -117,7 +117,9 @@ const NewArrival = () => {
             <button
               className="group inline-flex items-center gap-2 bg-[var(--heading-color)] hover:bg-[#4f8951] text-white px-8 py-3 lg:py-4 rounded-lg font-semibold uppercase tracking-wide transition-all duration-300 mx-auto lg:mx-0 shadow-md group-hover:shadow-lg"
             >
-              <span>Shop Now</span>
+              <Link to={"/luggage"}>
+                <span>Shop Now</span>
+              </Link>
               <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform duration-300" />
             </button>
           </div>
