@@ -517,7 +517,6 @@ router.get("/google/callback", passport.authenticate("google", { failureRedirect
  *                   type: string
  *                   example: Unauthorized
  */
-
 router.post("/checkout", authMiddleware, userAddressController)
 
 

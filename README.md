@@ -167,7 +167,7 @@ VITE_STRIPE_PUBLISHABLE_KEY=your_stripe_publishable_key
 
 The backend includes **Swagger UI** for API documentation and testing.
 
-- **Access**: Navigate to `http://localhost:5000/api-docs` after starting the backend.
+- **Access**: Navigate to `http://localhost:8000/api-docs` after starting the backend.
 - **Features**: Explore all API endpoints, test requests, and view request/response schemas.
 
 ---
