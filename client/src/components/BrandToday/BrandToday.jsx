@@ -18,7 +18,7 @@ const BrandToday = () => {
             gsap.timeline({
                 scrollTrigger: {
                     trigger: sectionRef.current,
-                    start: "top 60%",
+                    start: "top 50%",
                     toggleActions: "play none none reverse",
                     once: true,
                 }

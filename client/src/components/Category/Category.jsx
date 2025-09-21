@@ -25,8 +25,9 @@ const Category = () => {
       gsap.from(".category-card", {
         scrollTrigger: {
           trigger: sectionRef.current,
-          start: "top 80%",
+          start: "top 50%",
           toggleActions: "play none none reset",
+          once:true
         },
         opacity: 0,
         y: 50,
