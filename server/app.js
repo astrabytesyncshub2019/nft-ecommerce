@@ -34,9 +34,8 @@ app.use(express.json())
 app.use(cookieParser())
 app.use(cors({
   origin: (origin, callback) => {
-    const allowedOrigins = [
-      "http://localhost:5173",          // local dev
-      "https://scatch-bice.vercel.app"  // deployed frontend
+    const allowedOrigins = [         // local dev
+      "https://scatch-bice.vercel.app/"  // deployed frontend
     ]
 
     if (!origin || allowedOrigins.includes(origin)) {
@@ -67,17 +66,10 @@ swaggerDocs(app, PORT)
 
 
 app.use(errorHandler)
-if (process.env.NODE_ENV === 'production') {
-  try {
-    app.listen(PORT, () => {
-      connectDB()
-      console.log(chalk.yellowBright(`Server running at http://localhost:${PORT}`))
-    })
+app.listen(PORT, async () => {
+  await connectDB()
+  console.log(`Server running on port ${PORT}`)
+})
 
-  } catch (error) {
-    console.log("Server not on Production");
-    process.exit(1);
-  }
-}
 
 export default app
