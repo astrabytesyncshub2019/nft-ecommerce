@@ -35,7 +35,7 @@ app.use(cookieParser())
 app.use(cors({
   origin: (origin, callback) => {
     const allowedOrigins = [         // local dev
-      "https://scatch-bice.vercel.app/"  // deployed frontend
+      "https://scatch-bice.vercel.app"  // deployed frontend
     ]
 
     if (!origin || allowedOrigins.includes(origin)) {
