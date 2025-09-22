@@ -1,7 +1,7 @@
 {
   "rewrites": [
     {
-      "source": "/api/(.*)",
+      "source": "/(.*)",
       "destination": "https://mern-ecommerce-agxk.onrender.com/api/$1"
     },
     { 
