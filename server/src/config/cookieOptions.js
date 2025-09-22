@@ -3,7 +3,8 @@ export const cookieOptionsForAcessToken = {
     secure: true,
     sameSite: "none",
     maxAge: 180 * 60 * 1000,
-    path: "/"
+    path: "/",
+    domain: ".vercel.app"
 }
 
 export const cookieOptionsForRefreshToken = {
@@ -11,6 +12,7 @@ export const cookieOptionsForRefreshToken = {
     secure: true,
     sameSite: "none",
     maxAge: 7 * 24 * 60 * 60 * 1000,
-    path: "/"
+    path: "/",
+    domain: ".vercel.app"
 
 }
