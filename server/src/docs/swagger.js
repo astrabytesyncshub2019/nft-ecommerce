@@ -32,5 +32,5 @@ const swaggerSpec = swaggerJsdoc(swaggerOptions)
 
 export const swaggerDocs = (app, port) => {
   app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerSpec))
-  console.log(`📚 Swagger Docs available at http://localhost:${port}/api-docs`)
+  console.log(`📚 Swagger Docs available at https://mern-ecommerce-agxk.onrender.com/api-docs`)
 }
