@@ -97,6 +97,17 @@ const AuthPage = () => {
 
         }
     }
+    // In your login/register success handler
+    const checkCookies = () => {
+        console.log("All cookies:", document.cookie)
+        console.log("Access token:", document.cookie
+            .split('; ')
+            .find(row => row.startsWith('accessToken='))
+        )
+    }
+
+    // Call after successful login/register
+    checkCookies()
 
     return (
         <div className="w-full min-h-screen bg-[#f2f2f2] flex items-center justify-center">

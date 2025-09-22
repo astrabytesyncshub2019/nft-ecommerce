@@ -33,14 +33,23 @@ app.use(express.urlencoded({ extended: true }))
 app.use(express.json())
 app.use(cookieParser())
 app.use(cors({
-  origin: [
-    "https://scatch-bice.vercel.app",
-    "http://localhost:5173"  // for Vite dev server
-  ],
-  credentials: true,
-  methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
-  allowedHeaders: ['Content-Type', 'Authorization', 'Cookie'],
-  exposedHeaders: ['Set-Cookie']
+    origin: [
+        "https://scatch-bice.vercel.app",
+        "http://localhost:3000",
+        "http://localhost:5173"
+    ],
+    credentials: true,
+    methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+    allowedHeaders: [
+        'Content-Type', 
+        'Authorization', 
+        'Cookie',
+        'X-Requested-With',
+        'Accept',
+        'Origin'
+    ],
+    exposedHeaders: ['Set-Cookie'],
+    optionsSuccessStatus: 200 // For legacy browser support
 }))
 
 app.use(session({

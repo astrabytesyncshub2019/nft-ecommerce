@@ -16,6 +16,9 @@ export const registerUserController = async (req, res, next) => {
         res.cookie("accessToken", token, cookieOptionsForAcessToken)
         res.cookie("refreshToken", refreshToken, cookieOptionsForRefreshToken)
         req.user = newUser
+        console.log("reg req user", newUser)
+        console.log("reg access token",token)
+        console.log("reg access token",refreshToken)
 
         return successResponse(res, "User registed successfully", newUser, 201)
     } catch (error) {
@@ -32,6 +35,10 @@ export const loginUserController = async (req, res, next) => {
         res.cookie("accessToken", token, cookieOptionsForAcessToken)
         res.cookie("refreshToken", refreshToken, cookieOptionsForRefreshToken)
         req.user = existingUser
+
+        console.log("login req user", existingUser)
+        console.log("login access token",token)
+        console.log("login access token",refreshToken)
 
         return successResponse(res, "User Login successfully", existingUser, 200)
 
@@ -165,7 +172,7 @@ export const userAddressController = async (req, res, next) => {
         const user = await findUserById(req.user._id)
         if (!user) throw new NotFoundError("User not found")
 
-        const { street, city, state, postalCode, country, landmark } = req.body             
+        const { street, city, state, postalCode, country, landmark } = req.body
         const address = await addressModel.create({
             user: user._id,
             street,
