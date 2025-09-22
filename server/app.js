@@ -33,7 +33,18 @@ app.use(express.urlencoded({ extended: true }))
 app.use(express.json())
 app.use(cookieParser())
 app.use(cors({
-  origin: 'http://localhost:5173',
+  origin: (origin, callback) => {
+    const allowedOrigins = [
+      "http://localhost:5173",          // local dev
+      "https://scatch-bice.vercel.app"  // deployed frontend
+    ]
+
+    if (!origin || allowedOrigins.includes(origin)) {
+      callback(null, true)
+    } else {
+      callback(new Error("Not allowed by CORS"))
+    }
+  },
   credentials: true
 }))
 
@@ -50,7 +61,7 @@ app.use("/api/users", userRoutes)
 app.use("/api/products", productRoutes)
 app.use("/api/cart", cartRoutes)
 app.use("/api/order", orderRoutes)
-app.use("/api/payment",stripeRoute)
+app.use("/api/payment", stripeRoute)
 
 swaggerDocs(app, PORT)
 
