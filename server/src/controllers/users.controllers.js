@@ -153,10 +153,10 @@ export const googleAuthController = async (req, res) => {
         res.cookie("accessToken", token, cookieOptionsForAcessToken)
         res.cookie("refreshToken", refresh, cookieOptionsForRefreshToken)
 
-        res.redirect("http://localhost:5173")
+        res.redirect("https://scatch-bice.vercel.app")
     } catch (error) {
         console.error("Google login failed:", error)
-        res.redirect("http://localhost:5173/auth")
+        res.redirect("https://scatch-bice.vercel.app/auth")
     }
 }
 

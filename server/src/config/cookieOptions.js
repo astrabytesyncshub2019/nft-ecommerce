@@ -1,15 +1,15 @@
 export const cookieOptionsForAcessToken = {
     httpOnly: true,
     secure: true,
-    sameSite: "strict",
-    maxAge: 120 * 60 * 1000,
+    sameSite: "none",
+    maxAge: 180 * 60 * 1000,
     path: "/"
 }
 
 export const cookieOptionsForRefreshToken = {
     httpOnly: true,
     secure: true,
-    sameSite: "strict",
+    sameSite: "none",
     maxAge: 7 * 24 * 60 * 60 * 1000,
     path: "/"
 

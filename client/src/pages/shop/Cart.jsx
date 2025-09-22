@@ -12,7 +12,7 @@ import CheckoutForm from "../../components/CheckOutForm/CheckOutForm"
 import ConfirmDialog from "../../components/ConfirmDialogBox/ConfirmDialog"
 import toast from "react-hot-toast"
 import { addAddressApi } from "../../api/userAPI"
-import { palceOrderApi } from "../../api/ordersAPI"
+import { placeOrderApi, initiatePaymentApi } from "../../api/ordersAPI"
 
 const Cart = () => {
   const [cart, setCart] = useState([])
@@ -96,49 +96,37 @@ const Cart = () => {
 
   const handlePlaceOrder = async (addressData, paymentMethod = "COD") => {
     try {
-      // 1️⃣ Save shipping address
+      // 1. Save address
       const newAddress = await addAddressApi(addressData)
       const addressId = newAddress._id
 
-      // 2️⃣ Place order with payment method
+      // 2. Place order
       let orderRes
       if (selectedProduct) {
-        orderRes = await palceOrderApi(addressId, selectedProduct.product._id, selectedProduct.quantity, paymentMethod)
+        orderRes = await placeOrderApi(addressId, selectedProduct.product._id, selectedProduct.quantity, paymentMethod)
       } else {
-        orderRes = await palceOrderApi(addressId, null, null, paymentMethod)
+        orderRes = await placeOrderApi(addressId, null, null, paymentMethod)
       }
 
       const order = orderRes.data
-
       if (paymentMethod === "ONLINE") {
+        const items = selectedProduct
+          ? [{
+            name: selectedProduct.product.name,
+            price: selectedProduct.product.price - selectedProduct.product.discount,
+            quantity: selectedProduct.quantity,
+          }]
+          : cart.map(item => ({
+            name: item.product.name,
+            price: item.product.price - item.product.discount,
+            quantity: item.quantity,
+          }))
 
-        const stripeRes = await fetch("http://localhost:8000/api/payment", {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          credentials: "include",
-          body: JSON.stringify({
-            items: selectedProduct
-              ? [{
-                name: selectedProduct.product.name,
-                price: selectedProduct.product.price - selectedProduct.product.discount,
-                quantity: selectedProduct.quantity,
-              }]
-              : cart.map(item => ({
-                name: item.product.name,
-                price: item.product.price - item.product.discount,
-                quantity: item.quantity,
-              })),
-            orderId: order._id
-          })
-        })
-
-        const data = await stripeRes.json()
+        const { data } = await initiatePaymentApi(items, order._id)
         if (!data.success) throw new Error(data.message || "Payment initiation failed")
 
-        // Redirect to payment page - cart will only be cleared after successful payment
-        window.location.href = data.url
+        window.location.href = data.url 
       } else {
-
         toast.success("Order placed successfully with COD")
         setShowCheckout(false)
         setSelectedProduct(null)

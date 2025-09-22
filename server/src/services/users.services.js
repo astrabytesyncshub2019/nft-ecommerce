@@ -17,7 +17,7 @@ export const registerUserService = async (fullname, email, password, phonenumber
     if (!token) throw new AppError("Token generations is failed")
 
     const refreshToken = await signRefreshToken({ id: newUser._id, email: newUser.email })
-    console.log(refreshToken)
+    // console.log(refreshToken)
     if (!refreshToken) throw new AppError("Refresh Token Generations is failed ")
 
     const updatedUser = await updateRefreshToken(newUser._id, refreshToken)
