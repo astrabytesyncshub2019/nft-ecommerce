@@ -1,18 +1,16 @@
 export const cookieOptionsForAcessToken = {
     httpOnly: true,
     secure: true,
-    sameSite: "none",
+    sameSite: "strict", // Can use strict with proxy
     maxAge: 180 * 60 * 1000,
     path: "/",
-    domain: ".vercel.app"
+    // No domain needed with proxy
 }
 
 export const cookieOptionsForRefreshToken = {
     httpOnly: true,
     secure: true,
-    sameSite: "none",
+    sameSite: "strict",
     maxAge: 7 * 24 * 60 * 60 * 1000,
     path: "/",
-    domain: ".vercel.app"
-
 }

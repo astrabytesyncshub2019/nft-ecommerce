@@ -33,18 +33,14 @@ app.use(express.urlencoded({ extended: true }))
 app.use(express.json())
 app.use(cookieParser())
 app.use(cors({
-  origin: (origin, callback) => {
-    const allowedOrigins = [
-      "https://scatch-bice.vercel.app"
-    ]
-
-    if (!origin || allowedOrigins.includes(origin)) {
-      callback(null, true)
-    } else {
-      callback(new Error("Not allowed by CORS"))
-    }
-  },
-  credentials: true
+  origin: [
+    "https://scatch-bice.vercel.app",
+    "http://localhost:5173"  // for Vite dev server
+  ],
+  credentials: true,
+  methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+  allowedHeaders: ['Content-Type', 'Authorization', 'Cookie'],
+  exposedHeaders: ['Set-Cookie']
 }))
 
 app.use(session({
