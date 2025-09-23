@@ -15,12 +15,10 @@ const ProtectedRoute = ({ children, role }) => {
             </div>
         )
     }
-
     if (!isAuthenticated || !user) {
         toast.error("You are not logged in")
         return <Navigate to="/auth" replace />
     }
-
     if (role && user.role !== role) {
         toast.error("You don’t have permission")
         return <Navigate to="/" replace />

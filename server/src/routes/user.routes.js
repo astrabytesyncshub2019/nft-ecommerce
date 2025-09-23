@@ -404,8 +404,7 @@ router.get("/google", passport.authenticate("google", { scope: ["profile", "emai
  *                   type: string
  *                   example: Google login failed
  */
-router.get("/google/callback", passport.authenticate("google", { failureRedirect: "/login", session: false }), googleAuthController
-)
+router.get("/google/callback", passport.authenticate("google", { failureRedirect: "/login", session: false }), googleAuthController)
 /**
  * @swagger
  * /api/users/checkout:
