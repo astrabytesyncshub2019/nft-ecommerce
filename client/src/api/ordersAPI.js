@@ -18,7 +18,7 @@ export const placeOrderApi = async (addressId, productId = null, quantity = null
 
 export const getUserOrdersApi = async () => {
   const res = await axiosInstance.get("/api/order/my-order")
-  console.log(res.data.data)
+  // console.log(res.data.data)
   return res.data.data
 }
 
@@ -27,9 +27,11 @@ export const getAllOrdersApi = async () => {
   return res.data.data
 }
 
-export const initiatePaymentApi = async () => {
+export const initiatePaymentApi = async (items,orderId) => {
   const res = await axiosInstance.post("/api/payment", {
     items,
     orderId
   })
+  // console.log(res.data)
+  return res
 }

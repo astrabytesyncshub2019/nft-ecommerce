@@ -1,10 +1,10 @@
 import passport from "passport"
 import { Strategy as GoogleStrategy } from "passport-google-oauth20"
 import { createUser, findUserByEmail } from "../dao/users.dao.js"
-import { configDotenv} from "dotenv"
-configDotenv({
-    path:"./.env",
-    quiet:true
+import { configDotenv } from "dotenv"
+import dotenv from "dotenv"
+dotenv.config({
+  path: `.env.${process.env.NODE_ENV || "development"}`
 })
 
 passport.use(

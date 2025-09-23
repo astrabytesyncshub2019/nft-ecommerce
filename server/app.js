@@ -1,8 +1,11 @@
 import { configDotenv } from "dotenv"
-configDotenv({
-  path: "./.env",
-  quiet: true
+import dotenv from "dotenv"
+
+dotenv.config({
+  path: `.env.${process.env.NODE_ENV || "development"}`
 })
+
+
 
 import express from "express"
 import connectDB from "./src/db/db.connect.js"
@@ -33,23 +36,23 @@ app.use(express.urlencoded({ extended: true }))
 app.use(express.json())
 app.use(cookieParser())
 app.use(cors({
-    origin: [
-        "https://scatch-bice.vercel.app",
-        "http://localhost:3000",
-        "http://localhost:5173"
+  origin: process.env.NODE_ENV === 'production'
+    ? ["https://scatch-bice.vercel.app"]
+    : [
+      "http://localhost:5173",      
     ],
-    credentials: true,
-    methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
-    allowedHeaders: [
-        'Content-Type', 
-        'Authorization', 
-        'Cookie',
-        'X-Requested-With',
-        'Accept',
-        'Origin'
-    ],
-    exposedHeaders: ['Set-Cookie'],
-    optionsSuccessStatus: 200 // For legacy browser support
+  credentials: true,
+  methods: ['GET', 'POST', 'PUT', 'DELETE','PATCH', 'OPTIONS',],
+  allowedHeaders: [
+    'Content-Type',
+    'Authorization',
+    'Cookie',
+    'X-Requested-With',
+    'Accept',
+    'Origin'
+  ],
+  exposedHeaders: ['Set-Cookie'],
+  optionsSuccessStatus: 200
 }))
 
 app.use(session({

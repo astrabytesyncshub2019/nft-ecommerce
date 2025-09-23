@@ -1,4 +1,4 @@
-import React, { useState } from "react"
+import React, { useEffect, useState } from "react"
 import { useSelector, useDispatch } from "react-redux"
 import { LogOut, Edit2, Save, X, User, Mail, Phone, Lock } from "lucide-react"
 import { logoutUserApi, upadteUserProfileApi } from "../../api/userAPI"
@@ -11,6 +11,7 @@ import * as Yup from "yup"
 
 const Profile = ({ setShowProfile }) => {
   const { user } = useSelector((state) => state.auth)
+  // console.log("redux state", user)
   const dispatch = useDispatch()
   const navigate = useNavigate()
   const [editMode, setEditMode] = useState(false)
@@ -44,15 +45,31 @@ const Profile = ({ setShowProfile }) => {
     try {
       setIsLoading(true)
       const res = await upadteUserProfileApi(data)
-      dispatch(login({ user: res }))
+      console.log("updated user", res)
+
+      // Update Redux
+      dispatch(login(res))
+
+      // Reset form with updated values
+      reset({
+        firstname: user?.fullname?.firstname || "",
+        lastname: user?.fullname?.lastname || "",
+        email: user?.email || "",
+        phonenumber: user?.phonenumber || "",
+      })
+
+
+
       toast.success("Profile updated successfully!")
       setEditMode(false)
     } catch (error) {
+      console.log(error)
       toast.error(error?.response?.data?.message || "Update failed")
     } finally {
       setIsLoading(false)
     }
   }
+
 
   const handleLogout = async () => {
     try {
@@ -83,9 +100,8 @@ const Profile = ({ setShowProfile }) => {
         {/* Header */}
         <div className="text-center mb-6">
           <img
-            src={`https://api.dicebear.com/7.x/initials/svg?seed=${
-              user?.fullname?.firstname || "User"
-            }`}
+            src={`https://api.dicebear.com/7.x/initials/svg?seed=${user?.fullname?.firstname || "User"
+              }`}
             alt="Profile"
             className="w-20 h-20 rounded-full mx-auto mb-3"
           />
@@ -226,9 +242,8 @@ const InputField = ({ id, label, type = "text", icon, editMode, register, error,
           id={id}
           type={type}
           {...register(id)}
-          className={`w-full pl-9 pr-3 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 ${
-            error ? "border-red-300" : "border-gray-300"
-          }`}
+          className={`w-full pl-9 pr-3 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 ${error ? "border-red-300" : "border-gray-300"
+            }`}
           placeholder={`Enter ${label}`}
         />
         {error && <p className="text-red-500 text-xs mt-1">{error.message}</p>}

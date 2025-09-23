@@ -96,11 +96,9 @@ const Cart = () => {
 
   const handlePlaceOrder = async (addressData, paymentMethod = "COD") => {
     try {
-      // 1. Save address
+
       const newAddress = await addAddressApi(addressData)
       const addressId = newAddress._id
-
-      // 2. Place order
       let orderRes
       if (selectedProduct) {
         orderRes = await placeOrderApi(addressId, selectedProduct.product._id, selectedProduct.quantity, paymentMethod)
@@ -121,6 +119,7 @@ const Cart = () => {
             price: item.product.price - item.product.discount,
             quantity: item.quantity,
           }))
+          // console.log(items)
 
         const { data } = await initiatePaymentApi(items, order._id)
         if (!data.success) throw new Error(data.message || "Payment initiation failed")

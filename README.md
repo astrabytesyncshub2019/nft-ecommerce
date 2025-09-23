@@ -249,3 +249,7 @@ This project is licensed under the [MIT License](LICENSE).
    - Consider adding a `CHANGELOG.md` to track updates and versions.
 
 Let me know if you'd like help implementing any of these suggestions or further refining specific sections!
+
+
+# 2.continue with google does not genrating cookie which always shows the unauthorized user
+

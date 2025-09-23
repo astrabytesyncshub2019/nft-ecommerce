@@ -55,3 +55,7 @@ export const findUserByResetToken = async (hashedToken) => {
 export const saveUser = async (user) => {
     return await user.save()
 }
+
+export const findUserForPasswordUpdate = async (id) => {
+    return await userModel.findById(id).select("+password")
+}

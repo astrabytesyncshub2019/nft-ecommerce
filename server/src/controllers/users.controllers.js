@@ -16,9 +16,9 @@ export const registerUserController = async (req, res, next) => {
         res.cookie("accessToken", token, cookieOptionsForAcessToken)
         res.cookie("refreshToken", refreshToken, cookieOptionsForRefreshToken)
         req.user = newUser
-        console.log("reg req user", newUser)
-        console.log("reg access token",token)
-        console.log("reg access token",refreshToken)
+        // console.log("reg req user", newUser)
+        // console.log("reg access token",token)
+        // console.log("reg access token",refreshToken)
 
         return successResponse(res, "User registed successfully", newUser, 201)
     } catch (error) {
@@ -36,9 +36,9 @@ export const loginUserController = async (req, res, next) => {
         res.cookie("refreshToken", refreshToken, cookieOptionsForRefreshToken)
         req.user = existingUser
 
-        console.log("login req user", existingUser)
-        console.log("login access token",token)
-        console.log("login access token",refreshToken)
+        // console.log("login req user", existingUser)
+        // console.log("login access token",token)
+        // console.log("login access token",refreshToken)
 
         return successResponse(res, "User Login successfully", existingUser, 200)
 
@@ -84,7 +84,7 @@ export const updateUserDetailsController = async (req, res, next) => {
         if (!currentUser) {
             return errorResponse(res, "Unauthorized user", 401)
         }
-        const { password, email, ...otherDetails } = req.body
+        const { email, firstname, lastname, phone } = req.body
         if (email) {
             const existingUser = await findUserByEmail(email)
             if (existingUser && existingUser._id.toString() !== currentUser.toString()) {
@@ -94,8 +94,16 @@ export const updateUserDetailsController = async (req, res, next) => {
 
         const updatedUserDetails = await updateUserDeatilsServices(
             currentUser,
-            { ...otherDetails, email }
+            {
+                email,
+                fullname: {
+                    firstname,
+                    lastname
+                },
+                phone
+            }
         )
+        // console.log(updatedUserDetails)
 
         if (!updatedUserDetails) {
             return errorResponse(res, "User not found", 404)
@@ -111,9 +119,14 @@ export const updatePasswordController = async (req, res, next) => {
     try {
         const userId = req.user._id
         const { currentPassword, newPassword } = req.body
+
+        // Validate inputs
+        if (!newPassword || newPassword.length < 6) {
+            return next(new BadRequestError("New password must be at least 6 characters"))
+        }
+
         const updatedUser = await updatePasswordService(userId, currentPassword, newPassword)
         return successResponse(res, "Password updated successfully", updatedUser, 200)
-
     } catch (error) {
         next(error)
     }
@@ -153,17 +166,16 @@ export const resetPasswordController = async (req, res, next) => {
 export const googleAuthController = async (req, res) => {
     try {
         const token = await signToken({ id: req.user._id, email: req.user.email })
-        const refresh = await signRefreshToken({ id: req.user._id })
-
-        await updateRefreshToken(req.user._id, refresh)
+        const refreshToken = await signRefreshToken({ id: req.user._id })
+        await updateRefreshToken(req.user._id, refreshToken)
 
         res.cookie("accessToken", token, cookieOptionsForAcessToken)
-        res.cookie("refreshToken", refresh, cookieOptionsForRefreshToken)
+        res.cookie("refreshToken", refreshToken, cookieOptionsForRefreshToken)
 
-        res.redirect("https://scatch-bice.vercel.app")
+        res.redirect(process.env.FRONTEND_URL)
     } catch (error) {
         console.error("Google login failed:", error)
-        res.redirect("https://scatch-bice.vercel.app/auth")
+        res.redirect(process.env.FRONTEND_URL)
     }
 }
 

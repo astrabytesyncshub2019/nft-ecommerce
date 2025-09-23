@@ -18,11 +18,13 @@ export const logoutUserApi = async () => {
     return res.data
 }
 export const upadteUserProfileApi = async (data) => {
+    // console.log(data)
     const res = await axiosInstance.patch("/api/users/updateDetails", data)
     return res.data.data
 }
 export const updatePasswordApi = async (data) => {
     const res = await axiosInstance.patch("/api/users/updatePassword", data)
+    console.log("api:", res.data.data)
     return res.data.data
 }
 export const forgotPasswordApi = async (email) => {

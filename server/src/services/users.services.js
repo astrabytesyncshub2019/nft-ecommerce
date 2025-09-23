@@ -1,4 +1,4 @@
-import { createUser, findUserByEmail, findUserById, findUserByResetToken, updateRefreshToken, updateUserDeatils } from "../dao/users.dao.js"
+import { createUser, findUserByEmail, findUserById, findUserByResetToken, findUserForPasswordUpdate, updateRefreshToken, updateUserDeatils } from "../dao/users.dao.js"
 import { AppError, BadRequestError, ConflictError, NotFoundError } from "../utils/errorHandler.js"
 import { signRefreshToken, signToken } from "../utils/signToken.js"
 import { sendEmail } from "../utils/sendEmail.js"
@@ -55,24 +55,38 @@ export const updateUserDeatilsServices = async (currentUser, allowedUserUpdateDe
 }
 
 export const updatePasswordService = async (userId, currentPassword, newPassword) => {
-    const user = await findUserById(userId, true)
+    const user = await findUserForPasswordUpdate(userId, true) 
     if (!user) throw new BadRequestError("User not found")
 
-    const isMatch = await user.comparePassword(currentPassword)
-    if (!isMatch) throw new BadRequestError("Current password is incorrect")
+    if (user.password) {
+        if (!currentPassword) {
+            throw new BadRequestError("Current password is required")
+        }
+
+        const isMatch = await user.comparePassword(currentPassword)
+        if (!isMatch) throw new BadRequestError("Current password is incorrect")
+    } else {
+        if (!currentPassword) {
+            console.log("Google user: setting initial password")
+        } else {
+            throw new BadRequestError("Cannot verify current password for this user")
+        }
+    }
 
     user.password = newPassword
     const updatedUser = await user.save()
+
     if (!updatedUser) throw new AppError("Password update failed")
 
     return updatedUser
 }
 
+
 export const forgotPasswordServices = async (email) => {
     const user = await findUserByEmail(email)
     if (!user) throw new NotFoundError("User not found")
 
-    const resetToken = await user.getResetPasswordToken()
+    const resetToken = await user.setResetPasswordToken()
 
     await user.save({ validateBeforeSave: false })
 
