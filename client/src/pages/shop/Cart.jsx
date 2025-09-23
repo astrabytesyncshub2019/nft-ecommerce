@@ -119,7 +119,6 @@ const Cart = () => {
             price: item.product.price - item.product.discount,
             quantity: item.quantity,
           }))
-          // console.log(items)
 
         const { data } = await initiatePaymentApi(items, order._id)
         if (!data.success) throw new Error(data.message || "Payment initiation failed")
@@ -175,7 +174,6 @@ const Cart = () => {
         </div>
 
         {cart.length === 0 ? (
-          /* Empty Cart State */
           <div className="text-center py-16">
             <div className="bg-white rounded-2xl shadow-lg p-12 max-w-md mx-auto">
               <Package className="h-16 w-16 text-gray-400 mx-auto mb-4" />
@@ -188,7 +186,6 @@ const Cart = () => {
           </div>
         ) : (
           <div className="lg:grid lg:grid-cols-3 lg:gap-8">
-            {/* Cart Items */}
             <div className="lg:col-span-2">
               <div className="space-y-4">
                 {cart.map((item) => (
@@ -196,7 +193,6 @@ const Cart = () => {
                     key={item.product._id}
                     className="bg-white rounded-xl shadow-md hover:shadow-lg transition-all duration-200 overflow-hidden"
                   >
-                    {/* Desktop Layout */}
                     <div className="hidden md:flex items-center p-6">
                       <div className="flex items-center gap-6 flex-1">
                         <div className="relative">

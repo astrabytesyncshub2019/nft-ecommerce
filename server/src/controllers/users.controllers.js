@@ -176,7 +176,7 @@ export const googleAuthController = async (req, res) => {
         res.redirect(process.env.FRONTEND_URL)
     } catch (error) {
         console.error("Google login failed:", error)
-        res.redirect(process.env.FRONTEND_URL)
+        res.redirect(`${process.env.FRONTEND_URL}/auth`)
     }
 }
 

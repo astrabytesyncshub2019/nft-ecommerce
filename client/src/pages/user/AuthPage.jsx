@@ -11,6 +11,8 @@ import { login } from "../../store/authslice"
 import toast from "react-hot-toast"
 import { Link } from "react-router-dom"
 
+console.log(import.meta.env.VITE_API_UR)
+
 const registerSchema = Yup.object().shape({
     firstname: Yup.string()
         .required("First name is required")
