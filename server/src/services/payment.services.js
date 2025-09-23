@@ -55,6 +55,6 @@ export const handleWebhookEventService = async (req) => {
         await completeOnlineOrderService(orderId)
         await updateOrderStatusService(orderId, "completed")
 
-        console.log("✅ Stripe webhook: Order completed and cart cleared", orderId)
+        console.log("Stripe webhook: Order completed and cart cleared", orderId)
     }
 }

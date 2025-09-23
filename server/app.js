@@ -4,7 +4,7 @@ import dotenv from "dotenv"
 dotenv.config({
   path: `.env.${process.env.NODE_ENV || "development"}`
 })
-// console.log(process.env.NODE_ENV)
+console.log(process.env.NODE_ENV)
 
 
 
@@ -72,6 +72,7 @@ app.use("/api/order", orderRoutes)
 app.use("/api/payment", stripeRoute)
 
 swaggerDocs(app, PORT)
+
 
 
 app.use(errorHandler)
