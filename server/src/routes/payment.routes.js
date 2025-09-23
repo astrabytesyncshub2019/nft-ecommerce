@@ -2,6 +2,7 @@ import { Router } from "express"
 import express from "express"
 import { authMiddleware } from "../middlewares/authMiddleware.js"
 import { createCheckoutSession, handleWebhook } from "../controllers/payment.controller.js"
+import bodyParser from "body-parser"
 
 const router = Router()
 
@@ -87,6 +88,6 @@ const router = Router()
  *                   example: Unauthorized
  */
 router.post("/", authMiddleware, createCheckoutSession)
-router.post("/webhook", express.raw({ type: "application/json" }), handleWebhook)
+router.post("/webhook", bodyParser.raw({ type: "application/json" }), handleWebhook)
 
 export default router

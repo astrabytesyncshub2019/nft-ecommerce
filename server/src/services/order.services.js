@@ -101,8 +101,6 @@ export const placeSingleOrderService = async (userId, productId, quantity, addre
         paymentMethod,
         status: "pending"
     })
-
-    // console.log("Single order created:", order._id, "with payment method:", paymentMethod)
     return order
 }
 
@@ -110,15 +108,12 @@ export const completeOnlineOrderService = async (orderId) => {
     const order = await orderModel.findById(orderId).populate('items.product')
     if (!order) throw new BadRequestError("Order not found")
 
-    // console.log("Completing online order with", order.items.length, "items")
-
     for (const item of order.items) {
         await productModel.findByIdAndUpdate(item.product, {
             $inc: { stock: -item.quantity }
         })
     }
 
-    // Clear cart items for this order
     await Cart.updateOne(
         { user: order.user },
         { $set: { items: [] } }
