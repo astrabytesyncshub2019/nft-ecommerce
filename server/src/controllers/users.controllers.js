@@ -171,6 +171,7 @@ export const googleAuthController = async (req, res) => {
 
         res.cookie("accessToken", token, cookieOptionsForAcessToken)
         res.cookie("refreshToken", refreshToken, cookieOptionsForRefreshToken)
+        console.log("frontend url",process.env.FRONTEND_URL)
 
         res.redirect(process.env.FRONTEND_URL)
     } catch (error) {
