@@ -84,7 +84,8 @@ export const updateUserDetailsController = async (req, res, next) => {
         if (!currentUser) {
             return errorResponse(res, "Unauthorized user", 401)
         }
-        const { email, firstname, lastname, phone } = req.body
+        const { email, firstname, lastname, phonenumber } = req.body
+        console.log(phonenumber)
         if (email) {
             const existingUser = await findUserByEmail(email)
             if (existingUser && existingUser._id.toString() !== currentUser.toString()) {
@@ -100,7 +101,7 @@ export const updateUserDetailsController = async (req, res, next) => {
                     firstname,
                     lastname
                 },
-                phone
+                phonenumber
             }
         )
         // console.log(updatedUserDetails)
@@ -120,7 +121,6 @@ export const updatePasswordController = async (req, res, next) => {
         const userId = req.user._id
         const { currentPassword, newPassword } = req.body
 
-        // Validate inputs
         if (!newPassword || newPassword.length < 6) {
             return next(new BadRequestError("New password must be at least 6 characters"))
         }
