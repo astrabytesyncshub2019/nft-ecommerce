@@ -11,7 +11,7 @@ import { login } from "../../store/authslice"
 import toast from "react-hot-toast"
 import { Link } from "react-router-dom"
 
-console.log(import.meta.env.VITE_API_URL)
+console.log("backend url:", import.meta.env.VITE_API_URL)
 
 const registerSchema = Yup.object().shape({
     firstname: Yup.string()
@@ -196,7 +196,7 @@ const AuthPage = () => {
 
                 <button
                     type="button"
-                    onClick={() => window.open(`${import.meta.env.VITE_API_URL}/api/users/google`, "_self")}
+                    onClick={() => window.open(`https://mern-ecommerce-agxk.onrender.com/api/users/google`, "_self")}
                     className="w-full mt-4 flex items-center justify-center gap-2 border border-gray-300 py-2 rounded-lg hover:bg-gray-100"
                 >
                     <img

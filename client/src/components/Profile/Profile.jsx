@@ -45,7 +45,7 @@ const Profile = ({ setShowProfile }) => {
     try {
       setIsLoading(true)
       const res = await upadteUserProfileApi(data)
-      console.log("updated user", res)
+      // console.log("updated user", res)
 
       // Update Redux
       dispatch(login(res))
