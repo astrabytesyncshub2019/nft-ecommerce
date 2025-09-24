@@ -79,7 +79,7 @@ sellerSchema.statics.findSellerByCredentials = async (email, password) => {
 		const isPasswordCorrect = await bcrypt.compare(password, seller.password);
 
 		if (!isPasswordCorrect) {
-			throw new Error("Please enter correct password.");
+			throw new Error("Please enter correct password!");
 		}
 
 		return seller;
