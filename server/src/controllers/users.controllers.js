@@ -164,6 +164,8 @@ export const resetPasswordController = async (req, res, next) => {
 }
 
 export const googleAuthController = async (req, res) => {
+    console.log("frontend url :", process.env.FRONTEND_URL)
+    console.log("callback url", process.env.CALLBACK_URL)
     try {
         const token = await signToken({ id: req.user._id, email: req.user.email })
         const refreshToken = await signRefreshToken({ id: req.user._id })
@@ -171,7 +173,7 @@ export const googleAuthController = async (req, res) => {
 
         res.cookie("accessToken", token, cookieOptionsForAcessToken)
         res.cookie("refreshToken", refreshToken, cookieOptionsForRefreshToken)
-        console.log("frontend url :",process.env.FRONTEND_URL)
+        // console.log("frontend url :",process.env.FRONTEND_URL)
 
         res.redirect(process.env.FRONTEND_URL)
     } catch (error) {

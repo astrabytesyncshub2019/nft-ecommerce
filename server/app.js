@@ -6,6 +6,7 @@ dotenv.config({
 })
 console.log("app", process.env.NODE_ENV)
 console.log("url", process.env.FRONTEND_URL)
+console.log("callback url",process.env.CALLBACK_URL)
 
 
 
